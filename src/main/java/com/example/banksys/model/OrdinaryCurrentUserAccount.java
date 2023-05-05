@@ -8,7 +8,7 @@ public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements C
         card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);
         long cardId = cardRepository.save(card).getCardId();
         return cardId;
-    }
+    } 
 
     @Override
     public void save() {

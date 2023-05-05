@@ -1,6 +1,6 @@
 package com.example.banksys.model;
 
-public class OrdinaryCurrentUserAccount extends CurrentUserAccount {
+public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements CurrentUserAccountRight {
 
 
     @Override
@@ -8,5 +8,10 @@ public class OrdinaryCurrentUserAccount extends CurrentUserAccount {
         card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);
         long cardId = cardRepository.save(card).getCardId();
         return cardId;
+    }
+
+    @Override
+    public void save() {
+
     }
 }

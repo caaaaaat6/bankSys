@@ -38,6 +38,7 @@ public abstract class BaseAccount implements BaseAccountRight{
 //        return cardId;
 //    }
 
+
     // TODO
     //  1.待测试
     //  2.在vip用户执行前还需要判断是否需要对用户降级

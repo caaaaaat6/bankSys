@@ -1,0 +1,5 @@
+package com.example.banksys.model;
+
+// 定期存款账户权限，有改密码权限
+public interface FixedUserAccountRight extends BaseFixedAccountRight, ChangePasswordRight{
+}

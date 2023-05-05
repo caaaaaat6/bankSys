@@ -1,9 +1,6 @@
 package com.example.banksys.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +15,11 @@ public class EnterpriseUser extends User {
     @Column(length = 32)
     private String root;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Enterprise enterprise;
+
     public static class Root {
         public static final String SUPER = "super";
-        public static final String ORDINARY = "ordinary";
+        public static final String USER = "user";
     }
 }

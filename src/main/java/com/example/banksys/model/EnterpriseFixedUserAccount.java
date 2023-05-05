@@ -3,7 +3,7 @@ package com.example.banksys.model;
 import lombok.Data;
 
 @Data
-public class EnterpriseFixedUserAccount extends OrdinaryFixedUserAccount implements TransferableFixedAccountRight {
+public class EnterpriseFixedUserAccount extends FixedUserAccount implements TransferableFixedAccountRight {
 
     @Override
     public void transferMoneyTo(TransferToRight transferable) {

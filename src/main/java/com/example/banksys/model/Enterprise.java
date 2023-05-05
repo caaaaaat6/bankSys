@@ -3,6 +3,9 @@ package com.example.banksys.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Enterprise")
@@ -17,9 +20,9 @@ public class Enterprise {
     @Column(length = 128, nullable = false)
     private String enterpriseName;
 
-    @Column(nullable = false)
-    private long userId;
 
-    @Column(nullable = false)
-    private long cardId;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "enterprise", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<EnterpriseUser> enterpriseUserList;
+
 }

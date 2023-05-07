@@ -13,12 +13,12 @@ public class EnterpriseUser extends User {
     private Long enterpriseId;
 
     @Column(length = 32)
-    private String root;
+    private String right;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Enterprise enterprise;
 
-    public static class Root {
+    public static class Right {
         public static final String SUPER = "super";
         public static final String USER = "user";
     }

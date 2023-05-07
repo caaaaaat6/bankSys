@@ -15,4 +15,9 @@ public class EnterpriseCard extends Card {
 
     @Basic
     private Long enterpriseId = null;
+
+    public EnterpriseCard(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) {
+        super(userId, userPid, userName, userType, password, cardType, openMoney);
+        this.enterpriseId = enterpriseId;
+    }
 }

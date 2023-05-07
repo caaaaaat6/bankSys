@@ -4,7 +4,6 @@ import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.User;
-import jakarta.persistence.Table;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +26,7 @@ class UserRepositoryTest {
         enterpriseUser.setUserName("李四");
         enterpriseUser.setUserPid("11111120000101000X");
         enterpriseUser.setUserType(Card.UserType.ENTERPRISE);
-        enterpriseUser.setRoot(EnterpriseUser.Root.SUPER);
+        enterpriseUser.setRight(EnterpriseUser.Right.SUPER);
 
         Enterprise enterprise = new Enterprise();
 //        enterprise.setEnterpriseId(2L);

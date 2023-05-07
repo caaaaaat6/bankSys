@@ -1,4 +1,4 @@
-package com.example.banksys.model;
+package com.example.banksys.businesslogiclayer;
 
 public abstract class VIPUserAccount extends PersonalUserAccount {
 }

@@ -1,6 +1,7 @@
-package com.example.banksys.model;
+package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.model.Exception.WithdrawalException;
+import com.example.banksys.model.Trade;
 
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 interface BaseAccountRight {
 
     //开户
-    long openAccount(long userId, String userPid, String userName, String userType, String password, String cardType, double openMoney);
+    long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney);
 
 //    // 存款
 //    void deposit();
@@ -27,7 +28,7 @@ interface BaseAccountRight {
     void transferMoneySelf();
 
 //    //改密码
-//    void changePassWord();
+    void changePassWord();
 
     //销户
     void closeAccount();

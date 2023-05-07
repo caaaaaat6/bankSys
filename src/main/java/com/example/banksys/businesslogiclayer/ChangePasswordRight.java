@@ -1,4 +1,4 @@
-package com.example.banksys.model;
+package com.example.banksys.businesslogiclayer;
 
 // 改密码接口
 public interface ChangePasswordRight {

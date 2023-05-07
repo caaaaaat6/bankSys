@@ -23,7 +23,7 @@ public class Trade {
     private Long cardId;
 
     @Column(nullable = true)
-    private long employeeId;
+    private Long employeeId;
 
     @Column(length = 16, nullable = false)
     private String tradeType;

@@ -32,7 +32,7 @@ class EnterpriseRepositoryTest {
         enterpriseUser.setUserName("李四");
         enterpriseUser.setUserPid("11111120000101000X");
         enterpriseUser.setUserType(Card.UserType.ENTERPRISE);
-        enterpriseUser.setRoot(EnterpriseUser.Root.SUPER);
+        enterpriseUser.setRight(EnterpriseUser.Right.SUPER);
 
         // 试一下双方都设置好引用
         // 结果可以

@@ -71,4 +71,9 @@ public class Card {
         this.balance -= money;
         return this.balance;
     }
+
+    public double save(double money) {
+        this.balance += money;
+        return this.balance;
+    }
 }

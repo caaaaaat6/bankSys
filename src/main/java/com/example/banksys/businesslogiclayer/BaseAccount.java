@@ -1,16 +1,22 @@
-package com.example.banksys.model;
+package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.TradeRepository;
+import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawalException;
+import com.example.banksys.model.Trade;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@NoArgsConstructor(force = true)
+@Service
 public abstract class BaseAccount implements BaseAccountRight{
 
     private Long employeeId = null;
@@ -31,12 +37,12 @@ public abstract class BaseAccount implements BaseAccountRight{
     //  2.待测试1.
     //  3.产生日志
     //  4.收集该用户所有卡的开卡金额，判断是否升级为VIP用户(只在个人用户中判断）
-//    @Override
-//    public long openAccount(long userId, String userPid, String userName, String userType, String password, String cardType, double openMoney) {
-//        card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);
-//        long cardId = cardRepository.save(card).getCardId();
-//        return cardId;
-//    }
+    @Override
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) {
+        card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);
+        long cardId = cardRepository.save(card).getCardId();
+        return cardId;
+    }
 
 
     // TODO
@@ -69,7 +75,13 @@ public abstract class BaseAccount implements BaseAccountRight{
     }
 
     @Override
+    public void changePassWord() {
+
+    }
+
+    @Override
     public void closeAccount() {
 
     }
+
 }

@@ -74,13 +74,13 @@ class UserRepositoryTest {
 
         // user设置企业
         enterpriseUser.setEnterprise(enterprise);
-        //企业设置user
-//        enterprise.setEnterpriseUserList(Arrays.asList(enterpriseUser));
+//        企业设置user
+        enterprise.setEnterpriseUserList(Arrays.asList(enterpriseUser));
 
 //        userRepository.save(enterpriseUser);
 
         enterpriseRepository.save(enterprise);
-        userRepository.save(enterpriseUser);
+//        userRepository.save(enterpriseUser);
 
 
         Iterable<User> all = userRepository.findAll();

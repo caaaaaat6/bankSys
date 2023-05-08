@@ -15,7 +15,7 @@ public class EnterpriseUser extends User {
     @Column(length = 32)
     private String rightType;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "enterprise_id", nullable = false)
     private Enterprise enterprise;
 

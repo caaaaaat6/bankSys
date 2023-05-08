@@ -3,6 +3,7 @@ package com.example.banksys.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLInsert;
 
 // TODO
 //   1.补充为数据库表

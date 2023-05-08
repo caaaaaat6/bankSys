@@ -8,6 +8,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMon
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.dataaccesslayer.CardRepository;
+import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Aspect
 @Component
@@ -34,31 +36,27 @@ public class AccountMonitor {
     private static final double ENTERPRISE_OPEN_MONEY_THRESHOLD = 10000;
 
     @Autowired
-//    @Lazy
     private AccountLogRepository accountLogRepository;
 
     @Autowired
-//    @Lazy
     private CardRepository cardRepository;
 
     @Autowired
-//    @Lazy
     private UserRepository userRepository;
+
+    @Autowired
+    private EnterpriseUserRepository enterpriseUserRepository;
+
 
     @Before("execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney)")
-//    @Before("execution(* com.example.banksys.businesslogiclayer.EnterpriseCurrentUserAccount.openEnterpriseAccount(..))"
-//            +
-//            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney)"
-//    )
-//    @Before("execution(public com.example.banksys.businesslogiclayer.*  openEnterpriseAccount(..))")
-//    @Before("execution(public * *(..))")
     public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) throws EnterpriseAccountOpenMoneyNotEnoughException {
 //    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint) throws EnterpriseAccountOpenMoneyNotEnoughException {
         // 开户金额是否大于等于1万，否则抛错
         if (openMoney < ENTERPRISE_OPEN_MONEY_THRESHOLD) {
             throw new EnterpriseAccountOpenMoneyNotEnoughException("开户金额不足" + ENTERPRISE_OPEN_MONEY_THRESHOLD);
         }
+
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
 
         Enterprise enterprise = enterpriseUserAccount.getEnterprise();
@@ -74,6 +72,24 @@ public class AccountMonitor {
         userRepository.save(enterpriseUser);
 
         System.out.println("-------------------------------------------------here");
+    }
+
+    private EnterpriseUser createEnterpriseUser(EnterpriseUserAccount enterpriseUserAccount, long userId, String userPid, String userName, String userType, String password) {
+        Optional<EnterpriseUser> byId = enterpriseUserRepository.findById(userId);
+        if (byId.isPresent()) {
+            return byId.get();
+        }
+        EnterpriseUser enterpriseUser = new EnterpriseUser();
+        enterpriseUser.setUserId(userId);
+        enterpriseUser.setUserPid(userPid);
+        enterpriseUser.setUserName(userName);
+        enterpriseUser.setUserType(userType);
+        enterpriseUser.setPassword(password);
+        enterpriseUser.setEnterprise(enterpriseUserAccount.getEnterprise());
+        enterpriseUser.setEnterpriseCard(enterpriseUserAccount.getEnterpriseCard());
+
+        enterpriseUserAccount.setEnterpriseUser(enterpriseUser);
+        return enterpriseUser;
     }
 
     @Around("execution(* com.example.banksys.businesslogiclayer.BaseCurrentAccountRight+.deposit*(..))" +
@@ -100,6 +116,7 @@ public class AccountMonitor {
             int depositDays = (int) args[1];
             Date expireDate = BLLUtil.getExpireDate(depositDays);
             description.append("定期时间：" + depositDays + "天\n");
+            description.append("到期时间：" + expireDate + "\n");
         }
         description.append("存前余额：" + card.getBalance() + "元\n");
 

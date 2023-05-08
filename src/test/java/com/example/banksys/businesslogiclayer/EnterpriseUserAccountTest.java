@@ -37,7 +37,6 @@ class EnterpriseUserAccountTest {
     @Test
     void openAccountTestParam() {
         long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
-//        Optional<EnterpriseCard> card = enterpriseCurrentUserAccount.getEnterpriseCardRepository().findById(cardId);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         assert card.get().getUserType() == "test";
     }
@@ -45,7 +44,6 @@ class EnterpriseUserAccountTest {
     @Test //test checkout
     void openAccountSUPERTest() {
         long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
-//        Optional<EnterpriseCard> card = enterpriseCurrentUserAccount.getEnterpriseCardRepository().findById(cardId);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         Optional<EnterpriseUser> user = enterpriseUserRepository.findById(card.get().getUserId());
         assert user.get().getRightType()   == EnterpriseUser.RightType.SUPER;
@@ -54,9 +52,14 @@ class EnterpriseUserAccountTest {
     @Test //test checkout
     void openAccountUSERTest() {
         long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
-//        Optional<EnterpriseCard> card = enterpriseCurrentUserAccount.getEnterpriseCardRepository().findById(cardId);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         Optional<EnterpriseUser> user = enterpriseUserRepository.findById(card.get().getUserId());
         assert user.get().getRightType().equals(EnterpriseUser.RightType.USER);
+    }
+
+    @Test
+    void openAccountAndCreateEnterpriseUser() {
+        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1L,"11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
+
     }
 }

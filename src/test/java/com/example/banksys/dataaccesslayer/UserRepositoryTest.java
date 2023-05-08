@@ -87,4 +87,6 @@ class UserRepositoryTest {
         all.forEach(System.out::println);
         assertNotNull(all);
     }
+
+
 }

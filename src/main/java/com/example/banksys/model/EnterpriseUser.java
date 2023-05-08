@@ -23,16 +23,12 @@ public class EnterpriseUser extends User {
     @JoinColumn(name = "enterprise_card_id")
     private EnterpriseCard enterpriseCard;
 
+    @Column(length = 512)
+    private String password;
+
     public static class RightType {
         public static final String SUPER = "super";
         public static final String USER = "user";
     }
 
-    public String getPassword() {
-        return enterpriseCard.getPassword();
-    }
-
-    public void setPassword(String password) {
-        enterpriseCard.setPassword(password);
-    }
 }

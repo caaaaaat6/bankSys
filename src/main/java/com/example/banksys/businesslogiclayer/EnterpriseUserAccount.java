@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
+import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseCard;
 import com.example.banksys.model.EnterpriseUser;
 import lombok.Data;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class EnterpriseUserAccount extends BaseAccount {
 
-    private EnterpriseUser enterpriseUser;
+    protected EnterpriseUser enterpriseUser;
 
     protected EnterpriseCard enterpriseCard;
+
+    protected Enterprise enterprise;
 
     @Autowired
     protected EnterpriseCardRepository enterpriseCardRepository;

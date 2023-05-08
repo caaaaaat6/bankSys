@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Card")
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING, length = 30)
-@DiscriminatorValue("PersonalCard")
+@DiscriminatorValue("Card")
+@Inheritance
 @Data
 @NoArgsConstructor(force = true)
 public class Card {

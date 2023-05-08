@@ -60,10 +60,10 @@ public class AccountMonitor {
             throw new EnterpriseAccountOpenMoneyNotEnoughException("开户金额不足" + ENTERPRISE_OPEN_MONEY_THRESHOLD);
         }
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
-//        EnterpriseUser enterpriseUser = enterpriseUserAccount.getEnterpriseUser();
-        EnterpriseUser enterpriseUser = new EnterpriseUser();
-        enterpriseUser.setUserId(1L);
-        Enterprise enterprise = enterpriseUser.getEnterprise();
+
+        Enterprise enterprise = enterpriseUserAccount.getEnterprise();
+        // 这个enterpriseUser是当前账户的操作人
+        EnterpriseUser enterpriseUser  = enterpriseUserAccount.getEnterpriseUser();
 
         // 确定企业用户的权限，第一人为SUPER，否则为USER
         if (enterprise.getEnterpriseUserList() == null || enterprise.getEnterpriseUserList().size() == 0) {

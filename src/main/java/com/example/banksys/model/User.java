@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("PersonalUser")
 public class User {
 
+    public static final int PASSWORD_LENGTH = 512;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long userId;
@@ -27,4 +29,15 @@ public class User {
     @Column(length = 10, nullable = false)
     protected String userType;
 
+    @OneToOne(targetEntity = Card.class, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "card_id")
+    protected Card card;
+
+    public String getPassword() {
+        return card.getPassword();
+    }
+
+    public void setPassword(String password) {
+        card.setPassword(password);
+    }
 }

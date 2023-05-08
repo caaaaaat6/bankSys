@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
+import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseCard;
 import com.example.banksys.model.EnterpriseUser;
@@ -23,8 +24,8 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
     @Autowired
     protected EnterpriseCardRepository enterpriseCardRepository;
 
-    public long openEnterpriseAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) {
-        enterpriseCard = new EnterpriseCard(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney);
+    public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+        enterpriseCard = new EnterpriseCard(userId, userPid, userName, Card.UserType.ENTERPRISE, password, enterpriseId, cardType, openMoney);
 //        long cardId = enterpriseCardRepository.save(enterpriseCard).getCardId();
         long cardId = cardRepository.save(enterpriseCard).getCardId();
         return cardId;

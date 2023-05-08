@@ -36,7 +36,7 @@ public abstract class BaseAccount implements BaseAccountRight{
     //  1.需要检查身份证号码是否符合规则
     //  2.待测试1.
     //  3.产生日志
-    //  4.收集该用户所有卡的开卡金额，判断是否升级为VIP用户(只在个人用户中判断）
+    //  4.收集该用户所有卡的开卡金额，判断是否升级为VIP用户(只在个人用户中判断,在service中实现）
     @Override
     public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) {
         card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);

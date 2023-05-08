@@ -3,7 +3,6 @@ package com.example.banksys.businesslogiclayer;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
-import com.example.banksys.model.EnterpriseCard;
 import com.example.banksys.model.EnterpriseUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,14 +35,14 @@ class EnterpriseUserAccountTest {
 
     @Test
     void openAccountTestParam() {
-        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
+        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", "1111111", 6L, Card.CardType.CURRENT, 10001, null);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         assert card.get().getUserType() == "test";
     }
 
     @Test //test checkout
     void openAccountSUPERTest() {
-        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
+        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", "1111111", 6L, Card.CardType.CURRENT, 10001, null);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         Optional<EnterpriseUser> user = enterpriseUserRepository.findById(card.get().getUserId());
         assert user.get().getRightType()   == EnterpriseUser.RightType.SUPER;
@@ -51,7 +50,7 @@ class EnterpriseUserAccountTest {
 
     @Test //test checkout
     void openAccountUSERTest() {
-        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
+        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", "1111111", 6L, Card.CardType.CURRENT, 10001, null);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         Optional<EnterpriseUser> user = enterpriseUserRepository.findById(card.get().getUserId());
         assert user.get().getRightType().equals(EnterpriseUser.RightType.USER);
@@ -59,7 +58,7 @@ class EnterpriseUserAccountTest {
 
     @Test
     void openAccountAndCreateEnterpriseUser() {
-        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1L,"11111120000101111X", "张三", Card.UserType.ENTERPRISE, "1111111", 6L, Card.CardType.CURRENT, 10001);
+        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1L,"11111120000101111X", "张三", "1111111", 6L, Card.CardType.CURRENT, 10001, null);
 
     }
 }

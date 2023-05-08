@@ -6,19 +6,14 @@ import com.example.banksys.businesslogiclayer.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.EnterpriseUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMoneyNotEnoughException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
-import com.example.banksys.dataaccesslayer.AccountLogRepository;
-import com.example.banksys.dataaccesslayer.CardRepository;
-import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
-import com.example.banksys.dataaccesslayer.UserRepository;
+import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.log.AccountLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +37,22 @@ public class AccountMonitor {
     private CardRepository cardRepository;
 
     @Autowired
+    private EnterpriseCardRepository enterpriseCardRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private EnterpriseUserRepository enterpriseUserRepository;
 
+    @Before("execution(* com.example.banksys.businesslogiclayer.PersonalUserAccount+.openAccount(..))")
+    public void beforePersonalOpenAccount(JoinPoint joinPoint) {
+        logger.info("---------------------------------------weave success----------------------------------------");
+    }
 
-    @Before("execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
-            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney)")
-    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) throws EnterpriseAccountOpenMoneyNotEnoughException {
-//    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint) throws EnterpriseAccountOpenMoneyNotEnoughException {
+    @Before(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
+            " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney)")
+    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney) throws EnterpriseAccountOpenMoneyNotEnoughException {
         // 开户金额是否大于等于1万，否则抛错
         if (openMoney < ENTERPRISE_OPEN_MONEY_THRESHOLD) {
             throw new EnterpriseAccountOpenMoneyNotEnoughException("开户金额不足" + ENTERPRISE_OPEN_MONEY_THRESHOLD);
@@ -71,10 +72,29 @@ public class AccountMonitor {
         }
         userRepository.save(enterpriseUser);
 
-        System.out.println("-------------------------------------------------here");
+        // 如果企业有账户（卡）就不开
+//        enterpriseCardRepository
     }
 
-    private EnterpriseUser createEnterpriseUser(EnterpriseUserAccount enterpriseUserAccount, long userId, String userPid, String userName, String userType, String password) {
+    @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
+            " && args(userId, userPid, userName,password, enterpriseId, cardType, openMoney, employeeId)", returning = "cardId")
+    public void afterReturningOpen(JoinPoint joinPoint,long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long cardId, Long employeeId) {
+        String operationType = AccountLog.OperationType.OPEN;
+        StringBuilder description = new StringBuilder();
+
+        description.append("开户金额：" + openMoney + "元\n");
+        description.append("账户类型：" + Card.UserType.ENTERPRISE + "\n");
+        description.append("定期活期：" + cardType + "\n");
+
+        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
+        accountLogRepository.save(log);
+
+        // 后台输出日志
+        logger.info("[around]: ---> " + log.toString());
+    }
+
+    // 没用
+    public EnterpriseUser createEnterpriseUser(EnterpriseUserAccount enterpriseUserAccount, long userId, String userPid, String userName, String userType, String password) {
         Optional<EnterpriseUser> byId = enterpriseUserRepository.findById(userId);
         if (byId.isPresent()) {
             return byId.get();

@@ -11,4 +11,6 @@ public interface EnterpriseCardRepository extends CrudRepository<EnterpriseCard,
 
 //    @Query("select c from EnterpriseCard c where c.userPid = ?1 and c. = 'PersonalCard'")
     List<EnterpriseCard> findEnterpriseCardsByUserPid(String userPid);
+
+    EnterpriseCard findEnterpriseCardByEnterpriseId(Long enterpriseId);
 }

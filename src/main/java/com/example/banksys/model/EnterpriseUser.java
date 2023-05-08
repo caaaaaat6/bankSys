@@ -10,15 +10,16 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("EnterpriseUser")
 public class EnterpriseUser extends User {
 
-    private Long enterpriseId;
+//    private Long enterpriseId;
 
     @Column(length = 32)
-    private String right;
+    private String rightType;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "enterprise_id", nullable = false)
     private Enterprise enterprise;
 
-    public static class Right {
+    public static class RightType {
         public static final String SUPER = "super";
         public static final String USER = "user";
     }

@@ -18,33 +18,33 @@ public class BLLConfig {
         return new Date();
     }
 
-//    @Bean
-//    public OrdinaryCurrentUserAccount getOrdinaryCurrentUserAccount() {
-//        return new OrdinaryCurrentUserAccount();
-//    }
-//
-//    @Bean
-//    public OrdinaryFixedUserAccount getOrdinaryFixedUserAccount() {
-//        return new OrdinaryFixedUserAccount();
-//    }
-//
-//    @Bean
-//    public EnterpriseCurrentUserAccount getEnterpriseCurrentUserAccount() {
-//        return new EnterpriseCurrentUserAccount();
-//    }
-//
-//    @Bean
-//    public EnterpriseFixedUserAccount getEnterpriseFixedUserAccount() {
-//        return new EnterpriseFixedUserAccount();
-//    }
-//
-//    @Bean
-//    public VIPFixedUserAccount getVIPFixedUserAccount() {
-//        return new VIPFixedUserAccount();
-//    }
-//
-//    @Bean
-//    public VIPCurrentUserAccount getVIPCurrentUserAccount() {
-//        return new VIPCurrentUserAccount();
-//    }
+    @Bean
+    public OrdinaryCurrentUserAccount getOrdinaryCurrentUserAccount() {
+        return new OrdinaryCurrentUserAccount();
+    }
+
+    @Bean
+    public OrdinaryFixedUserAccount getOrdinaryFixedUserAccount() {
+        return new OrdinaryFixedUserAccount();
+    }
+
+    @Bean
+    public EnterpriseCurrentUserAccount getEnterpriseCurrentUserAccount() {
+        return new EnterpriseCurrentUserAccount();
+    }
+
+    @Bean
+    public EnterpriseFixedUserAccount getEnterpriseFixedUserAccount() {
+        return new EnterpriseFixedUserAccount();
+    }
+
+    @Bean
+    public VIPFixedUserAccount getVIPFixedUserAccount() {
+        return new VIPFixedUserAccount();
+    }
+
+    @Bean
+    public VIPCurrentUserAccount getVIPCurrentUserAccount() {
+        return new VIPCurrentUserAccount();
+    }
 }

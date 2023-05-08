@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Data
 @NoArgsConstructor(force = true)
-@Service
+//@Service
 public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements BaseFixedAccountRight {
 
     @Override

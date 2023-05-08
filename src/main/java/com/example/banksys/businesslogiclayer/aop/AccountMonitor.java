@@ -21,7 +21,6 @@ import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -35,42 +34,46 @@ public class AccountMonitor {
     private static final double ENTERPRISE_OPEN_MONEY_THRESHOLD = 10000;
 
     @Autowired
-    @Lazy
+//    @Lazy
     private AccountLogRepository accountLogRepository;
 
-//    @Autowired
+    @Autowired
 //    @Lazy
-//    private CardRepository cardRepository;
+    private CardRepository cardRepository;
 
     @Autowired
-    @Lazy
+//    @Lazy
     private UserRepository userRepository;
 
-//    @Before("execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
-//            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney)")
+    @Before("execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
+            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney)")
 //    @Before("execution(* com.example.banksys.businesslogiclayer.EnterpriseCurrentUserAccount.openEnterpriseAccount(..))"
 //            +
 //            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney)"
 //    )
-//    @Before("execution(public * openEnterpriseAccount(..))")
-    @Before("execution(public * *(..))")
-//    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) throws EnterpriseAccountOpenMoneyNotEnoughException {
-    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint) throws EnterpriseAccountOpenMoneyNotEnoughException {
+//    @Before("execution(public com.example.banksys.businesslogiclayer.*  openEnterpriseAccount(..))")
+//    @Before("execution(public * *(..))")
+    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) throws EnterpriseAccountOpenMoneyNotEnoughException {
+//    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint) throws EnterpriseAccountOpenMoneyNotEnoughException {
         // 开户金额是否大于等于1万，否则抛错
-//        if (openMoney < ENTERPRISE_OPEN_MONEY_THRESHOLD) {
-//            throw new EnterpriseAccountOpenMoneyNotEnoughException("开户金额不足" + ENTERPRISE_OPEN_MONEY_THRESHOLD);
-//        }
-//        EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
+        if (openMoney < ENTERPRISE_OPEN_MONEY_THRESHOLD) {
+            throw new EnterpriseAccountOpenMoneyNotEnoughException("开户金额不足" + ENTERPRISE_OPEN_MONEY_THRESHOLD);
+        }
+        EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
 //        EnterpriseUser enterpriseUser = enterpriseUserAccount.getEnterpriseUser();
-//        Enterprise enterprise = enterpriseUser.getEnterprise();
-//
-//        // 确定企业用户的权限，第一人为SUPER，否则为USER
-//        if (enterprise.getEnterpriseUserList() == null || enterprise.getEnterpriseUserList().size() == 0) {
-//            enterpriseUser.setRight(EnterpriseUser.Right.SUPER);
-//        } else {
-//            enterpriseUser.setRight(EnterpriseUser.Right.USER);
-//        }
-//        userRepository.save(enterpriseUser);
+        EnterpriseUser enterpriseUser = new EnterpriseUser();
+        enterpriseUser.setUserId(1L);
+        Enterprise enterprise = enterpriseUser.getEnterprise();
+
+        // 确定企业用户的权限，第一人为SUPER，否则为USER
+        if (enterprise.getEnterpriseUserList() == null || enterprise.getEnterpriseUserList().size() == 0) {
+            enterpriseUser.setRightType(EnterpriseUser.RightType.SUPER);
+        } else {
+            enterpriseUser.setRightType(EnterpriseUser.RightType.USER);
+        }
+        userRepository.save(enterpriseUser);
+
+        System.out.println("-------------------------------------------------here");
     }
 
     @Around("execution(* com.example.banksys.businesslogiclayer.BaseCurrentAccountRight+.deposit*(..))" +

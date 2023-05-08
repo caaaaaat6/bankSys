@@ -17,13 +17,13 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
     protected EnterpriseCard enterpriseCard;
 
-//    @Autowired
-//    protected EnterpriseCardRepository enterpriseCardRepository;
+    @Autowired
+    protected EnterpriseCardRepository enterpriseCardRepository;
 
-//    public long openEnterpriseAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) {
-//        enterpriseCard = new EnterpriseCard(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney);
-////        long cardId = enterpriseCardRepository.save(enterpriseCard).getCardId();
-//        long cardId = cardRepository.save(enterpriseCard).getCardId();
-//        return cardId;
-//    }
+    public long openEnterpriseAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney) {
+        enterpriseCard = new EnterpriseCard(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney);
+//        long cardId = enterpriseCardRepository.save(enterpriseCard).getCardId();
+        long cardId = cardRepository.save(enterpriseCard).getCardId();
+        return cardId;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 
+
 public class OrdinaryFixedUserAccount extends OrdinaryUserAccount implements BaseFixedAccountRight {
 
     @Override

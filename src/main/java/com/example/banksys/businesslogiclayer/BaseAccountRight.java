@@ -1,6 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
-import com.example.banksys.model.Exception.WithdrawalException;
+import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
 
 import java.util.Date;
@@ -10,13 +10,13 @@ import java.util.List;
 interface BaseAccountRight {
 
     //开户
-    long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney);
+    long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId);
 
 //    // 存款
 //    void deposit();
 
     //取款
-    double withdrawal(double money) throws WithdrawalException;
+    double withdraw(double money) throws WithdrawException;
 
     //查询余额及查询日志
     double queryBalance();

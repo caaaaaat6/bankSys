@@ -11,4 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor(force = true)
 public class PersonalCard extends Card{
+    public PersonalCard(long userId, String userPid, String userName, String userType, String password, String cardType, double openMoney) {
+        super(userId, userPid, userName, userType, password, cardType, openMoney);
+    }
 }

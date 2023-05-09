@@ -8,4 +8,7 @@ public class PointcutContainer {
 //    @Pointcut("execution(* com.example.banksys.businesslogiclayer.*Account+.deposit*(..))")
     @Pointcut("execution(* com.example.banksys.businesslogiclayer.BaseCurrentAccountRight+.deposit*(..))")
     public void deposit() {}
+
+
+
 }

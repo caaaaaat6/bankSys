@@ -1,6 +1,6 @@
 package com.example.banksys.model;
 
-import com.example.banksys.model.Exception.WithdrawalException;
+import com.example.banksys.model.Exception.WithdrawException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -62,12 +62,12 @@ public class Card {
     public static class CardType {
         public static final String FIXED = "fixed";
         public static final String CURRENT = "current";
-        public static final String WITHDRAWAL = "withdrawal";
+        public static final String WITHDRAW = "withdraw";
     }
 
-    public double withdrawal(double money) throws WithdrawalException {
+    public double withdraw(double money) throws WithdrawException {
         if (this.balance < money) {
-            throw new WithdrawalException("余额不足！");
+            throw new WithdrawException("余额不足！");
         }
         this.balance -= money;
         return this.balance;

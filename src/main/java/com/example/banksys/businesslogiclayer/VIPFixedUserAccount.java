@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAccountRight {
 
     @Override
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+        return super.openAccount(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employeeId);
+    }
+
+    @Override
     public double deposit(double money, int depositDays) {
         return BLLUtil.fixedDeposit(getCardRepository(), getTradeRepository(), getCard(), money, depositDays);
     }

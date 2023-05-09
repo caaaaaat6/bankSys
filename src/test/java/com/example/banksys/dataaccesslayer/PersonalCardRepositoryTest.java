@@ -24,7 +24,7 @@ class PersonalCardRepositoryTest {
 
     @Test
     void findPersonalCardsByUserPid() {
-        List<PersonalCard> cardList = cardRepository.findPersonalCardsByUserPid("11111120000101111X");
+        List<PersonalCard> cardList = cardRepository.findPersonalCardsByUserPid("11111120000101111X").get();
         System.out.println("-----------------------------" + cardList.size());
         assert cardList.size() == 1;
     }

@@ -1,8 +1,14 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
+import com.example.banksys.model.Card;
 
 public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements BaseCurrentAccountRight {
+
+    @Override
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+        return super.openAccount(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employeeId);
+    }
 
     @Override
     public double deposit(double money) {

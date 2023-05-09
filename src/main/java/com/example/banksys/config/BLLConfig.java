@@ -19,31 +19,37 @@ public class BLLConfig {
     }
 
     @Bean
+    @Scope(value = "prototype")
     public OrdinaryCurrentUserAccount getOrdinaryCurrentUserAccount() {
         return new OrdinaryCurrentUserAccount();
     }
 
     @Bean
+    @Scope(value = "prototype")
     public OrdinaryFixedUserAccount getOrdinaryFixedUserAccount() {
         return new OrdinaryFixedUserAccount();
     }
 
     @Bean
+    @Scope(value = "prototype")
     public EnterpriseCurrentUserAccount getEnterpriseCurrentUserAccount() {
         return new EnterpriseCurrentUserAccount();
     }
 
     @Bean
+    @Scope(value = "prototype")
     public EnterpriseFixedUserAccount getEnterpriseFixedUserAccount() {
         return new EnterpriseFixedUserAccount();
     }
 
     @Bean
+    @Scope(value = "prototype")
     public VIPFixedUserAccount getVIPFixedUserAccount() {
         return new VIPFixedUserAccount();
     }
 
     @Bean
+    @Scope(value = "prototype")
     public VIPCurrentUserAccount getVIPCurrentUserAccount() {
         return new VIPCurrentUserAccount();
     }

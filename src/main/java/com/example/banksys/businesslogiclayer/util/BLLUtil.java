@@ -42,7 +42,7 @@ public class BLLUtil {
 
         Date expireDate = getExpireDate(depositDays);
 
-        Trade trade = new Trade(card.getCardId(), null, Trade.TradeType.CURRENT, money, new Date(), expireDate);
+        Trade trade = new Trade(card.getCardId(), null, Trade.TradeType.FIXED, money, new Date(), expireDate);
         tradeRepository.save(trade);
         return newBalance;
     }
@@ -53,7 +53,7 @@ public class BLLUtil {
 
         Date expireDate = getExpireDate(depositDays);
 
-        Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.CURRENT, money, new Date(), expireDate);
+        Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.FIXED, money, new Date(), expireDate);
         tradeRepository.save(trade);
         return newBalance;
     }
@@ -64,5 +64,14 @@ public class BLLUtil {
         calendar.add(Calendar.DATE, depositDays);
         Date expireDate = calendar.getTime();
         return expireDate;
+    }
+
+    public static double queryBalance(Card card) {
+        return card.getBalance();
+    }
+
+    public static double queryDesirableBalance(TradeRepository tradeRepository, Card card) {
+        double fixedBalance = tradeRepository.findFixedBalance();
+        return card.getBalance() - fixedBalance;
     }
 }

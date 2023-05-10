@@ -18,11 +18,15 @@ class PersonalUserAccountTest {
 
     private PersonalUserAccount personalUserAccount;
 
+    private BaseFixedAccountRight fixedAccount;
+
     @BeforeEach
     void setup() {
         personalUserAccount = ordinaryFixedUserAccount;
         Optional<PersonalCard> personalCard = personalUserAccount.getPersonalCardRepository().findById(1L);
         personalUserAccount.setPersonalCard(personalCard.get());
+
+        fixedAccount = ordinaryFixedUserAccount;
     }
 
     @Test
@@ -36,5 +40,13 @@ class PersonalUserAccountTest {
         personalUserAccount.withdraw(1);
         double afterWithdraw = personalUserAccount.getPersonalCard().getBalance();
         assert afterWithdraw == beforeWithdraw - 1;
+    }
+
+    @Test
+    void deposit() {
+        fixedAccount.deposit(1,2);
+
+        // Trade结果是否为1
+//        ordinaryFixedUserAccount.getPersonalCardRepository().findById(ordinaryFixedUserAccount.getPersonalCard().getCardId()).get().get;
     }
 }

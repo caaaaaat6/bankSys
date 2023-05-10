@@ -1,5 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.TradeRepository;
@@ -56,7 +57,7 @@ public abstract class BaseAccount implements BaseAccountRight{
     //  4.产生日志
     @Transactional
     @Override
-    public double withdraw(double money) throws WithdrawException {
+    public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
         double balance = card.withdraw(money);
         cardRepository.save(card);
         Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.WITHDRAW,money,new Date());

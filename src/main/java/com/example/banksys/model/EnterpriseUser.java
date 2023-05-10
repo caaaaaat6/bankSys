@@ -19,7 +19,7 @@ public class EnterpriseUser extends User {
     @JoinColumn(name = "enterprise_id", nullable = false)
     private Enterprise enterprise;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "enterprise_card_id")
     private EnterpriseCard enterpriseCard;
 

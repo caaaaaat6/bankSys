@@ -1,5 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
 
@@ -16,7 +17,7 @@ interface BaseAccountRight {
 //    void deposit();
 
     //取款
-    double withdraw(double money) throws WithdrawException;
+    double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException;
 
     //查询余额及查询日志
     double queryBalance();

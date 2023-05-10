@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class VIPUserAccount extends PersonalUserAccount {
@@ -19,9 +20,17 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
 //    @Transactional()
     @Override
     public double withdraw(double money) throws WithdrawException {
+
+        // 直接改card的userType， 看能不能保存上。能保存上。
+//        getPersonalCard().setUserType(Card.UserType.ORDINARY);
+//        getPersonalCardRepository().save(getPersonalCard());
+
         boolean isDegrade = checkDegrade(money);
         if (isDegrade) {
             doDegrade();
+
+//            getPersonalCard().setUserType(Card.UserType.ORDINARY);  // 这里也能改成功
+//            getPersonalCardRepository().save(getPersonalCard());
         }
         double oldBalance = getPersonalCard().getBalance();
         double balance = super.withdraw(money);
@@ -51,17 +60,18 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
      * 完成降级，将所有个人卡降级为ordinary，并且将用户类型降级为ordinary
      */
     private void doDegrade() {
+
+//        getPersonalCard().setUserType(Card.UserType.ORDINARY); // 这里也能保存上
+//        getPersonalCardRepository().saveAll(Arrays.asList(getPersonalCard())); // 改成saveAll也能保存上
+
         String userPid = getPersonalCard().getUserPid();
-        List<PersonalCard> personalCardsByUserPid = getPersonalCardRepository().findPersonalCardsByUserPid(userPid).get();
-        for (var personalCard : personalCardsByUserPid) {
-            personalCard.setUserType(Card.UserType.ORDINARY);
-        }
+        List<PersonalCard> personalCardsByUserPid = getPersonalCardRepository().findPersonalCardsByUserPid(userPid).get(); // 这样就保存不上了
+
+        getPersonalCard().setUserType(Card.UserType.ORDINARY); // 猜测时因为User的卡没更新，还是vip，然后保存的时候级联保存，把User的card的userType又覆盖上去了
+        personalCardsByUserPid.forEach(personalCard1 -> personalCard1.setUserType(Card.UserType.ORDINARY));
         getPersonalCardRepository().saveAll(personalCardsByUserPid);
 
-
-        List<PersonalCard> personalCardsByUserPidTest = getPersonalCardRepository().findPersonalCardsByUserPid(userPid).get();
-
-
+        // 保存用户，更新用户的userType
         getUser().setUserType(Card.UserType.ORDINARY);
         getUserRepository().save(getUser());
     }

@@ -11,4 +11,6 @@ public interface BaseFixedAccountRight extends BaseAccountRight {
 
     @Transactional
     double depositByEmployee(double money, int depositDays, Long employeeId);
+
+    double queryBalance();
 }

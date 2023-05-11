@@ -22,4 +22,9 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
     public double depositByEmployee(double money, int depositDays, Long employeeId) {
         return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, employeeId, depositDays);
     }
+
+    @Override
+    public String queryBalance() {
+        return super.queryBalance();
+    }
 }

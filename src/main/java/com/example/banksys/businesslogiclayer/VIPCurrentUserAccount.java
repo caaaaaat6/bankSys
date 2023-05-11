@@ -23,4 +23,9 @@ public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrent
     public double depositByEmployee(double money, Long employeeId) {
         return BLLUtil.currentDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, employeeId);
     }
+
+    @Override
+    public String queryBalance() {
+        return super.queryBalance();
+    }
 }

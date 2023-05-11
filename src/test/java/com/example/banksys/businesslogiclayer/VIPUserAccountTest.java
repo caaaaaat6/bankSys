@@ -55,4 +55,5 @@ class VIPUserAccountTest {
         personalCardRepository.save(byId.get());
         assert personalCardRepository.findById(30L).get().getUserType().equals(Card.UserType.ORDINARY);
     }
+
 }

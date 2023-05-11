@@ -26,4 +26,8 @@ public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements
         return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, employeeId, depositDays);
     }
 
+    @Override
+    public String queryBalance() {
+        return super.queryBalance();
+    }
 }

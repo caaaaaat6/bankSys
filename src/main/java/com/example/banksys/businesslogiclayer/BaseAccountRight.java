@@ -20,7 +20,7 @@ interface BaseAccountRight {
     double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException;
 
     //查询余额及查询日志
-    double queryBalance();
+    String queryBalance();
 
     //按范围查询
     List<Trade> queryDaybook(Date start, Date end);

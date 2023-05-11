@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.TradeRepository;
@@ -54,7 +55,6 @@ public abstract class BaseAccount implements BaseAccountRight{
     //  1.待测试
     //  2.在vip用户执行前还需要判断是否需要对用户降级
     //  3.是否需要原子性
-    //  4.产生日志
     @Transactional
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
@@ -65,9 +65,15 @@ public abstract class BaseAccount implements BaseAccountRight{
         return balance;
     }
 
+    /**
+     *
+     * @return 返回 可取余额/总余额
+     */
     @Override
-    public double queryBalance() {
-        return 0;
+    public String queryBalance() {
+        double balance = BLLUtil.queryBalance(getCard());
+        double desirableBalance = BLLUtil.queryDesirableBalance(getTradeRepository(), getCard());
+        return BLLUtil.presentQueryBalanceResult(desirableBalance,balance);
     }
 
     @Override

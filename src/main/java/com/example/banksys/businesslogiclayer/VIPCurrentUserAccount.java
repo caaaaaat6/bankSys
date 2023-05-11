@@ -1,5 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
@@ -33,5 +35,10 @@ public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrent
     @Override
     public double withdraw(double money) throws WithdrawException {
         return super.withdraw(money);
+    }
+
+    @Override
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        return super.transferMoneyTo(toCard, money);
     }
 }

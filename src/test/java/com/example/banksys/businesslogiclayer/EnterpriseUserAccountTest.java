@@ -88,7 +88,7 @@ class EnterpriseUserAccountTest {
 
     @Test //test checkout
     void openAccountUSERTest() {
-        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101111X", "张三", "1111111", 6L, Card.CardType.CURRENT, 10001, null);
+        long cardId = enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101003X", "董八", "1111111", 6L, Card.CardType.CURRENT, 10001, null);
         Optional<Card> card = enterpriseCurrentUserAccount.getCardRepository().findById(cardId);
         Optional<EnterpriseUser> user = enterpriseUserRepository.findById(card.get().getUserId());
         assert user.get().getRightType().equals(EnterpriseUser.RightType.USER);

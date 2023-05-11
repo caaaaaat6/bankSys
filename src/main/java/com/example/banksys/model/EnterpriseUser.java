@@ -24,7 +24,7 @@ public class EnterpriseUser extends User {
     private EnterpriseCard enterpriseCard;
 
     @Column(length = 512)
-    private String password;
+    private String enterprise_card_password;
 
     public static class RightType {
         public static final String SUPER = "super";

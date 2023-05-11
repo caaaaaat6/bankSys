@@ -58,6 +58,7 @@ public class AccountLog {
         public static final String FIXED_DEPOSIT = "定期存款";
         public static final String WITHDRAW = "取款";
         public static final String QUERY = "查询";
+        public static final String TRANSFER = "转账";
         public static final String CHANGE_PASSWORD = "改密码";
         public static final String CLOSE = "销户";
     }

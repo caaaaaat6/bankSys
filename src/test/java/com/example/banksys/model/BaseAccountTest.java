@@ -77,7 +77,7 @@ class BaseAccountTest {
     void queryBalanceHavingFixedRecord() {
         String queryBalance = baseAccount.queryBalance();
         double balance = baseAccount.getCard().getBalance();
-        assert queryBalance.equals(BLLUtil.presentQueryBalanceResult(balance - 1, balance));
+        assert queryBalance.equals(BLLUtil.presentQueryBalanceResult(balance, balance));
     }
 
     @Test

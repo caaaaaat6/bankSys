@@ -1,7 +1,9 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
+import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,8 +38,9 @@ public class EnterpriseCurrentUserAccount extends EnterpriseUserAccount implemen
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
         return super.withdraw(money);
     }
-//    @Override
-//    public void transferIn(double money) {
-//        deposit(money);
-//    }
+
+    @Override
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        return super.transferMoneyTo(toCard, money);
+    }
 }

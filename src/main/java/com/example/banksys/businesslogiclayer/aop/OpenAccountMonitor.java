@@ -2,6 +2,7 @@ package com.example.banksys.businesslogiclayer.aop;
 
 import com.example.banksys.businesslogiclayer.EnterpriseUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMoneyNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.FiveEnterpriseAccountOpenedException;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
@@ -53,27 +54,24 @@ public class OpenAccountMonitor {
 
     /**
      * 企业用户开户前的切面
-     * @param joinPoint
-     * @param userId
-     * @param userPid
-     * @param userName
-     * @param password
-     * @param enterpriseId
-     * @param cardType
-     * @param openMoney
      * @throws EnterpriseAccountOpenMoneyNotEnoughException
      */
     @Before(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId)")
-    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) throws EnterpriseAccountOpenMoneyNotEnoughException {
+    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException {
+        EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
+        Enterprise enterprise = enterpriseUserAccount.getEnterprise();
+
+        // 检查该企业是否已开够五个户，若是，则抛错
+        if (enterprise.getEnterpriseUserList().size() >= 5) {
+            throw new FiveEnterpriseAccountOpenedException("该企业已经开够5个账户，无法继续开户！");
+        }
+
         // 开户金额是否大于等于1万，否则抛错
         if (openMoney < ENTERPRISE_OPEN_MONEY_THRESHOLD) {
             throw new EnterpriseAccountOpenMoneyNotEnoughException("开户金额不足" + ENTERPRISE_OPEN_MONEY_THRESHOLD);
         }
 
-        EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
-
-        Enterprise enterprise = enterpriseUserAccount.getEnterprise();
         // 这个enterpriseUser是当前账户的操作人
         EnterpriseUser enterpriseUser  = enterpriseUserAccount.getEnterpriseUser();
 

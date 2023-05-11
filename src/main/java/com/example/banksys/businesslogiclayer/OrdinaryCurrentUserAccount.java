@@ -2,6 +2,7 @@ package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Exception.WithdrawException;
 
 public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements BaseCurrentAccountRight {
 
@@ -23,5 +24,10 @@ public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements B
     @Override
     public String queryBalance() {
         return super.queryBalance();
+    }
+
+    @Override
+    public double withdraw(double money) throws WithdrawException {
+        return super.withdraw(money);
     }
 }

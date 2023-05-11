@@ -63,6 +63,8 @@ public class Card {
         public static final String FIXED = "fixed";
         public static final String CURRENT = "current";
         public static final String WITHDRAW = "withdraw";
+        public static final String TRANSFER_IN = "transferIn";
+        public static final String TRANSFER_OUT = "transferOut";
     }
 
     public double withdraw(double money) throws WithdrawException {
@@ -73,7 +75,7 @@ public class Card {
         return this.balance;
     }
 
-    public double save(double money) {
+    public double deposit(double money) {
         this.balance += money;
         return this.balance;
     }

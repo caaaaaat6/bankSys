@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
+import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +27,10 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
     @Override
     public String queryBalance() {
         return super.queryBalance();
+    }
+
+    @Override
+    public double withdraw(double money) throws WithdrawException {
+        return super.withdraw(money);
     }
 }

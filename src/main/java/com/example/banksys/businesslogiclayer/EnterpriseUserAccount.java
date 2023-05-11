@@ -30,6 +30,15 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
     Logger logger = LoggerFactory.getLogger(EnterpriseUserAccount.class);
 
+    public void setEnterpriseCard(EnterpriseCard enterpriseCard) {
+        this.card = enterpriseCard;
+        this.enterpriseCard = enterpriseCard;
+    }
+
+    public void setEnterpriseUser(EnterpriseUser enterpriseUser) {
+        setUser(enterpriseUser);
+        this.enterpriseUser = enterpriseUser;
+    }
 
     @Autowired
     protected EnterpriseCardRepository enterpriseCardRepository;
@@ -48,7 +57,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         }
         double oldBalance = getEnterpriseCard().getBalance();
         double newBalance =  super.withdraw(money);
-        log(money, oldBalance, newBalance);
+//        log(money, oldBalance, newBalance);
         return newBalance;
     }
 
@@ -60,20 +69,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         return false;
     }
 
-    private void log(double money, double oldBalance, double balance) {
-        Long userId = getEnterpriseUser().getUserId();
-        Long cardId = getEnterpriseCard().getCardId();
-        String operationType = AccountLog.OperationType.WITHDRAW;
-        StringBuilder description = new StringBuilder();
-
-        description.append("取款金额：" + money + "元\n");
-        description.append("取前金额：" + oldBalance + "元\n");
-        description.append("取后金额：" + balance + "元\n");
-
-        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
-        accountLogRepository.save(log);
-
-        // 后台输出日志
-        logger.info("[afterReturning]: ---> " + log.toString());
-    }
+//    public void transferIn(double money) {
+//
+//    }
 }

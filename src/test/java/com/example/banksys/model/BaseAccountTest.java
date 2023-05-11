@@ -3,10 +3,12 @@ package com.example.banksys.model;
 import com.example.banksys.businesslogiclayer.BaseAccount;
 import com.example.banksys.businesslogiclayer.PersonalUserAccount;
 import com.example.banksys.businesslogiclayer.VIPCurrentUserAccount;
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
+import com.example.banksys.model.Exception.WithdrawException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,18 +39,24 @@ class BaseAccountTest {
 
     Long zhaoLiuCardId = 30L;
 
+    Long transferInCardId = 1L;
+
     Long queryBalanceCardId = 1L;
+
+    Card toCard;
 
     @BeforeEach
     void setUp() {
         personalUserAccount = vipCurrentUserAccount;
-        Optional<PersonalCard> personalCard = personalCardRepository.findById(queryBalanceCardId);
+        Optional<PersonalCard> personalCard = personalCardRepository.findById(zhaoLiuCardId);
         User user = userRepository.findByCard(personalCard.get());
 
         personalUserAccount.setPersonalCard(personalCard.get());
         personalUserAccount.setUser(user);
 
         baseAccount = vipCurrentUserAccount;
+
+        toCard = cardRepository.findById(transferInCardId).get();
     }
 
     @Test
@@ -79,7 +87,8 @@ class BaseAccountTest {
     }
 
     @Test
-    void transferMoneySelf() {
+    void transferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        baseAccount.transferMoneyTo(toCard,1);
     }
 
     @Test

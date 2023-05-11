@@ -2,6 +2,7 @@ package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,5 +28,10 @@ public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrent
     @Override
     public String queryBalance() {
         return super.queryBalance();
+    }
+
+    @Override
+    public double withdraw(double money) throws WithdrawException {
+        return super.withdraw(money);
     }
 }

@@ -39,4 +39,9 @@ class BLLUtilTest {
         double v = BLLUtil.queryDesirableBalance(tradeRepository, card);
         assert  v == card.getBalance() - 1;
     }
+
+    @Test
+    void queryDesirableBalanceTestAOPProxy() {
+        queryDesirableBalance();
+    }
 }

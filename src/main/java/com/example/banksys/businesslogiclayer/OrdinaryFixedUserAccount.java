@@ -2,6 +2,7 @@ package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Exception.WithdrawException;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @EnableAspectJAutoProxy(exposeProxy = true)
@@ -26,5 +27,10 @@ public class OrdinaryFixedUserAccount extends OrdinaryUserAccount implements Bas
     @Override
     public String queryBalance() {
         return super.queryBalance();
+    }
+
+    @Override
+    public double withdraw(double money) throws WithdrawException {
+        return super.withdraw(money);
     }
 }

@@ -19,7 +19,7 @@ public class BLLUtil {
      * @return 存款后余额
      */
     public static double currentDeposit(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money) {
-        double newBalance = card.save(money);
+        double newBalance = card.deposit(money);
         cardRepository.save(card);
 
         Trade trade = new Trade(card.getCardId(), null, Trade.TradeType.CURRENT, money, new Date());
@@ -28,7 +28,7 @@ public class BLLUtil {
     }
 
     public static double currentDepositByEmployee(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, Long employeeId) {
-        double newBalance = card.save(money);
+        double newBalance = card.deposit(money);
         cardRepository.save(card);
 
         Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.CURRENT, money, new Date());
@@ -37,7 +37,7 @@ public class BLLUtil {
     }
 
     public static double fixedDeposit(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, int depositDays) {
-        double newBalance = card.save(money);
+        double newBalance = card.deposit(money);
         cardRepository.save(card);
 
         Date expireDate = getExpireDate(depositDays);
@@ -48,7 +48,7 @@ public class BLLUtil {
     }
 
     public static double fixedDepositByEmployee(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, Long employeeId, int depositDays) {
-        double newBalance = card.save(money);
+        double newBalance = card.deposit(money);
         cardRepository.save(card);
 
         Date expireDate = getExpireDate(depositDays);

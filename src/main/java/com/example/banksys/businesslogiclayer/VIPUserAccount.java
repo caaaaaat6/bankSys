@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class VIPUserAccount extends PersonalUserAccount {
@@ -17,7 +16,7 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
 
     public static final double DEGRADE_THRESHOLD = 100000;
 
-//    @Transactional()
+    @Transactional
     @Override
     public double withdraw(double money) throws WithdrawException {
 
@@ -34,26 +33,8 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
         }
         double oldBalance = getPersonalCard().getBalance();
         double balance = super.withdraw(money);
-        log(money, oldBalance, balance, isDegrade);
+//        log(money, oldBalance, balance, isDegrade);
         return balance;
-    }
-
-    private void log(double money, double oldBalance, double balance, boolean isDegrade) {
-        Long userId = getUser().getUserId();
-        Long cardId = getPersonalCard().getCardId();
-        String operationType = AccountLog.OperationType.WITHDRAW;
-        StringBuilder description = new StringBuilder();
-
-        description.append("取款金额：" + money + "元\n");
-        description.append("取前金额：" + oldBalance + "元\n");
-        description.append("取后金额：" + balance + "元\n");
-        description.append("是否降级：" + isDegrade);
-
-        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
-        accountLogRepository.save(log);
-
-        // 后台输出日志
-        logger.info("[afterReturning]: ---> " + log.toString());
     }
 
     /**
@@ -88,4 +69,10 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
         }
         return false;
     }
+
+//    @Override
+//    public double transferMoneyTo(Card card, double money) {
+//
+//        return 0;
+//    }
 }

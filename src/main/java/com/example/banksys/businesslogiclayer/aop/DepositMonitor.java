@@ -32,7 +32,7 @@ public class DepositMonitor {
     private AccountLogRepository accountLogRepository;
 
     @Around("execution(* com.example.banksys.businesslogiclayer.BaseCurrentAccountRight+.deposit*(..))" +
-            " || execution(* com.example.banksys.businesslogiclayer.BaseFixedAccountRight+.deposit*(..))")
+            " || execution(* com.example.banksys.businesslogiclayer.BaseFixedAccountRight+.deposit*(..)) ")
     public Object aroundDeposit(ProceedingJoinPoint joinPoint) throws Throwable {
         BaseAccount account = (BaseAccount) joinPoint.getTarget();
         Object[] args = joinPoint.getArgs();

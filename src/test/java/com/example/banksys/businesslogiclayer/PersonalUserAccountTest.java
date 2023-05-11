@@ -1,5 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
@@ -48,5 +49,15 @@ class PersonalUserAccountTest {
 
         // Trade结果是否为1
 //        ordinaryFixedUserAccount.getPersonalCardRepository().findById(ordinaryFixedUserAccount.getPersonalCard().getCardId()).get().get;
+    }
+
+    /**
+     * 的确，同类方法嵌套调用不会被AOP拦截
+     * @throws EnterpriseWithdrawBalanceNotEnoughException
+     * @throws WithdrawException
+     */
+    @Test
+    void transferMoneyToTestNestedMethodAopInSameClass() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        personalUserAccount.transferMoneyTo(personalUserAccount.card, 1);
     }
 }

@@ -87,4 +87,9 @@ class EnterpriseUserAccountTest {
 
         assert oldBalance - money == newBalance;
     }
+
+//    @Test
+//    void transferIn() {
+//        enterpriseUserAccount.transferIn(1);
+//    }
 }

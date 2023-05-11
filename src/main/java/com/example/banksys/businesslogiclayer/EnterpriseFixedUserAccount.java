@@ -1,7 +1,9 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,18 @@ public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements
         return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, employeeId, depositDays);
     }
 
+//    @Override
+//    public double deposit(double money) {
+//        return deposit(money, 0);
+//    }
+
     @Override
     public String queryBalance() {
         return super.queryBalance();
+    }
+
+    @Override
+    public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
+        return super.withdraw(money);
     }
 }

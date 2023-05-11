@@ -9,12 +9,14 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
+import com.example.banksys.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +24,8 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 @Service
 public abstract class BaseAccount implements BaseAccountRight{
+
+    private User user;
 
     protected Long employeeId = null;
 
@@ -82,8 +86,18 @@ public abstract class BaseAccount implements BaseAccountRight{
     }
 
     @Override
-    public void transferMoneySelf() {
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        double newBalance = card.withdraw(money);
+        getCardRepository().save(card);
 
+        toCard.deposit(money);
+        getCardRepository().save(toCard);
+
+        Trade transferOutTrade = new Trade(card.getCardId(), getEmployeeId(), Trade.TradeType.TRANSFER_OUT, money, new Date(), toCard.getCardId());
+        Trade transferInTrade = new Trade(toCard.getCardId(), getEmployeeId(), Trade.TradeType.TRANSFER_IN, money, new Date(), getCard().getCardId());
+        tradeRepository.saveAll(Arrays.asList(transferOutTrade, transferInTrade));
+
+        return newBalance;
     }
 
     @Override

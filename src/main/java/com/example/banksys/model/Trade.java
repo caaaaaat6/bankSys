@@ -37,6 +37,8 @@ public class Trade {
     @Column(nullable = false)
     private Date tradeDate;
 
+    private Long transferCardId;
+
     public static class TradeType extends Card.CardType {
 
     }
@@ -57,5 +59,15 @@ public class Trade {
         this.money = money;
         this.expireDate = expireDate;
         this.tradeDate = tradeDate;
+    }
+
+    public Trade(Long cardId, Long employeeId, String tradeType, double money, Date tradeDate, Long transferCardId) {
+        this.cardId = cardId;
+        this.employeeId = employeeId;
+        this.tradeType = tradeType;
+        this.money = money;
+        this.expireDate = tradeDate;
+        this.tradeDate = tradeDate;
+        this.transferCardId = transferCardId;
     }
 }

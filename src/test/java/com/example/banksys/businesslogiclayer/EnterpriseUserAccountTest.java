@@ -1,5 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExsitException;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.*;
@@ -8,6 +9,7 @@ import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseCard;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.Exception.WithdrawException;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -125,5 +127,10 @@ class EnterpriseUserAccountTest {
     void transferToPersonal() {
         double money = 1;
         Assertions.assertThrows(UntransferableException.class,() -> enterpriseUserAccount.transferMoneyTo(toOrdinaryCard, money));
+    }
+
+    @Test
+    void openEnterpriseAccountWithException() {
+        Assert.assertThrows(EnterpriseCardExsitException.class, () -> enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101003X", "董八", "1111111", 6L, Card.CardType.CURRENT, 10001, null));
     }
 }

@@ -2,6 +2,7 @@ package com.example.banksys.businesslogiclayer.aop;
 
 import com.example.banksys.businesslogiclayer.EnterpriseUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMoneyNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExsitException;
 import com.example.banksys.businesslogiclayer.exception.FiveEnterpriseAccountOpenedException;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
@@ -58,7 +59,7 @@ public class OpenAccountMonitor {
      */
     @Before(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId)")
-    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException {
+    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException, EnterpriseCardExsitException {
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
         Enterprise enterprise = enterpriseUserAccount.getEnterprise();
 
@@ -80,6 +81,7 @@ public class OpenAccountMonitor {
             enterpriseUser.setRightType(EnterpriseUser.RightType.SUPER);
         } else {
             enterpriseUser.setRightType(EnterpriseUser.RightType.USER);
+            throw new EnterpriseCardExsitException("该企业已经开了一个账户，无法开更多的账户！");
         }
         userRepository.save(enterpriseUser);
     }

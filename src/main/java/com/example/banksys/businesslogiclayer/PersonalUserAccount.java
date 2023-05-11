@@ -1,12 +1,12 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.Trade;
-import com.example.banksys.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,20 +46,17 @@ public abstract class PersonalUserAccount extends BaseAccount {
     }
 
     @Override
-    public double transferMoneyTo(Card card, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
-        String fromUserType = getCard().getUserType();
-        String toUserType = card.getUserType();
-        if (fromUserType.equals(Card.UserType.ORDINARY) && toUserType.equals(Card.UserType.ORDINARY)) {
-            if (isSameUser(card)) {
-//                _transferTo(card, money);
-            }
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        if (!transferableTo(toCard)) {
+            throw new UntransferableException("个人账户不能向企业用户转账！");
         }
-        return super.transferMoneyTo(card, money);
+        return super.transferMoneyTo(toCard, money);
     }
 
-
-    private boolean isSameUser(Card card) {
-        String toUserPid = card.getUserPid();
-        return getUser().getUserPid().equals(toUserPid);
+    private boolean transferableTo(Card toCard) {
+        if (toCard.getUserType().equals(Card.UserType.ENTERPRISE)) {
+            return false;
+        }
+        return true;
     }
 }

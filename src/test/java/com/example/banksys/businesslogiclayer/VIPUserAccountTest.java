@@ -1,23 +1,28 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
+import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.User;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.lang.model.type.UnionType;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
+//@RunWith(SpringJUnit4ClassRunner.class)
 class VIPUserAccountTest {
 
     @Autowired
@@ -29,11 +34,18 @@ class VIPUserAccountTest {
     @Autowired
     VIPCurrentUserAccount vipCurrentUserAccount;
 
+    @Autowired
+    EnterpriseCardRepository enterpriseCardRepository;
+
     PersonalUserAccount personalUserAccount;
 
     Card toCard;
 
-    Long toCardId = 1L;
+    Card toEnterpriseCard;
+
+    Long toPersonalCardId = 1L;
+
+    Long toEnterpriseCardId = 17L;
 
     @BeforeEach
     void setUp() {
@@ -41,10 +53,16 @@ class VIPUserAccountTest {
         Optional<PersonalCard> personalCard = personalCardRepository.findById(30L);
         User user = userRepository.findByCard(personalCard.get());
 
-        personalUserAccount.setPersonalCard(personalCard.get());
-        personalUserAccount.setUser(user);
+        vipCurrentUserAccount.setPersonalCard(personalCard.get());
+        vipCurrentUserAccount.setUser(user);
+//        personalUserAccount.setPersonalCard(personalCard.get());
+//        personalUserAccount.setUser(user);
 
-        toCard = personalCardRepository.findById(toCardId).get();
+        toCard = personalCardRepository.findById(toPersonalCardId).get();
+
+        toEnterpriseCard = enterpriseCardRepository.findById(toEnterpriseCardId).get();
+
+        personalUserAccount = vipCurrentUserAccount;
     }
 
     @Test
@@ -64,11 +82,17 @@ class VIPUserAccountTest {
     }
 
     @Test
-    void transferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+    void transferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         double money = 1;
         double oldBalance = personalUserAccount.getCard().getBalance();
         double newBalance = personalUserAccount.transferMoneyTo(toCard, money);
         assert newBalance == oldBalance - money;
+    }
+
+    @Test
+    void checkTransferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        double money = 1;
+        Assert.assertThrows(UntransferableException.class, () -> personalUserAccount.transferMoneyTo(toEnterpriseCard, money));
     }
 
 }

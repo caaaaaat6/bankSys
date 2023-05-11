@@ -4,6 +4,7 @@ import com.example.banksys.businesslogiclayer.BaseAccount;
 import com.example.banksys.businesslogiclayer.PersonalUserAccount;
 import com.example.banksys.businesslogiclayer.VIPCurrentUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
@@ -87,7 +88,7 @@ class BaseAccountTest {
     }
 
     @Test
-    void transferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+    void transferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         baseAccount.transferMoneyTo(toCard,1);
     }
 

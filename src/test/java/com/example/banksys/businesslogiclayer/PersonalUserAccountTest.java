@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
@@ -20,6 +21,8 @@ class PersonalUserAccountTest {
     private PersonalUserAccount personalUserAccount;
 
     private BaseFixedAccountRight fixedAccount;
+
+    Long toCardId = 17L;
 
     @BeforeEach
     void setup() {
@@ -57,7 +60,7 @@ class PersonalUserAccountTest {
      * @throws WithdrawException
      */
     @Test
-    void transferMoneyToTestNestedMethodAopInSameClass() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+    void transferMoneyToTestNestedMethodAopInSameClass() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         personalUserAccount.transferMoneyTo(personalUserAccount.card, 1);
     }
 }

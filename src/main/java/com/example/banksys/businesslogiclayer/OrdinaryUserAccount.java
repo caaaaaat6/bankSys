@@ -1,7 +1,9 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
+import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.model.log.AccountLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,26 +18,18 @@ public abstract class OrdinaryUserAccount extends PersonalUserAccount {
 
     @Override
     public double withdraw(double money) throws WithdrawException {
-        double oldBalance = getPersonalCard().getBalance();
-        double balance = super.withdraw(money);
-//        log(money, oldBalance, balance);
-        return balance;
+        return super.withdraw(money);
     }
 
-    private void log(double money, double oldBalance, double balance) {
-        Long userId = getUser().getUserId();
-        Long cardId = getPersonalCard().getCardId();
-        String operationType = AccountLog.OperationType.WITHDRAW;
-        StringBuilder description = new StringBuilder();
+    @Override
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        if (!isSameUser(toCard)) {
+            throw new UntransferableException("普通用户只能向自己的其他账户转账！");
+        }
+        return super.transferMoneyTo(toCard, money);
+    }
 
-        description.append("取款金额：" + money + "元\n");
-        description.append("取前金额：" + oldBalance + "元\n");
-        description.append("取后金额：" + balance + "元\n");
-
-        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
-        accountLogRepository.save(log);
-
-        // 后台输出日志
-        logger.info("[afterReturning]: ---> " + log.toString());
+    private boolean isSameUser(Card toCard) {
+        return getCard().getUserPid().equals(toCard.getUserPid());
     }
 }

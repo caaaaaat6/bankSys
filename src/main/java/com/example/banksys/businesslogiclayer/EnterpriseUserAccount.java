@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
@@ -66,8 +67,19 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         return false;
     }
 
-//    public void transferIn(double money) {
-//
-//    }
+    @Override
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        if (!transferableTo(toCard)) {
+            throw new UntransferableException("企业用户不能向个人用户转账！");
+        }
+        return super.transferMoneyTo(toCard, money);
+    }
 
+    private boolean transferableTo(Card toCard) {
+        String toCardUserType = toCard.getUserType();
+        if (toCardUserType.equals(Card.UserType.ORDINARY) || toCardUserType.equals(Card.UserType.VIP)) {
+            return false;
+        }
+        return true;
+    }
 }

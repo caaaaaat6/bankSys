@@ -1,18 +1,21 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseCard;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.Exception.WithdrawException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+
 
 @SpringBootTest
 class EnterpriseUserAccountTest {
@@ -32,6 +35,9 @@ class EnterpriseUserAccountTest {
     @Autowired
     CardRepository cardRepository;
 
+    @Autowired
+    OrdinaryCurrentUserAccount ordinaryCurrentUserAccount;
+
     EnterpriseUserAccount enterpriseUserAccount;
 
     long zhaoLiuId = 12L;
@@ -41,6 +47,10 @@ class EnterpriseUserAccountTest {
     Card toCard;
 
     Long toCardId = 1L;
+
+    Card toOrdinaryCard;
+
+    Long toOrdinaryCardId = 1L;
 
     @BeforeEach
     void setUp() {
@@ -57,6 +67,8 @@ class EnterpriseUserAccountTest {
 
         enterpriseUserAccount = enterpriseCurrentUserAccount;
         enterpriseUserAccount.setEnterpriseCard(enterpriseCard);
+
+        toOrdinaryCard = cardRepository.findById(toOrdinaryCardId).get();
     }
 
     @Test
@@ -101,11 +113,17 @@ class EnterpriseUserAccountTest {
     }
 
     @Test
-    void transferMoneyTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+    void transferMoneyTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         double money = 1;
         double balance = enterpriseUserAccount.getCard().getBalance();
         double v = enterpriseUserAccount.transferMoneyTo(toCard, money);
         double newBalance = enterpriseUserAccount.getCard().getBalance();
         assert balance == newBalance + money;
+    }
+
+    @Test
+    void transferToPersonal() {
+        double money = 1;
+        Assertions.assertThrows(UntransferableException.class,() -> enterpriseUserAccount.transferMoneyTo(toOrdinaryCard, money));
     }
 }

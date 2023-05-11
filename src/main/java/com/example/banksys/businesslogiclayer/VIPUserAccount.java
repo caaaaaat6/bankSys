@@ -2,9 +2,9 @@ package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.model.Card;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
-import com.example.banksys.model.log.AccountLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,12 +70,11 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
     }
 
     @Override
-    public double transferMoneyTo(Card card, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
-        boolean isDegrade = checkDegrade(money);
-        if (isDegrade) {
+    public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        if (checkDegrade(money)) {
             doDegrade();
         }
-        double balance = super.transferMoneyTo(card, money);
-        return balance;
+        return super.transferMoneyTo(toCard, money);
     }
+
 }

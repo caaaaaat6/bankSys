@@ -3,6 +3,7 @@ package com.example.banksys.businesslogiclayer;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
+import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseCard;
@@ -16,10 +17,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor(force = true)
 @Service
 public abstract class EnterpriseUserAccount extends BaseAccount {
+
+    @Autowired
+    EnterpriseUserRepository enterpriseUserRepository;
 
     protected EnterpriseUser enterpriseUser;
 
@@ -81,5 +87,21 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public double closeAccount() throws WithdrawException {
+
+        double balance =  super.closeAccount();
+
+
+        // 删除企业所有用户
+        List<EnterpriseUser> enterpriseUserList = getEnterprise().getEnterpriseUserList();
+        getEnterprise().setEnterpriseUserList(null); // 消除企业对企业用户的引用
+        enterpriseUserList.forEach(e -> {e.setEnterprise(null);});
+        getEnterpriseUserRepository().deleteAll(enterpriseUserList);
+
+
+        return balance;
     }
 }

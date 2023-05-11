@@ -34,5 +34,5 @@ interface BaseAccountRight {
     void changePassWord();
 
     //销户
-    void closeAccount();
+    double closeAccount() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException;
 }

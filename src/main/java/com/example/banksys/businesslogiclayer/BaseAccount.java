@@ -58,7 +58,6 @@ public abstract class BaseAccount implements BaseAccountRight{
 
     // TODO
     //  1.待测试
-    //  2.在vip用户执行前还需要判断是否需要对用户降级
     //  3.是否需要原子性
     @Transactional
     @Override
@@ -107,8 +106,15 @@ public abstract class BaseAccount implements BaseAccountRight{
     }
 
     @Override
-    public void closeAccount() {
+    public double closeAccount() throws WithdrawException {
+        double balance = getCard().withdraw(getCard().getBalance());
 
+        // 删除卡的信息
+        getCardRepository().delete(getCard());
+
+        // 删除卡对应的用户信息
+        getUserRepository().delete(getUser());
+
+        return balance;
     }
-
 }

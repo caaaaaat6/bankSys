@@ -26,11 +26,21 @@ class EnterpriseUserAccountTest {
     @Autowired
     EnterpriseUserRepository enterpriseUserRepository;
 
+    @Autowired
+    EnterpriseCardRepository enterpriseCardRepository;
+
+    @Autowired
+    CardRepository cardRepository;
+
     EnterpriseUserAccount enterpriseUserAccount;
 
     long zhaoLiuId = 12L;
 
     long zhangSanId = 1L;
+
+    Card toCard;
+
+    Long toCardId = 1L;
 
     @BeforeEach
     void setUp() {
@@ -39,6 +49,8 @@ class EnterpriseUserAccountTest {
         Optional<EnterpriseUser> enterpriseUser = enterpriseUserRepository.findById(zhangSanId);
 
         EnterpriseCard enterpriseCard = enterpriseUser.get().getEnterpriseCard();
+
+        toCard = cardRepository.findById(toCardId). get();
 
         enterpriseCurrentUserAccount.setEnterprise(enterprise.get());
         enterpriseCurrentUserAccount.setEnterpriseUser(enterpriseUser.get());
@@ -88,8 +100,12 @@ class EnterpriseUserAccountTest {
         assert oldBalance - money == newBalance;
     }
 
-//    @Test
-//    void transferIn() {
-//        enterpriseUserAccount.transferIn(1);
-//    }
+    @Test
+    void transferMoneyTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        double money = 1;
+        double balance = enterpriseUserAccount.getCard().getBalance();
+        double v = enterpriseUserAccount.transferMoneyTo(toCard, money);
+        double newBalance = enterpriseUserAccount.getCard().getBalance();
+        assert balance == newBalance + money;
+    }
 }

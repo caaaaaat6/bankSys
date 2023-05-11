@@ -1,5 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
@@ -31,9 +32,7 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
 //            getPersonalCard().setUserType(Card.UserType.ORDINARY);  // 这里也能改成功
 //            getPersonalCardRepository().save(getPersonalCard());
         }
-        double oldBalance = getPersonalCard().getBalance();
         double balance = super.withdraw(money);
-//        log(money, oldBalance, balance, isDegrade);
         return balance;
     }
 
@@ -70,9 +69,13 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
         return false;
     }
 
-//    @Override
-//    public double transferMoneyTo(Card card, double money) {
-//
-//        return 0;
-//    }
+    @Override
+    public double transferMoneyTo(Card card, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        boolean isDegrade = checkDegrade(money);
+        if (isDegrade) {
+            doDegrade();
+        }
+        double balance = super.transferMoneyTo(card, money);
+        return balance;
+    }
 }

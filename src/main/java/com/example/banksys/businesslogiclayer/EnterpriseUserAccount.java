@@ -51,13 +51,10 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
-        setCard(enterpriseCard);
         if (!canWithdraw(money)) {
             throw new EnterpriseWithdrawBalanceNotEnoughException("企业用户剩余存款余额不足" + BALANCE_THRESHOLD + "元，无法取款！");
         }
-        double oldBalance = getEnterpriseCard().getBalance();
         double newBalance =  super.withdraw(money);
-//        log(money, oldBalance, newBalance);
         return newBalance;
     }
 
@@ -72,4 +69,5 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 //    public void transferIn(double money) {
 //
 //    }
+
 }

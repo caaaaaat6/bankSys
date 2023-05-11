@@ -1,5 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
@@ -30,6 +31,10 @@ class VIPUserAccountTest {
 
     PersonalUserAccount personalUserAccount;
 
+    Card toCard;
+
+    Long toCardId = 1L;
+
     @BeforeEach
     void setUp() {
         personalUserAccount = vipCurrentUserAccount;
@@ -38,6 +43,8 @@ class VIPUserAccountTest {
 
         personalUserAccount.setPersonalCard(personalCard.get());
         personalUserAccount.setUser(user);
+
+        toCard = personalCardRepository.findById(toCardId).get();
     }
 
     @Test
@@ -54,6 +61,14 @@ class VIPUserAccountTest {
         byId.get().setUserType(Card.UserType.ORDINARY);
         personalCardRepository.save(byId.get());
         assert personalCardRepository.findById(30L).get().getUserType().equals(Card.UserType.ORDINARY);
+    }
+
+    @Test
+    void transferTo() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        double money = 1;
+        double oldBalance = personalUserAccount.getCard().getBalance();
+        double newBalance = personalUserAccount.transferMoneyTo(toCard, money);
+        assert newBalance == oldBalance - money;
     }
 
 }

@@ -11,9 +11,9 @@ public interface AccountLogRepository extends CrudRepository<AccountLog, Long> {
 
     Optional<AccountLog> findFirstByOrderByLogIdDesc();
 
-    List<AccountLog> findAllByEmployeeId(Long employeeId);
+    List<AccountLog> findAllByEmployee(Employee employee);
 
-    List<AccountLog> findAllByEmployeeId(Employee employee);
+//    List<AccountLog> findAllByEmployeeId(Employee employee);
 
-    List<AccountLog> findAllByEmployeeIdIn(List<Long> employeeIds);
+//    List<AccountLog> findAllByEmployeeIdIn(List<Long> employeeIds);
 }

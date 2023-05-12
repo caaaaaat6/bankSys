@@ -8,9 +8,13 @@ import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.TradeRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
 import com.example.banksys.model.User;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +32,11 @@ public abstract class BaseAccount implements BaseAccountRight{
 
     private User user;
 
-    protected Long employeeId = null;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
+
+//    protected Long employeeId = null;
 
     protected Card card;
 
@@ -64,7 +72,7 @@ public abstract class BaseAccount implements BaseAccountRight{
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
         double balance = card.withdraw(money);
         cardRepository.save(card);
-        Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.WITHDRAW,money,new Date());
+        Trade trade = new Trade(card.getCardId(), employee, Trade.TradeType.WITHDRAW,money,new Date());
         tradeRepository.save(trade);
         return balance;
     }
@@ -93,8 +101,8 @@ public abstract class BaseAccount implements BaseAccountRight{
         toCard.deposit(money);
         getCardRepository().save(toCard);
 
-        Trade transferOutTrade = new Trade(card.getCardId(), getEmployeeId(), Trade.TradeType.TRANSFER_OUT, money, new Date(), toCard.getCardId());
-        Trade transferInTrade = new Trade(toCard.getCardId(), getEmployeeId(), Trade.TradeType.TRANSFER_IN, money, new Date(), getCard().getCardId());
+        Trade transferOutTrade = new Trade(card.getCardId(), employee, Trade.TradeType.TRANSFER_OUT, money, new Date(), toCard.getCardId());
+        Trade transferInTrade = new Trade(toCard.getCardId(), employee, Trade.TradeType.TRANSFER_IN, money, new Date(), getCard().getCardId());
         tradeRepository.saveAll(Arrays.asList(transferOutTrade, transferInTrade));
 
         return newBalance;

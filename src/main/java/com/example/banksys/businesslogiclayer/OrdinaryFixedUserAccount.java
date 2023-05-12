@@ -23,7 +23,7 @@ public class OrdinaryFixedUserAccount extends OrdinaryUserAccount implements Bas
 
     @Override
     public double depositByEmployee(double money, int depositDays, Long employeeId) {
-        return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, employeeId, depositDays);
+        return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee(), depositDays);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class WithdrawMonitor {
             description.append("是否降级：" + isDegrade);
         }
 
-        AccountLog log = new AccountLog(userId, cardId, account.getEmployeeId(), operationType, description.toString());
+        AccountLog log = new AccountLog(userId, cardId, account.getEmployee(), operationType, description.toString());
         accountLogRepository.save(log);
 
         // 后台输出日志

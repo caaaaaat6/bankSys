@@ -4,6 +4,7 @@ import com.example.banksys.businesslogiclayer.BaseAccount;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.dataaccesslayer.TradeRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -35,13 +36,13 @@ public class QueryBalanceMonitor {
         Card card = account.getCard();
         long userId = card.getUserId();
         long cardId = card.getCardId();
-        Long employeeId = account.getEmployeeId();
+        Employee employee = account.getEmployee();
         String operationType = AccountLog.OperationType.QUERY;
         StringBuilder description = new StringBuilder();
 
         description.append("可取余额/总余额：" + desirableBalance_balance + "元");
 
-        AccountLog accountLog = new AccountLog(userId,cardId,employeeId,operationType,description.toString());
+        AccountLog accountLog = new AccountLog(userId,cardId,employee,operationType,description.toString());
         accountLogRepository.save(accountLog);
 
         logger.info(accountLog.toString());

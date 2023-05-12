@@ -25,7 +25,7 @@ public class AccountLog {
     @Column(nullable = false)
     private long cardId;
 
-    private long employeeId;
+//    private long employeeId;
 
     @OneToOne
     @JoinColumn(name = "employeeId")
@@ -40,18 +40,35 @@ public class AccountLog {
     @Column(nullable = false)
     private Date date;
 
-    public AccountLog(Long userId, Long employeeId, String operationType, String description) {
+//    public AccountLog(Long userId, Long employeeId, String operationType, String description) {
+//        this.userId = userId;
+//        this.employeeId = employeeId;
+//        this.operationType = operationType;
+//        this.description = description;
+//        this.date = new Date();
+//    }
+//
+//    public AccountLog(Long userId, long cardId, Long employeeId, String operationType, String description) {
+//        this.userId = userId;
+//        this.cardId = cardId;
+//        this.employeeId = employeeId;
+//        this.operationType = operationType;
+//        this.description = description;
+//        this.date = new Date();
+//    }
+
+    public AccountLog(Long userId, Employee employee, String operationType, String description) {
         this.userId = userId;
-        this.employeeId = employeeId;
+        this.employee = employee;
         this.operationType = operationType;
         this.description = description;
         this.date = new Date();
     }
 
-    public AccountLog(Long userId, long cardId, Long employeeId, String operationType, String description) {
+    public AccountLog(Long userId, long cardId, Employee employee, String operationType, String description) {
         this.userId = userId;
         this.cardId = cardId;
-        this.employeeId = employeeId;
+        this.employee = employee;
         this.operationType = operationType;
         this.description = description;
         this.date = new Date();

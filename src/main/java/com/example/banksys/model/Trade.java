@@ -1,7 +1,5 @@
 package com.example.banksys.model;
 
-import jakarta.annotation.Generated;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -22,8 +20,11 @@ public class Trade {
     @Column(nullable = false)
     private Long cardId;
 
-    @Column(nullable = true)
-    private Long employeeId;
+//    @Column(nullable = true)
+//    private Long employeeId;
+
+    @OneToOne
+    private Employee employee;
 
     @Column(length = 16, nullable = false)
     private String tradeType;
@@ -43,27 +44,27 @@ public class Trade {
 
     }
 
-    public Trade(Long cardId, Long employeeId, String tradeType, double money, Date tradeDate) {
+    public Trade(Long cardId, Employee employee, String tradeType, double money, Date tradeDate) {
         this.cardId = cardId;
-        this.employeeId = employeeId;
+        this.employee = employee;
         this.tradeType = tradeType;
         this.money = money;
         this.expireDate = tradeDate;
         this.tradeDate = tradeDate;
     }
 
-    public Trade(Long cardId, Long employeeId, String tradeType, double money, Date expireDate, Date tradeDate) {
+    public Trade(Long cardId, Employee employee, String tradeType, double money, Date expireDate, Date tradeDate) {
         this.cardId = cardId;
-        this.employeeId = employeeId;
+        this.employee = employee;
         this.tradeType = tradeType;
         this.money = money;
         this.expireDate = expireDate;
         this.tradeDate = tradeDate;
     }
 
-    public Trade(Long cardId, Long employeeId, String tradeType, double money, Date tradeDate, Long transferCardId) {
+    public Trade(Long cardId, Employee employeeId, String tradeType, double money, Date tradeDate, Long transferCardId) {
         this.cardId = cardId;
-        this.employeeId = employeeId;
+        this.employee = employeeId;
         this.tradeType = tradeType;
         this.money = money;
         this.expireDate = tradeDate;

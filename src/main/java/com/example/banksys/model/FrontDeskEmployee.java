@@ -22,6 +22,6 @@ public class FrontDeskEmployee extends Employee {
 
     @Override
     public List<AccountLog> findReport() {
-        return accountLogRepository.findAllByEmployeeId(getEmployeeId());
+        return accountLogRepository.findAllByEmployee(this);
     }
 }

@@ -26,7 +26,7 @@ public class EnterpriseCurrentUserAccount extends EnterpriseUserAccount implemen
 
     @Override
     public double depositByEmployee(double money, Long employeeId) {
-        return BLLUtil.currentDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, employeeId);
+        return BLLUtil.currentDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee());
     }
 
     @Override

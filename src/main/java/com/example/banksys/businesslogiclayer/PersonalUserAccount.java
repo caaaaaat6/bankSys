@@ -40,7 +40,7 @@ public abstract class PersonalUserAccount extends BaseAccount {
     public double withdraw(double money) throws WithdrawException {
         double balance = personalCard.withdraw(money);
         personalCardRepository.save(personalCard);
-        Trade trade = new Trade(personalCard.getCardId(), employeeId, Trade.TradeType.WITHDRAW, money, new Date());
+        Trade trade = new Trade(personalCard.getCardId(), getEmployee(), Trade.TradeType.WITHDRAW, money, new Date());
         tradeRepository.save(trade);
         return balance;
     }

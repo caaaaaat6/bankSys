@@ -40,7 +40,7 @@ public class CloseAccountMonitor {
         double oldBalance = account.getCard().getBalance();
         description.append("销户前余额：" + oldBalance + "元\n");
 
-        AccountLog log = new AccountLog(userId, cardId, account.getEmployeeId(), operationType, description.toString());
+        AccountLog log = new AccountLog(userId, cardId, account.getEmployee(), operationType, description.toString());
         accountLogRepository.save(log);
 
         // 后台输出日志

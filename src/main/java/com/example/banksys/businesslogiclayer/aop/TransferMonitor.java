@@ -3,6 +3,7 @@ package com.example.banksys.businesslogiclayer.aop;
 import com.example.banksys.businesslogiclayer.BaseAccount;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
 import jakarta.persistence.PersistenceContext;
 import org.aspectj.lang.JoinPoint;
@@ -37,7 +38,7 @@ public class TransferMonitor {
         Card fromCard = account.getCard();
         long userId = fromCard.getUserId();
         long cardId = fromCard.getCardId();
-        Long employeeId = account.getEmployeeId();
+        Employee employee = account.getEmployee();
         String operationType = AccountLog.OperationType.TRANSFER;
         StringBuilder description = new StringBuilder();
 
@@ -54,7 +55,7 @@ public class TransferMonitor {
         description.append("转入卡的转前余额：" + oldBalanceTransferIn + "\n");
         description.append("转入卡的转后余额：" + newBalanceTransferIn + "\n");
 
-        AccountLog accountLog = new AccountLog(userId,cardId,employeeId,operationType,description.toString());
+        AccountLog accountLog = new AccountLog(userId,cardId,employee,operationType,description.toString());
         accountLogRepository.save(accountLog);
 
         logger.info(accountLog.toString());

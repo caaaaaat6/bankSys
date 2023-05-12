@@ -6,6 +6,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExsitExcep
 import com.example.banksys.businesslogiclayer.exception.FiveEnterpriseAccountOpenedException;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.log.AccountLog;
@@ -35,10 +36,11 @@ public class OpenAccountMonitor {
     /**
      * 个人用户开户后的日志切面
      * @param joinPoint
+     * @param employee
      */
     @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.PersonalUserAccount+.openAccount(..)) " +
-            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employeeId)", returning = "cardId")
-    public void afterReturningPersonalOpenAccountLog(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId, Long cardId) {
+            " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")
+    public void afterReturningPersonalOpenAccountLog(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee, Long cardId) {
         String operationType = AccountLog.OperationType.OPEN;
         StringBuilder description = new StringBuilder();
 
@@ -46,7 +48,7 @@ public class OpenAccountMonitor {
         description.append("账户类型：" + userType + "\n");
         description.append("定期活期：" + cardType + "\n");
 
-        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
+        AccountLog log = new AccountLog(userId, cardId, employee, operationType, description.toString());
         accountLogRepository.save(log);
 
         // 后台输出日志
@@ -90,8 +92,8 @@ public class OpenAccountMonitor {
      *  企业用户开户日志
      */
     @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
-            " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId)", returning = "cardId")
-    public void afterReturningOpen(JoinPoint joinPoint,long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long cardId, Long employeeId) {
+            " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")
+    public void afterReturningOpen(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long cardId, Employee employee) {
         String operationType = AccountLog.OperationType.OPEN;
         StringBuilder description = new StringBuilder();
 
@@ -99,7 +101,7 @@ public class OpenAccountMonitor {
         description.append("账户类型：" + Card.UserType.ENTERPRISE + "\n");
         description.append("定期活期：" + cardType + "\n");
 
-        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
+        AccountLog log = new AccountLog(userId, cardId, employee, operationType, description.toString());
         accountLogRepository.save(log);
 
         // 后台输出日志

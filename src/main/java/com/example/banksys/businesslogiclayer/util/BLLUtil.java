@@ -3,6 +3,7 @@ package com.example.banksys.businesslogiclayer.util;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.TradeRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Trade;
 
 import java.util.Calendar;
@@ -27,11 +28,11 @@ public class BLLUtil {
         return newBalance;
     }
 
-    public static double currentDepositByEmployee(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, Long employeeId) {
+    public static double currentDepositByEmployee(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, Employee employee) {
         double newBalance = card.deposit(money);
         cardRepository.save(card);
 
-        Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.CURRENT, money, new Date());
+        Trade trade = new Trade(card.getCardId(), employee, Trade.TradeType.CURRENT, money, new Date());
         tradeRepository.save(trade);
         return newBalance;
     }
@@ -47,13 +48,13 @@ public class BLLUtil {
         return newBalance;
     }
 
-    public static double fixedDepositByEmployee(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, Long employeeId, int depositDays) {
+    public static double fixedDepositByEmployee(CardRepository cardRepository, TradeRepository tradeRepository, Card card, double money, Employee employee, int depositDays) {
         double newBalance = card.deposit(money);
         cardRepository.save(card);
 
         Date expireDate = getExpireDate(depositDays);
 
-        Trade trade = new Trade(card.getCardId(), employeeId, Trade.TradeType.FIXED, money, expireDate, new Date());
+        Trade trade = new Trade(card.getCardId(), employee, Trade.TradeType.FIXED, money, expireDate, new Date());
         tradeRepository.save(trade);
         return newBalance;
     }

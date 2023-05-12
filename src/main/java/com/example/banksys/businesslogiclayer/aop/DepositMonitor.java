@@ -8,6 +8,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMon
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.log.AccountLog;
@@ -42,7 +43,7 @@ public class DepositMonitor {
         Card card = account.getCard();
         long userId = card.getUserId();
         long cardId = card.getCardId();
-        Long employeeId = account.getEmployeeId();
+        Employee employee = account.getEmployee();
         String operationType = "";
         StringBuilder description = new StringBuilder();
 
@@ -65,7 +66,7 @@ public class DepositMonitor {
         description.append("存后余额：" + card.getBalance() + "元");
 
         // 保存日志
-        AccountLog log = new AccountLog(userId, cardId, employeeId, operationType, description.toString());
+        AccountLog log = new AccountLog(userId, cardId, employee, operationType, description.toString());
         accountLogRepository.save(log);
 
         // 后台输出日志

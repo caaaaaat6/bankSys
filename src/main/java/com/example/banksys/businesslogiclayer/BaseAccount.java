@@ -106,8 +106,13 @@ public abstract class BaseAccount implements BaseAccountRight{
     }
 
     @Override
-    public double closeAccount() throws WithdrawException {
-        double balance = getCard().withdraw(getCard().getBalance());
+    public double closeAccount() {
+        double balance = 0;
+        try {
+            balance = getCard().withdraw(getCard().getBalance());
+        } catch (WithdrawException e) {
+            e.printStackTrace();
+        }
 
         // 删除卡的信息
         getCardRepository().delete(getCard());

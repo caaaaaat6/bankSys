@@ -90,7 +90,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
     }
 
     @Override
-    public double closeAccount() throws WithdrawException {
+    public double closeAccount()  {
 
         double balance =  super.closeAccount();
 

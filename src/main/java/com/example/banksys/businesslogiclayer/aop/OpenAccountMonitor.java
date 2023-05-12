@@ -1,6 +1,6 @@
 package com.example.banksys.businesslogiclayer.aop;
 
-import com.example.banksys.businesslogiclayer.EnterpriseUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMoneyNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExsitException;
 import com.example.banksys.businesslogiclayer.exception.FiveEnterpriseAccountOpenedException;
@@ -38,7 +38,7 @@ public class OpenAccountMonitor {
      * @param joinPoint
      * @param employee
      */
-    @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.PersonalUserAccount+.openAccount(..)) " +
+    @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount+.openAccount(..)) " +
             " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")
     public void afterReturningPersonalOpenAccountLog(JoinPoint joinPoint, long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee, Long cardId) {
         String operationType = AccountLog.OperationType.OPEN;
@@ -59,7 +59,7 @@ public class OpenAccountMonitor {
      * 企业用户开户前的切面
      * @throws EnterpriseAccountOpenMoneyNotEnoughException
      */
-    @Before(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
+    @Before(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId)")
     public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException, EnterpriseCardExsitException {
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
@@ -91,7 +91,7 @@ public class OpenAccountMonitor {
     /**
      *  企业用户开户日志
      */
-    @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
+    @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")
     public void afterReturningOpen(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long cardId, Employee employee) {
         String operationType = AccountLog.OperationType.OPEN;

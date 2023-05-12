@@ -1,6 +1,10 @@
 package com.example.banksys.config;
 
-import com.example.banksys.businesslogiclayer.*;
+import com.example.banksys.businesslogiclayer.employeeaccount.CurrentHeadEmployeeAccount;
+import com.example.banksys.businesslogiclayer.employeeaccount.FixedHeadEmployeeAccount;
+import com.example.banksys.businesslogiclayer.employeeaccount.FrontDeskEmployeeAccount;
+import com.example.banksys.businesslogiclayer.employeeaccount.ManagerEmployeeAccount;
+import com.example.banksys.businesslogiclayer.useraccount.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -53,4 +57,29 @@ public class BLLConfig {
     public VIPCurrentUserAccount getVIPCurrentUserAccount() {
         return new VIPCurrentUserAccount();
     }
+
+    @Bean
+    @Scope(value = "prototype")
+    public CurrentHeadEmployeeAccount getCurrentHeadEmployeeAccount() {
+        return new CurrentHeadEmployeeAccount();
+    }
+
+    @Bean
+    @Scope(value = "prototype")
+    public FixedHeadEmployeeAccount getFixedHeadEmployeeAccount() {
+        return new FixedHeadEmployeeAccount();
+    }
+
+    @Bean
+    @Scope(value = "prototype")
+    public ManagerEmployeeAccount getManagerEmployeeAccount() {
+        return new ManagerEmployeeAccount();
+    }
+
+    @Bean
+    @Scope(value = "prototype")
+    public FrontDeskEmployeeAccount getFrontDeskEmployeeAccount() {
+        return new FrontDeskEmployeeAccount();
+    }
+
 }

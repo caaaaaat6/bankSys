@@ -1,16 +1,15 @@
-package com.example.banksys.businesslogiclayer;
+package com.example.banksys.businesslogiclayer.useraccount;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-@Data
-@NoArgsConstructor(force = true)
-public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrentAccountRight {
+@EnableAspectJAutoProxy(exposeProxy = true)
+public class OrdinaryFixedUserAccount extends OrdinaryUserAccount implements BaseFixedAccountRight {
+
 
     @Override
     public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
@@ -18,13 +17,13 @@ public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrent
     }
 
     @Override
-    public double deposit(double money) {
-        return BLLUtil.currentDeposit(getCardRepository(), getTradeRepository(), getCard(), money);
+    public double deposit(double money, int depositDays) {
+        return BLLUtil.fixedDeposit(getCardRepository(), getTradeRepository(), getCard(), money, depositDays);
     }
 
     @Override
-    public double depositByEmployee(double money, Long employeeId) {
-        return BLLUtil.currentDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee());
+    public double depositByEmployee(double money, int depositDays, Long employeeId) {
+        return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee(), depositDays);
     }
 
     @Override

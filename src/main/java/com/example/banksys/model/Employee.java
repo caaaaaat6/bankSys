@@ -1,5 +1,6 @@
 package com.example.banksys.model;
 
+import com.example.banksys.businesslogiclayer.employeeaccount.EmployeeRight;
 import com.example.banksys.model.log.AccountLog;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 //@DiscriminatorValue(Employee.EmployeeType.FRONT_DESK)
 @Data
 @NoArgsConstructor(force = true)
-public abstract class Employee implements EmployeeRight {
+public class Employee implements EmployeeRight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +47,10 @@ public abstract class Employee implements EmployeeRight {
     @Override
     public void changePassword() {
 
+    }
+
+    @Override
+    public List<AccountLog> findReport() {
+        return null;
     }
 }

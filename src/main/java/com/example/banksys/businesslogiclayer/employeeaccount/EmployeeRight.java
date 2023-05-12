@@ -1,5 +1,6 @@
-package com.example.banksys.model;
+package com.example.banksys.businesslogiclayer.employeeaccount;
 
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
 
 import java.util.List;

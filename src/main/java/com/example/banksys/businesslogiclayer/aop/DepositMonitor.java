@@ -1,18 +1,13 @@
 package com.example.banksys.businesslogiclayer.aop;
 
-import com.example.banksys.businesslogiclayer.BaseAccount;
-import com.example.banksys.businesslogiclayer.BaseCurrentAccountRight;
-import com.example.banksys.businesslogiclayer.BaseFixedAccountRight;
-import com.example.banksys.businesslogiclayer.EnterpriseUserAccount;
-import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMoneyNotEnoughException;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
+import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
+import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Employee;
-import com.example.banksys.model.Enterprise;
-import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.log.AccountLog;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
@@ -21,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Aspect
 @Component
@@ -32,8 +26,8 @@ public class DepositMonitor {
     @Autowired
     private AccountLogRepository accountLogRepository;
 
-    @Around("execution(* com.example.banksys.businesslogiclayer.BaseCurrentAccountRight+.deposit*(..))" +
-            " || execution(* com.example.banksys.businesslogiclayer.BaseFixedAccountRight+.deposit*(..)) ")
+    @Around("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight+.deposit*(..))" +
+            " || execution(* com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight+.deposit*(..)) ")
     public Object aroundDeposit(ProceedingJoinPoint joinPoint) throws Throwable {
         BaseAccount account = (BaseAccount) joinPoint.getTarget();
         Object[] args = joinPoint.getArgs();

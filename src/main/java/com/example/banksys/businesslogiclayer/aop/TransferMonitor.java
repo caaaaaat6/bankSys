@@ -1,14 +1,11 @@
 package com.example.banksys.businesslogiclayer.aop;
 
-import com.example.banksys.businesslogiclayer.BaseAccount;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
-import jakarta.persistence.PersistenceContext;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -26,10 +23,10 @@ public class TransferMonitor {
     @Autowired
     AccountLogRepository accountLogRepository;
 
-    @Pointcut("execution(* com.example.banksys.businesslogiclayer.BaseAccount+.transferMoneyTo(..))")
+    @Pointcut("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.transferMoneyTo(..))")
     public void transfer() {}
 
-    @Around("execution(* com.example.banksys.businesslogiclayer.BaseAccount+.transferMoneyTo(..))" +
+    @Around("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.transferMoneyTo(..))" +
             " && args(toCard, money)")
     public Object transferLog(ProceedingJoinPoint proceedingJoinPoint, Card toCard, double money) throws Throwable {
         BaseAccount account = (BaseAccount) proceedingJoinPoint.getTarget();

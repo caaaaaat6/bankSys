@@ -1,4 +1,4 @@
-package com.example.banksys.businesslogiclayer;
+package com.example.banksys.businesslogiclayer.useraccount;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
@@ -9,7 +9,6 @@ import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseCard;
 import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.model.log.AccountLog;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
     Logger logger = LoggerFactory.getLogger(EnterpriseUserAccount.class);
 
     public void setEnterpriseCard(EnterpriseCard enterpriseCard) {
-        this.card = enterpriseCard;
+        setCard(enterpriseCard);
         this.enterpriseCard = enterpriseCard;
     }
 

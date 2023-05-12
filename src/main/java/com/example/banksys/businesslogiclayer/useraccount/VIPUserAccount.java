@@ -1,4 +1,4 @@
-package com.example.banksys.businesslogiclayer;
+package com.example.banksys.businesslogiclayer.useraccount;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.model.Card;

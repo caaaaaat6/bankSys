@@ -1,4 +1,4 @@
-package com.example.banksys.businesslogiclayer;
+package com.example.banksys.businesslogiclayer.useraccount;
 
 // 职员的活期权限
 public interface BaseCurrentAccountRight extends BaseAccountRight {

@@ -1,16 +1,13 @@
 package com.example.banksys.businesslogiclayer.aop;
 
-import com.example.banksys.businesslogiclayer.BaseAccount;
-import com.example.banksys.businesslogiclayer.VIPUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
+import com.example.banksys.businesslogiclayer.useraccount.VIPUserAccount;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.log.AccountLog;
-import jakarta.persistence.PersistenceContext;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +23,7 @@ public class WithdrawMonitor {
     @Autowired
     AccountLogRepository accountLogRepository;
 
-    @Pointcut(value = "execution(* com.example.banksys.businesslogiclayer.BaseAccount+.withdraw(..))")
+    @Pointcut(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.withdraw(..))")
     public void withdraw() {
 
     }

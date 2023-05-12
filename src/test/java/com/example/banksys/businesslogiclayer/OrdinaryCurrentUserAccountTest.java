@@ -1,6 +1,10 @@
 package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
+import com.example.banksys.businesslogiclayer.useraccount.EnterpriseCurrentUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.EnterpriseFixedUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.OrdinaryCurrentUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.OrdinaryUserAccount;
 import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.model.Card;
 import org.junit.jupiter.api.Assertions;

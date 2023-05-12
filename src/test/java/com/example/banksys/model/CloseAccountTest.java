@@ -1,8 +1,8 @@
 package com.example.banksys.model;
 
-import com.example.banksys.businesslogiclayer.EnterpriseFixedUserAccount;
-import com.example.banksys.businesslogiclayer.PersonalUserAccount;
-import com.example.banksys.businesslogiclayer.VIPCurrentUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.EnterpriseFixedUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.VIPCurrentUserAccount;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Exception.WithdrawException;
 import org.junit.jupiter.api.BeforeEach;

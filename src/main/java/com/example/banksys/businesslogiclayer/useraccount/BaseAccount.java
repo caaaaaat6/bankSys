@@ -1,4 +1,4 @@
-package com.example.banksys.businesslogiclayer;
+package com.example.banksys.businesslogiclayer.useraccount;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
@@ -38,7 +38,7 @@ public abstract class BaseAccount implements BaseAccountRight{
 
 //    protected Long employeeId = null;
 
-    protected Card card;
+    private Card card;
 
     @Autowired
     protected UserRepository userRepository;

@@ -1,4 +1,4 @@
-package com.example.banksys.businesslogiclayer;
+package com.example.banksys.businesslogiclayer.useraccount;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
@@ -7,16 +7,14 @@ import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Data
 @NoArgsConstructor(force = true)
-//@Service
-public class EnterpriseCurrentUserAccount extends EnterpriseUserAccount implements BaseCurrentAccountRight {
+public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrentAccountRight {
 
     @Override
-    public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
-        return super.openEnterpriseAccount(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId);
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+        return super.openAccount(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employeeId);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class EnterpriseCurrentUserAccount extends EnterpriseUserAccount implemen
     }
 
     @Override
-    public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
+    public double withdraw(double money) throws WithdrawException {
         return super.withdraw(money);
     }
 

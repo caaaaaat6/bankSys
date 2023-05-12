@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Login and Signup</title>
+</head>
+<body>
+<h1>Bank Login and Signup</h1>
+
+
+
+<h2>Personal User Login Without password</h2>
+
+<a href="/users/personal/">Go to Personal User Page</a>
+
+<!--<form method="post" th:action="@{/login/personal}">-->
+<!--    -->
+<!--    -->
+<!--    <label for="personal-username">Username:</label>-->
+<!--    <input type="text" id="personal-username" name="username">-->
+<!--    <br>-->
+<!--    <label for="personal-password">Password:</label>-->
+<!--    <input type="password" id="personal-password" name="password">-->
+<!--    <br>-->
+<!--    <input type="submit" value="Login">-->
+<!--</form>-->
+
+<h2>Enterprise User Login</h2>
+<form method="post" th:action="@{/login/enterprise}">
+    <label for="enterprise-username">Username:</label>
+    <input type="text" id="enterprise-username" name="username">
+    <br>
+    <label for="enterprise-password">Password:</label>
+    <input type="password" id="enterprise-password" name="password">
+    <br>
+    <input type="submit" value="Login">
+</form>
+
+<!--<h2>Personal User Signup</h2>-->
+<!--<form method="post" th:action="@{/signup/personal}">-->
+<!--    <label for="personal-username">Username:</label>-->
+<!--    <input type="text" id="personal-username" name="username">-->
+<!--    <br>-->
+<!--    <label for="personal-password">Password:</label>-->
+<!--    <input type="password" id="personal-password" name="password">-->
+<!--    <br>-->
+<!--    <label for="personal-email">Email:</label>-->
+<!--    <input type="email" id="personal-email" name="email">-->
+<!--    <br>-->
+<!--    <input type="submit" value="Signup">-->
+<!--</form>-->
+
+<!--<h2>Enterprise User Signup</h2>-->
+<!--<form method="post" th:action="@{/signup/enterprise}">-->
+<!--    <label for="enterprise-username">Username:</label>-->
+<!--    <input type="text" id="enterprise-username" name="username">-->
+<!--    <br>-->
+<!--    <label for="enterprise-password">Password:</label>-->
+<!--    <input type="password" id="enterprise-password" name="password">-->
+<!--    <br>-->
+<!--    <label for="enterprise-email">Email:</label>-->
+<!--    <input type="email" id="enterprise-email" name="email">-->
+<!--    <br>-->
+<!--    <label for="enterprise-company-name">Company Name:</label>-->
+<!--    <input type="text" id="enterprise-company-name" name="companyName">-->
+<!--    <br>-->
+<!--    <input type="submit" value="Signup">-->
+<!--</form>-->
+</body>
+</html>

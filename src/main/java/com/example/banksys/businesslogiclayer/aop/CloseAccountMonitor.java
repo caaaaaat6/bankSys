@@ -1,12 +1,9 @@
 package com.example.banksys.businesslogiclayer.aop;
 
-import com.example.banksys.businesslogiclayer.BaseAccount;
-import com.example.banksys.businesslogiclayer.VIPUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
-import com.example.banksys.model.Card;
 import com.example.banksys.model.log.AccountLog;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -24,7 +21,7 @@ public class CloseAccountMonitor {
     @Autowired
     AccountLogRepository accountLogRepository;
 
-    @Pointcut("execution(* com.example.banksys.businesslogiclayer.BaseAccount+.closeAccount())")
+    @Pointcut("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.closeAccount())")
     public void closeAccount() {}
 
     @Before("execution(* closeAccount())")

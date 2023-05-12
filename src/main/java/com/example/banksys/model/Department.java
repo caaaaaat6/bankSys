@@ -1,9 +1,9 @@
 package com.example.banksys.model;
 
+import com.example.banksys.model.Employee;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -19,6 +19,6 @@ public class Department {
 
     private String departmentName;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Employee> employeeList;
 }

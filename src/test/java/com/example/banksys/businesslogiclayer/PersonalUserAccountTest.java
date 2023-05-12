@@ -2,6 +2,9 @@ package com.example.banksys.businesslogiclayer;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
+import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
+import com.example.banksys.businesslogiclayer.useraccount.OrdinaryFixedUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
@@ -61,6 +64,6 @@ class PersonalUserAccountTest {
      */
     @Test
     void transferMoneyToTestNestedMethodAopInSameClass() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
-        personalUserAccount.transferMoneyTo(personalUserAccount.card, 1);
+        personalUserAccount.transferMoneyTo(personalUserAccount.getCard(), 1);
     }
 }

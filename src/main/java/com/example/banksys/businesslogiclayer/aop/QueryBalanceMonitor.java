@@ -1,13 +1,11 @@
 package com.example.banksys.businesslogiclayer.aop;
 
-import com.example.banksys.businesslogiclayer.BaseAccount;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.AccountLogRepository;
-import com.example.banksys.dataaccesslayer.TradeRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -25,7 +23,7 @@ public class QueryBalanceMonitor {
     @Autowired
     AccountLogRepository accountLogRepository;
 
-    @Pointcut("execution(* com.example.banksys.businesslogiclayer.BaseAccount+.queryBalance(..))")
+    @Pointcut("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.queryBalance(..))")
     public void queryBalance(){}
 
     @AfterReturning(value = "execution(* queryBalance())", returning = "desirableBalance_balance")

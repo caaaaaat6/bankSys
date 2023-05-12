@@ -1,8 +1,8 @@
 package com.example.banksys.model;
 
-import com.example.banksys.businesslogiclayer.BaseAccount;
-import com.example.banksys.businesslogiclayer.PersonalUserAccount;
-import com.example.banksys.businesslogiclayer.VIPCurrentUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
+import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
+import com.example.banksys.businesslogiclayer.useraccount.VIPCurrentUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;

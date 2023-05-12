@@ -41,4 +41,9 @@ public class VIPCurrentUserAccount extends VIPUserAccount implements BaseCurrent
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         return super.transferMoneyTo(toCard, money);
     }
+
+    @Override
+    public double closeAccount() {
+        return super.closeAccount();
+    }
 }

@@ -37,6 +37,9 @@ public class CloseAccountTest {
     @Autowired
     VIPCurrentUserAccount vipCurrentUserAccount;
 
+    @Autowired
+    AccountLogRepository accountLogRepository;
+
     PersonalUserAccount personalUserAccount;
 
     PersonalCard personalCard;
@@ -89,5 +92,14 @@ public class CloseAccountTest {
         Optional<PersonalCard> deletedPersonalCard = personalCardRepository.findById(personalCardId);
 
         assert deletedUser.isEmpty() && deletedPersonalCard.isEmpty();
+    }
+
+    @Test
+    void closeAccountLogTest() {
+        Long userId = user.getUserId();
+
+        personalUserAccount.closeAccount();
+
+        assert accountLogRepository.findFirstByOrderByLogIdDesc().get().getCardId() == 30;
     }
 }

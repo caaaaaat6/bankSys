@@ -41,4 +41,9 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         return super.transferMoneyTo(toCard, money);
     }
+
+    @Override
+    public double closeAccount() {
+        return super.closeAccount();
+    }
 }

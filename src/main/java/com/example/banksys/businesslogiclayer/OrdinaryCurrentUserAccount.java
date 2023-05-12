@@ -37,4 +37,9 @@ public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements B
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         return super.transferMoneyTo(toCard, money);
     }
+
+    @Override
+    public double closeAccount() {
+        return super.closeAccount();
+    }
 }

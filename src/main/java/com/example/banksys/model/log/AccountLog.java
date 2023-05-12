@@ -1,5 +1,6 @@
 package com.example.banksys.model.log;
 
+import com.example.banksys.model.Employee;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,11 @@ public class AccountLog {
     @Column(nullable = false)
     private long cardId;
 
-    private Long employeeId;
+    private long employeeId;
+
+    @OneToOne
+    @JoinColumn(name = "employeeId")
+    private Employee employee;
 
     @Column(length = 64, nullable = false)
     private String operationType;

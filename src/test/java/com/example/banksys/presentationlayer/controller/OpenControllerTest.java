@@ -1,0 +1,64 @@
+package com.example.banksys.presentationlayer.controller;
+
+import com.example.banksys.dataaccesslayer.PersonalCardRepository;
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class OpenControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Mock//如果该对象需要mock，则加上此Annotate，在这里我们就是要模拟testService的query()行为
+    private PersonalCardRepository personalCardRepository;
+
+    @InjectMocks//使mock对象的使用类可以注入mock对象,在这里myController使用了testService（mock对象）,所以在MyController此加上此Annotate
+    OpenController myController;
+
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(myController).build();//这个对象是Controller单元测试的关键
+    }
+
+    @Test
+    public void testQueryDataFromController() throws Exception{
+        //静态引入使得很像人类的语言，当...然后返回...
+//        when(personalCardRepository.query("code-1001","name-wangxindong")).thenReturn("成功");//这里模拟行为，返回"成功" 而不是原始的"test-code-name"
+
+        mockMvc.perform(post("/users/personal/open")
+                        .param("userName","张三丰")
+                        .param("userPid","111111200001020001X")
+                        .param("password", "123456")
+                        .param("confirm", "123456"))
+                .andDo(print());
+//               .andExpect(status().isOk()).andExpect(content().string(is("{\"status\":\""+ result + "\"}")));
+
+//        verify(testService).query("code-1001","name-wangxindong");
+
+    }
+
+
+}

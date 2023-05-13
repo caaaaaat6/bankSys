@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Open Personal Account</title>
+<!--    <title>个人开户 open</title>-->
+</head>
+
+<body>
+<h1>Open Personal Account</h1>
+<!--<h1>个人开户</h1>-->
+
+<form method="POST" th:action="@{/open}" id="openForm">
+
+    <label for="userName">姓名: </label>
+    <input type="text" name="姓名"/><br/>
+
+    <label for="userPid">身份证号码: </label>
+    <input type="text" name="身份证号码"/><br/>
+
+<!--    <label for="userType">用户类型: </label>-->
+<!--    <input type="radio" name="普通个人用户" checked>-->
+
+    <label for="password">密码: </label>
+    <input type="password" name="密码"/><br/>
+
+    <label for="confirm">确认密码: </label>
+    <input type="password" name="确认密码"/><br/>
+
+
+    <input type="submit" value="Register"/>
+</form>
+</body>
+</html>

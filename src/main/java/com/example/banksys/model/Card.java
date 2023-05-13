@@ -4,6 +4,12 @@ import com.example.banksys.model.Exception.WithdrawException;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 @Entity
 @Table(name = "Card")
@@ -12,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Inheritance
 @Data
 @NoArgsConstructor(force = true)
-public class Card {
+public class Card implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +57,36 @@ public class Card {
         this.cardType = cardType;
         this.openMoney = openMoney;
         this.balance = openMoney;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return getCardId() + "";
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public static class UserType {

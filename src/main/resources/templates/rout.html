@@ -2,16 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bank Login and Signup</title>
+    <title>银行系统分流页面</title>
 </head>
 <body>
-<h1>Bank Login and Signup</h1>
+<h1>银行系统分流页面</h1>
 
+<h2>个人用户无需登录</h2>
 
-
-<h2>Personal User Login Without password</h2>
-
-<a href="/users/personal/">Go to Personal User Page</a>
+<a href="/users/personal/">前往个人用户界面</a>
 
 <!--<form method="post" th:action="@{/login/personal}">-->
 <!--    -->
@@ -25,16 +23,18 @@
 <!--    <input type="submit" value="Login">-->
 <!--</form>-->
 
-<h2>Enterprise User Login</h2>
-<form method="post" th:action="@{/login/enterprise}">
-    <label for="enterprise-username">Username:</label>
-    <input type="text" id="enterprise-username" name="username">
-    <br>
-    <label for="enterprise-password">Password:</label>
-    <input type="password" id="enterprise-password" name="password">
-    <br>
-    <input type="submit" value="Login">
-</form>
+<h2>企业用户登录及开户</h2>
+
+<a href="/users/enterprise/">前往企业用户页面</a>
+<!--<form method="post" th:action="@{/login/enterprise}">-->
+<!--    <label for="enterprise-username">Username:</label>-->
+<!--    <input type="text" id="enterprise-username" name="username">-->
+<!--    <br>-->
+<!--    <label for="enterprise-password">Password:</label>-->
+<!--    <input type="password" id="enterprise-password" name="password">-->
+<!--    <br>-->
+<!--    <input type="submit" value="Login">-->
+<!--</form>-->
 
 <!--<h2>Personal User Signup</h2>-->
 <!--<form method="post" th:action="@{/signup/personal}">-->
@@ -66,5 +66,9 @@
 <!--    <br>-->
 <!--    <input type="submit" value="Signup">-->
 <!--</form>-->
+
+<h2>银行雇员登录及注册</h2>
+
+<a href="/employee/">前往银行雇员页面</a>
 </body>
 </html>

@@ -1,5 +1,7 @@
 server:
   port: 8888
+#  error:
+#    include-binding-errors: always
 
 spring:
   datasource:
@@ -31,3 +33,7 @@ spring:
     user:
       name: admin
       password: admin
+
+logging:
+  file:
+    name: spring-boot-log

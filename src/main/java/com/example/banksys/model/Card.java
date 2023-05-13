@@ -20,6 +20,8 @@ import java.util.Collection;
 @NoArgsConstructor(force = true)
 public class Card implements UserDetails {
 
+    public static final String TEST = "test";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cardId;

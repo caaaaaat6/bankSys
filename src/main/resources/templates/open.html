@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      >
 <head>
     <title>Open Personal Account</title>
 <!--    <title>个人开户 open</title>-->
@@ -10,24 +12,52 @@
 <h1>Open Personal Account</h1>
 <!--<h1>个人开户</h1>-->
 
-<form method="POST" th:action="@{/open}" id="openForm">
+<form method="POST" th:action="@{/users/personal/open}" id="openForm" th:object="${openForm}">
 
+<!--    <label for="userName">姓名: </label>-->
+    <!--    <input type="text" /><br/>-->
     <label for="userName">姓名: </label>
-    <input type="text" name="姓名"/><br/>
+    <input type="text" th:field="*{userName}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('userName')}"
+          th:errors="*{userName}">Invalid user name</span><br/>
 
     <label for="userPid">身份证号码: </label>
-    <input type="text" name="身份证号码"/><br/>
+    <input type="text" th:field="*{userPid}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('userPid')}"
+          th:errors="*{userPid}">Invalid user pid</span><br/>
 
-<!--    <label for="userType">用户类型: </label>-->
-<!--    <input type="radio" name="普通个人用户" checked>-->
+    <label for="userType">用户类型: </label><br/>
+    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).ORDINARY}" checked>普通个人用户<br/>
+    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).VIP}">vip个人用户<br/>
+
+    <label for="cardType">账户类型: </label><br/>
+    <input type="radio" name="cardType" th:value="${T(com.example.banksys.model.Card.CardType).CURRENT}" checked>活期账户<br/>
+    <input type="radio" name="cardType" th:value="${T(com.example.banksys.model.Card.CardType).FIXED}">定期账户<br/>
+
+    <label for="openMoney">开户金额: </label>
+    <input type="text" th:field="*{openMoney}"/><br/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('openMoney')}"
+          th:errors="*{openMoney}">Invalid open money</span><br/>
 
     <label for="password">密码: </label>
-    <input type="password" name="密码"/><br/>
+    <input type="password" th:field="*{password}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('password')}"
+          th:errors="*{password}">Invalid open money</span><br/>
 
     <label for="confirm">确认密码: </label>
-    <input type="password" name="确认密码"/><br/>
+    <input type="password" th:field="*{confirm}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('confirm')}"
+          th:errors="*{confirm}">Password validation failed</span>
+    <br/>
 
-
+    <span th:if="${#fields.hasGlobalErrors()}"
+          th:text="${#fields.globalErrors()[0]}"
+          class="error-message"></span><br/>
     <input type="submit" value="Register"/>
 </form>
 </body>

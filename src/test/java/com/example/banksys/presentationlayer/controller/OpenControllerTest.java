@@ -1,7 +1,10 @@
 package com.example.banksys.presentationlayer.controller;
 
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
+import com.example.banksys.model.Card;
+import com.example.banksys.model.PersonalCard;
 import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -9,8 +12,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
@@ -25,12 +32,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class OpenControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock//如果该对象需要mock，则加上此Annotate，在这里我们就是要模拟testService的query()行为
+    @Autowired//如果该对象需要mock，则加上此Annotate，在这里我们就是要模拟testService的query()行为
     private PersonalCardRepository personalCardRepository;
 
     @InjectMocks//使mock对象的使用类可以注入mock对象,在这里myController使用了testService（mock对象）,所以在MyController此加上此Annotate
@@ -51,13 +59,39 @@ public class OpenControllerTest {
         mockMvc.perform(post("/users/personal/open")
                         .param("userName","张三丰")
                         .param("userPid","111111200001020001X")
+                        .param("userType", Card.UserType.ORDINARY)
+                        .param("cardType", Card.CardType.CURRENT)
+                        .param("openMoney","0")
                         .param("password", "123456")
-                        .param("confirm", "123456"))
+                        .param("confirm", "11"))
+
                 .andDo(print());
 //               .andExpect(status().isOk()).andExpect(content().string(is("{\"status\":\""+ result + "\"}")));
 
 //        verify(testService).query("code-1001","name-wangxindong");
 
+    }
+
+    @Test
+    public void openPersonalAccountSuccessTest() throws Exception{
+        //静态引入使得很像人类的语言，当...然后返回...
+        //这里模拟行为，返回"成功" 而不是原始的"test-code-name"
+
+        mockMvc.perform(post("/users/personal/open")
+                        .param("userName","张三丰")
+                        .param("userPid","11111120000102001X")
+                        .param("userType", Card.UserType.ORDINARY)
+                        .param("cardType", Card.CardType.CURRENT)
+                        .param("openMoney","0")
+                        .param("password", "123456")
+                        .param("confirm", "123456"))
+
+                .andDo(print());
+//               .andExpect(status().isOk()).andExpect(content().string(is("{\"status\":\""+ result + "\"}")));
+
+//        verify(personalCardRepository).findPersonalCardsByUserPid("111111200001020001X");
+        List<PersonalCard> personalCards = personalCardRepository.findPersonalCardsByUserPid("11111120000102001X").get();
+        assert personalCards.size() > 0;
     }
 
 

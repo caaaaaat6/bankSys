@@ -4,12 +4,12 @@ import com.example.banksys.dataaccesslayer.CardRepository;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.presentationlayer.OpenForm;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users/personal/open")
@@ -27,13 +27,19 @@ public class OpenController {
     }
 
     @GetMapping
-    public String openForm() {
+    public String openForm(Model model) {
+        model.addAttribute("openForm", new OpenForm());
         return "open";
     }
 
     @PostMapping
-    public String processOpen( OpenForm form) {
+    public String processOpen(
+            @Valid
+                    OpenForm form, Errors errors) {
+        if (errors.hasErrors()) {
+            return "open";
+        }
         personalCardRepository.save(form.toCard(userRepository, passwordEncoder));
-        return "redirect:/users/personal/open";
+        return "redirect:/users/personal";
     }
 }

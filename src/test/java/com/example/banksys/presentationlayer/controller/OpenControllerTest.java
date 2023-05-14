@@ -1,6 +1,7 @@
 package com.example.banksys.presentationlayer.controller;
 
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
+import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.PersonalCard;
 import org.junit.Before;
@@ -14,12 +15,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,7 +43,11 @@ public class OpenControllerTest {
     private MockMvc mockMvc;
 
     @Autowired//如果该对象需要mock，则加上此Annotate，在这里我们就是要模拟testService的query()行为
+//    @Mock
     private PersonalCardRepository personalCardRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @InjectMocks//使mock对象的使用类可以注入mock对象,在这里myController使用了testService（mock对象）,所以在MyController此加上此Annotate
     OpenController myController;
@@ -94,5 +102,75 @@ public class OpenControllerTest {
         assert personalCards.size() > 0;
     }
 
+    @Test
+    void openVipAccountTest() throws Exception {
+        String userPid = "11111120000102001X";
+        mockMvc.perform(post("/users/personal/open")
+                        .param("userName","张三丰")
+                        .param("userPid",userPid)
+                        .param("userType", Card.UserType.VIP)
+                        .param("cardType", Card.CardType.CURRENT)
+                        .param("openMoney","1000000")
+                        .param("password", "1")
+                        .param("confirm", "1"))
+                .andDo(print());
 
+        Optional<List<PersonalCard>> personalCards = personalCardRepository.findPersonalCardsByUserPid(userPid);
+        boolean areVip = true;
+        for (PersonalCard personalCard : personalCards.get()) {
+            areVip &= personalCard.getUserType().equals(Card.UserType.VIP);
+        }
+        assert areVip;
+    }
+
+    @Test
+    void openVipAccountChangeUserTypeInUserTableTest() throws Exception {
+        String userPid = "11111120000102001X";
+        mockMvc.perform(post("/users/personal/open")
+                        .param("userName","张三丰")
+                        .param("userPid",userPid)
+                        .param("userType", Card.UserType.VIP)
+                        .param("cardType", Card.CardType.CURRENT)
+                        .param("openMoney","1000000")
+                        .param("password", "1")
+                        .param("confirm", "1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+//                .andExpect(content().string(contains("账户ID为")));
+                .andExpect(content().xml(contains("账户ID为")));
+
+        Optional<List<PersonalCard>> personalCards = personalCardRepository.findPersonalCardsByUserPid(userPid);
+        boolean areVip = true;
+        for (PersonalCard personalCard : personalCards.get()) {
+            areVip &= personalCard.getUserType().equals(Card.UserType.VIP);
+            areVip &= userRepository.findByCard(personalCard).getUserType().equals(Card.UserType.VIP);
+        }
+        assert areVip;
+    }
+
+    @Test
+    void openVipAccountGetResponseTest() throws Exception {
+        String userPid = "11111120000102001X";
+        MvcResult mvcResult = mockMvc.perform(post("/users/personal/open")
+                        .param("userName", "张三丰")
+                        .param("userPid", userPid)
+                        .param("userType", Card.UserType.VIP)
+                        .param("cardType", Card.CardType.CURRENT)
+                        .param("openMoney", "1000000")
+                        .param("password", "1")
+                        .param("confirm", "1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+//                .andExpect(content().string(contains("账户ID为")));
+        assert  mvcResult.getResponse().getContentAsString().contains("账户ID为");
+
+        Optional<List<PersonalCard>> personalCards = personalCardRepository.findPersonalCardsByUserPid(userPid);
+        boolean areVip = true;
+        for (PersonalCard personalCard : personalCards.get()) {
+            areVip &= personalCard.getUserType().equals(Card.UserType.VIP);
+            areVip &= userRepository.findByCard(personalCard).getUserType().equals(Card.UserType.VIP);
+        }
+        assert areVip;
+    }
 }

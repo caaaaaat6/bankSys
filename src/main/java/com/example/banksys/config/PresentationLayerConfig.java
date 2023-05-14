@@ -39,12 +39,14 @@ public class PresentationLayerConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] patternsToAuthorize = new String[]{"/users/personal/withdraw"};
+        String[] patternsToPermit = new String[]{"/","/users/personal/","/users/personal/open"};
         return http
                 .formLogin()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(patternsToAuthorize).hasRole("USER")
-                .requestMatchers("/","/**").permitAll()
+                .requestMatchers(patternsToPermit).permitAll()
+                .requestMatchers("/**").hasRole("USER")
+//                .requestMatchers(patternsToAuthorize).hasRole("USER")
 //                .requestMatchers("/", "/**").hasRole("USER")
 //                .anyRequest().denyAll()
                 .and()

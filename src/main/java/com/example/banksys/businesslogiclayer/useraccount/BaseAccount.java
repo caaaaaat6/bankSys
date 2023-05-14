@@ -36,8 +36,6 @@ public abstract class BaseAccount implements BaseAccountRight{
     @JoinColumn(name = "employeeId")
     private Employee employee;
 
-//    protected Long employeeId = null;
-
     private Card card;
 
     @Autowired
@@ -57,7 +55,7 @@ public abstract class BaseAccount implements BaseAccountRight{
     //  2.待测试1.
     //  4.收集该用户所有卡的开卡金额，判断是否升级为VIP用户(只在个人用户中判断,在service中实现）
     @Override
-    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);
         long cardId = cardRepository.save(card).getCardId();
         return cardId;

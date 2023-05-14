@@ -3,6 +3,7 @@ package com.example.banksys.businesslogiclayer.useraccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
 
@@ -13,7 +14,7 @@ import java.util.List;
 interface BaseAccountRight {
 
     //开户
-    long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId);
+    long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee);
 
 //    // 存款
 //    double deposit(double money);

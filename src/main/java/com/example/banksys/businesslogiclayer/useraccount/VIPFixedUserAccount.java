@@ -4,6 +4,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanc
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAccountRight {
 
     @Override
-    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
-        return super.openAccount(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employeeId);
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
+        return super.openAccount(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employee);
     }
 
     @Override

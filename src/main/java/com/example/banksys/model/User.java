@@ -39,6 +39,11 @@ public class User  {
     protected Card card;
 
 
+    public User(String userPid, String userName, String userType) {
+        this.userPid = userPid;
+        this.userName = userName;
+        this.userType = userType;
+    }
 
     public String getPassword() {
         return card.getPassword();

@@ -4,6 +4,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanc
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.Trade;
@@ -30,8 +31,9 @@ public abstract class PersonalUserAccount extends BaseAccount {
     }
 
     @Override
-    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+    public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         personalCard = new PersonalCard(userId, userPid, userName, userType, password, cardType, openMoney);
+        getUser().setCard(personalCard);
         long cardId = personalCardRepository.save(personalCard).getCardId();
         return cardId;
     }

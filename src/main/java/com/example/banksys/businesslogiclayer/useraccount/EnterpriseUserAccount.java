@@ -51,6 +51,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
     public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
         enterpriseCard = new EnterpriseCard(userId, userPid, userName, Card.UserType.ENTERPRISE, password, enterpriseId, cardType, openMoney);
+        getEnterpriseUser().setEnterpriseCard(enterpriseCard);
         long cardId = cardRepository.save(enterpriseCard).getCardId();
         return cardId;
     }

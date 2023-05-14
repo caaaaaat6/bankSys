@@ -36,6 +36,8 @@ public class OpenForm {
     @Min(value = 0, message = "开户金额不能为负数")
     private double openMoney;
 
+    private String error;
+
 
 
     public PersonalCard toCard(UserRepository userRepository, PasswordEncoder passwordEncoder) {

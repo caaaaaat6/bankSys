@@ -8,6 +8,7 @@ import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
+import com.example.banksys.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ class PersonalUserAccountTest {
 
     @Test
     void openAccountTest() {
+        User user = new User();
+        personalUserAccount.setUser(user);
         personalUserAccount.openAccount(1, "11111120000101111X", "赵六", Card.UserType.ORDINARY, "123456",null, Card.CardType.CURRENT, 10001, null);
     }
 

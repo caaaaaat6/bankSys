@@ -12,7 +12,8 @@
 <h1>Open Personal Account</h1>
 <!--<h1>个人开户</h1>-->
 
-<form method="POST" th:action="@{/users/personal/open}" id="openForm" th:object="${openForm}">
+<form method="POST" th:action="@{/users/personal/open}" id="openForm" th:object="${openForm}"
+      th:if="${session.openForm != null}" th:attr="value=${session.openForm}">
 
 <!--    <label for="userName">姓名: </label>-->
     <!--    <input type="text" /><br/>-->
@@ -30,7 +31,10 @@
 
     <label for="userType">用户类型: </label><br/>
     <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).ORDINARY}" checked>普通个人用户<br/>
-    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).VIP}">vip个人用户<br/>
+<!--    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).VIP}">vip个人用户（名下所有个人账户的开户金额总和需大于）<br/>-->
+<!--    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).VIP}"-->
+<!--           th:text="'vip个人用户（名下所有个人账户的开户金额总和需大于）' + ${com.example.banksys.businesslogiclayer.service.PersonalService.VIP_OPEN_THRESHOLD}"><br/>-->
+    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).VIP}" th:text="'vip个人用户（名下所有个人账户的开户金额总和需大于' + ${T(com.example.banksys.businesslogiclayer.service.PersonalService).VIP_OPEN_THRESHOLD} + '元)'"><br/>
 
     <label for="cardType">账户类型: </label><br/>
     <input type="radio" name="cardType" th:value="${T(com.example.banksys.model.Card.CardType).CURRENT}" checked>活期账户<br/>
@@ -59,6 +63,7 @@
           th:text="${#fields.globalErrors()[0]}"
           class="error-message"></span><br/>
     <input type="submit" value="Register"/>
+    <span th:field="*{error}" th:if="${error!=null}" th:value="${error}"></span>
 </form>
 </body>
 </html>

@@ -24,61 +24,61 @@ public class BLLConfig {
 
     @Bean
     @Scope(value = "prototype")
-    public OrdinaryCurrentUserAccount getOrdinaryCurrentUserAccount() {
+    public OrdinaryCurrentUserAccount ordinaryCurrentUserAccount() {
         return new OrdinaryCurrentUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public OrdinaryFixedUserAccount getOrdinaryFixedUserAccount() {
+    public OrdinaryFixedUserAccount ordinaryFixedUserAccount() {
         return new OrdinaryFixedUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public EnterpriseCurrentUserAccount getEnterpriseCurrentUserAccount() {
+    public EnterpriseCurrentUserAccount enterpriseCurrentUserAccount() {
         return new EnterpriseCurrentUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public EnterpriseFixedUserAccount getEnterpriseFixedUserAccount() {
+    public EnterpriseFixedUserAccount enterpriseFixedUserAccount() {
         return new EnterpriseFixedUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public VIPFixedUserAccount getVIPFixedUserAccount() {
+    public VIPFixedUserAccount vipFixedUserAccount() {
         return new VIPFixedUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public VIPCurrentUserAccount getVIPCurrentUserAccount() {
+    public VIPCurrentUserAccount vipCurrentUserAccount() {
         return new VIPCurrentUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public CurrentHeadEmployeeAccount getCurrentHeadEmployeeAccount() {
+    public CurrentHeadEmployeeAccount currentHeadEmployeeAccount() {
         return new CurrentHeadEmployeeAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public FixedHeadEmployeeAccount getFixedHeadEmployeeAccount() {
+    public FixedHeadEmployeeAccount fixedHeadEmployeeAccount() {
         return new FixedHeadEmployeeAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public ManagerEmployeeAccount getManagerEmployeeAccount() {
+    public ManagerEmployeeAccount managerEmployeeAccount() {
         return new ManagerEmployeeAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-    public FrontDeskEmployeeAccount getFrontDeskEmployeeAccount() {
+    public FrontDeskEmployeeAccount frontDeskEmployeeAccount() {
         return new FrontDeskEmployeeAccount();
     }
 

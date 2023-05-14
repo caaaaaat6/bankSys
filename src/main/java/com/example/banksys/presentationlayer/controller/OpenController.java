@@ -5,7 +5,7 @@ import com.example.banksys.businesslogiclayer.service.PersonalService;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
-import com.example.banksys.presentationlayer.OpenForm;
+import com.example.banksys.presentationlayer.utils.OpenForm;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

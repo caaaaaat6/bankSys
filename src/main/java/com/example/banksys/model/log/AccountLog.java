@@ -28,7 +28,7 @@ public class AccountLog {
 //    private long employeeId;
 
     @OneToOne
-    @JoinColumn(name = "employeeId")
+    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
 
     @Column(length = 64, nullable = false)

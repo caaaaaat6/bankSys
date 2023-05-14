@@ -9,33 +9,35 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "Employee")
+//@Table(name = "Employee")
 //@DiscriminatorColumn(name = "employeeType", discriminatorType = DiscriminatorType.STRING, length = 30)
 //@DiscriminatorValue(Employee.EmployeeType.FRONT_DESK)
+@DiscriminatorValue("Employee")
 @Data
 @NoArgsConstructor(force = true)
-public class Employee implements EmployeeRight {
+public class Employee extends User implements EmployeeRight {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long employeeId;
 
-    @Column(length = 16, nullable = false)
+    @Column(length = 16)
     private String employeeType;
 
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String employeeName;
 
-    @Column(length = 512, nullable = false)
-    private String password;
+//    @Column(length = 512, nullable = false)
+//    private String password;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Department department;
 
     public Employee(String employeeType, String employeeName, String password) {
         this.employeeType = employeeType;
         this.employeeName = employeeName;
-        this.password = password;
+        setPassword(password);
     }
 
     public static class EmployeeType {

@@ -45,7 +45,7 @@ public class OpenController {
     }
 
     @ModelAttribute("openForm")
-    public OpenForm createOpenform() {
+    public OpenForm createOpenForm() {
         return new OpenForm();
     }
 
@@ -69,9 +69,9 @@ public class OpenController {
             cardId = personalService.openAccount(personalUserAccount, passwordEncoder, userRepository, form);
         } catch (VipOpenMoneyNotEnoughException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "error";
+            return "errors";
         }
-        clearOpenForm(session,sessionStatus);
+//        clearOpenForm(session,sessionStatus);
         model.addAttribute("cardId",cardId);
         return "open_success";
     }
@@ -79,7 +79,7 @@ public class OpenController {
     @ModelAttribute("openForm")
     public void clearOpenForm(HttpSession session,SessionStatus sessionStatus) {
         session.removeAttribute("openForm");
-        sessionStatus.setComplete();
+//        sessionStatus.setComplete();
     }
 
     private String getBeanName(OpenForm form) {

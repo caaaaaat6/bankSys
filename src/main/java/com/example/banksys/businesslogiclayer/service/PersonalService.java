@@ -43,19 +43,20 @@ public class PersonalService {
         if (openForm.getUserType().equals(Card.UserType.VIP)) {
             checkOpenMoney(openForm.getOpenMoney(), openForm.getUserPid());
         }
-        User user = userRepository.save(new User(openForm.getUserPid(), openForm.getUserName(), openForm.getUserType()));
+        String encoded = passwordEncoder.encode(openForm.getPassword());
+        User user = userRepository.save(new User(openForm.getUserPid(), openForm.getUserName(), openForm.getUserType(),encoded));
         personalUserAccount.setUser(user);
         Long cardId = personalUserAccount.openAccount(
                 user.getUserId(),
                 openForm.getUserPid(),
                 openForm.getUserName(),
                 openForm.getUserType(),
-                passwordEncoder.encode(openForm.getPassword()),
+                encoded,
                 null,
                 openForm.getCardType(),
                 openForm.getOpenMoney(),
                 null);
-        return cardId;
+        return user.getUserId();
     }
 
     private void checkOpenMoney(double openMoney, String userPid) throws VipOpenMoneyNotEnoughException {

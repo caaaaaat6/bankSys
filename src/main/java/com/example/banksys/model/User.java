@@ -45,10 +45,11 @@ public class User implements UserDetails {
     protected Card card;
 
 
-    public User(String userPid, String userName, String userType) {
+    public User(String userPid, String userName, String userType, String password) {
         this.userPid = userPid;
         this.userName = userName;
         this.userType = userType;
+        this.password = password;
     }
 
     @Override

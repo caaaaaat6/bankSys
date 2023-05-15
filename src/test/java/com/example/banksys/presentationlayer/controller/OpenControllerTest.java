@@ -60,6 +60,12 @@ public class OpenControllerTest {
     }
 
     @Test
+    void openPage() throws Exception {
+        mockMvc.perform(get("/users/personal/open"))
+                .andDo(print());
+    }
+
+    @Test
     public void testQueryDataFromController() throws Exception{
         //静态引入使得很像人类的语言，当...然后返回...
 //        when(personalCardRepository.query("code-1001","name-wangxindong")).thenReturn("成功");//这里模拟行为，返回"成功" 而不是原始的"test-code-name"
@@ -94,8 +100,8 @@ public class OpenControllerTest {
                         .param("password", "123456")
                         .param("confirm", "123456"))
 
+//                .andExpect(status().isOk()).andExpect(content().string(is("{\"status\":\""+ result + "\"}"))
                 .andDo(print());
-//               .andExpect(status().isOk()).andExpect(content().string(is("{\"status\":\""+ result + "\"}")));
 
 //        verify(personalCardRepository).findPersonalCardsByUserPid("111111200001020001X");
         List<PersonalCard> personalCards = personalCardRepository.findPersonalCardsByUserPid("11111120000102001X").get();

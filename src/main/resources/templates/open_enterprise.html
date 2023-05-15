@@ -2,22 +2,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      th:with="UserType=${T(com.example.banksys.model.Card.UserType)}"
-      >
+      th:with="Monitor=${T(com.example.banksys.businesslogiclayer.aop.OpenAccountMonitor)}"
+>
 <head>
-    <title>Open Personal Account</title>
-<!--    <title>个人开户 open</title>-->
+    <meta charset="UTF-8">
+    <title>企业开户</title>
 </head>
-
 <body>
-<h1>Open Personal Account</h1>
-<!--<h1>个人开户</h1>-->
+<h1>Open Enterprise Account</h1>
 
-<!--<form method="POST" th:action="@{/users/personal/open}" id="openForm" th:object="${openForm}"-->
-<!--      th:if="${session.openForm != null}" th:attr="value=${session.openForm}">-->
-<form method="POST" th:action="@{/users/personal/open}" id="openForm" th:object="${openForm}"
-       th:attr="value=${session.openForm}">
-
+<form method="POST" th:action="@{/users/enterprise/open}" id="openForm" th:object="${openForm}">
 
     <label for="userName">姓名: </label>
     <input type="text" th:field="*{userName}"/>
@@ -31,20 +25,26 @@
           th:if="${#fields.hasErrors('userPid')}"
           th:errors="*{userPid}">Invalid user pid</span><br/>
 
-    <label for="userType">用户类型: </label><br/>
-<!--    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).ORDINARY}" checked>普通个人用户<br/>-->
-    <input type="radio" name="userType" th:value="${UserType.ORDINARY}" checked>普通个人用户<br/>
-    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).VIP}" th:text="'vip个人用户（名下所有个人账户的开户金额总和需大于' + ${T(com.example.banksys.businesslogiclayer.service.PersonalService).VIP_OPEN_THRESHOLD} + '元)'"><br/>
-
     <label for="cardType">账户类型: </label><br/>
     <input type="radio" name="cardType" th:value="${T(com.example.banksys.model.Card.CardType).CURRENT}" checked>活期账户<br/>
     <input type="radio" name="cardType" th:value="${T(com.example.banksys.model.Card.CardType).FIXED}">定期账户<br/>
 
     <label for="openMoney">开户金额: </label>
-    <input type="text" th:field="*{openMoney}"/><br/>
+    <input type="text" th:field="*{openMoney}"/>
+    <div th:text="'（企业用户开户金额不能少于' + ${Monitor.ENTERPRISE_OPEN_MONEY_THRESHOLD} + '元）'"></div>
     <span class="validationError"
           th:if="${#fields.hasErrors('openMoney')}"
           th:errors="*{openMoney}">Invalid open money</span><br/>
+
+    <label for="enterprise">企业:</label>
+    <select id="enterprise" name="enterprise" th:field="*{enterpriseId}">
+        <option
+                th:each="enterprise:${enterprises}"
+                th:value="${enterprise.enterpriseId}"
+                th:text="${enterprise.enterpriseName}"
+        >
+        </option>
+    </select><br/>
 
     <label for="password">密码: </label>
     <input type="password" th:field="*{password}"/>
@@ -64,6 +64,8 @@
           class="error-message"></span><br/>
     <input type="submit" value="Register"/>
     <span th:field="*{error}" th:if="${error!=null}" th:value="${error}"></span>
+<!--    <button type="submit">提交</button>-->
+
 </form>
 </body>
 </html>

@@ -25,7 +25,7 @@ public class OpenAccountMonitor {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenAccountMonitor.class);
 
-    private static final double ENTERPRISE_OPEN_MONEY_THRESHOLD = 10000;
+    public static final double ENTERPRISE_OPEN_MONEY_THRESHOLD = 10000;
 
     @Autowired
     private AccountLogRepository accountLogRepository;
@@ -60,8 +60,8 @@ public class OpenAccountMonitor {
      * @throws EnterpriseAccountOpenMoneyNotEnoughException
      */
     @Before(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
-            " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId)")
-    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException, EnterpriseCardExsitException {
+            " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)")
+    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException, EnterpriseCardExsitException {
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
         Enterprise enterprise = enterpriseUserAccount.getEnterprise();
 
@@ -93,7 +93,7 @@ public class OpenAccountMonitor {
      */
     @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")
-    public void afterReturningOpen(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long cardId, Employee employee) {
+    public void afterReturningOpen(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee, long cardId) {
         String operationType = AccountLog.OperationType.OPEN;
         StringBuilder description = new StringBuilder();
 

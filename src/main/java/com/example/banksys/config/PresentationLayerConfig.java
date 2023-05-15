@@ -8,7 +8,6 @@ import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.MyLogoutHandler;
 import com.example.banksys.presentationlayer.MyLogoutSuccessHandler;
-import com.example.banksys.presentationlayer.exception.CardIdNotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,6 +48,7 @@ public class PresentationLayerConfig {
 
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/users/personal/deposit").hasAnyRole("ORDINARY", "VIP")
+                        .requestMatchers("/users/enterprise/**").hasRole("ENTERPRISE")
                         .anyRequest().permitAll())
                 .formLogin()
                     .and()

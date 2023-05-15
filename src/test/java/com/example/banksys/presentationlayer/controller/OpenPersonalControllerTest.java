@@ -5,15 +5,12 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.PersonalCard;
 import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,7 +21,6 @@ import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,12 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class OpenControllerTest {
+public class OpenPersonalControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +44,7 @@ public class OpenControllerTest {
     UserRepository userRepository;
 
     @InjectMocks//使mock对象的使用类可以注入mock对象,在这里myController使用了testService（mock对象）,所以在MyController此加上此Annotate
-    OpenController myController;
+    OpenPersonalController myController;
 
 
     @Before

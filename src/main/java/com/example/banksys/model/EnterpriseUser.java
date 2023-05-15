@@ -1,8 +1,16 @@
 package com.example.banksys.model;
 
+import com.example.banksys.presentationlayer.utils.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import javax.lang.model.type.UnionType;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +39,21 @@ public class EnterpriseUser extends User {
         public static final String USER = "user";
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        switch (getUserType()) {
+            case Card.UserType.ENTERPRISE:
+                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_USER));
+                break;
+            default:
+        }
+        return list;
+    }
+
+    public EnterpriseUser(String userPid, String userName, String password, Enterprise enterprise) {
+        super(userPid, userName, password);
+        this.userType = Card.UserType.ENTERPRISE;
+        this.enterprise = enterprise;
+    }
 }

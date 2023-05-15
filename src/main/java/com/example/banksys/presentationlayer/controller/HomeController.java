@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @Slf4j
 @Controller
 @RequestMapping("/")
-//@SessionAttributes("")
 public class HomeController {
 
     @GetMapping("/")
@@ -25,7 +24,12 @@ public class HomeController {
 
     @GetMapping("/users/personal/")
     public String personalUser() {
-        return "personaluser";
+        return "personal_user";
+    }
+
+    @GetMapping("/users/enterprise/")
+    public String enterpriseUser() {
+        return "enterprise_user";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)

@@ -4,10 +4,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanc
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
-import com.example.banksys.model.Card;
-import com.example.banksys.model.Enterprise;
-import com.example.banksys.model.EnterpriseCard;
-import com.example.banksys.model.EnterpriseUser;
+import com.example.banksys.model.*;
 import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,7 +46,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
     @Autowired
     protected EnterpriseCardRepository enterpriseCardRepository;
 
-    public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
+    public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         enterpriseCard = new EnterpriseCard(userId, userPid, userName, Card.UserType.ENTERPRISE, password, enterpriseId, cardType, openMoney);
         getEnterpriseUser().setEnterpriseCard(enterpriseCard);
         long cardId = cardRepository.save(enterpriseCard).getCardId();

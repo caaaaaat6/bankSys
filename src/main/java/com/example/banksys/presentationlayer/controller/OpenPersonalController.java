@@ -8,6 +8,7 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.presentationlayer.utils.OpenForm;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,12 +19,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-@Controller
-@SessionAttributes("openForm")
-@RequestMapping("/users/personal/open")
-public class OpenController {
+import static com.example.banksys.presentationlayer.utils.BeanNameUtil.getBeanName;
 
-//    private CardRepository cardRepository;
+@Slf4j
+@Controller
+@SessionAttributes({"openForm"})
+@RequestMapping("/users/personal/open")
+public class OpenPersonalController {
+
     private PasswordEncoder passwordEncoder;
     private PersonalCardRepository personalCardRepository;
     private UserRepository userRepository;
@@ -38,7 +41,7 @@ public class OpenController {
         this.personalService = personalService;
     }
 
-    public OpenController(PersonalCardRepository personalCardRepository,UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public OpenPersonalController(PersonalCardRepository personalCardRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.personalCardRepository = personalCardRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -58,8 +61,9 @@ public class OpenController {
     @PostMapping
     public String processOpen(
             @Valid
-                    OpenForm form, Errors errors, Model model,HttpSession session,SessionStatus sessionStatus)  {
+                    OpenForm form, Errors errors, Model model, HttpSession session, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
+            errors.getAllErrors().forEach(System.out::println);
             return "open";
         }
         String beanName = getBeanName(form);
@@ -71,23 +75,14 @@ public class OpenController {
             model.addAttribute("errorMessage", e.getMessage());
             return "errors";
         }
-//        clearOpenForm(session,sessionStatus);
-        model.addAttribute("cardId",cardId);
+        clearOpenForm(session, sessionStatus);
+        model.addAttribute("cardId", cardId);
         return "open_success";
     }
 
     @ModelAttribute("openForm")
-    public void clearOpenForm(HttpSession session,SessionStatus sessionStatus) {
+    public void clearOpenForm(HttpSession session, SessionStatus sessionStatus) {
         session.removeAttribute("openForm");
 //        sessionStatus.setComplete();
-    }
-
-    private String getBeanName(OpenForm form) {
-        String userAccount = "UserAccount";
-        StringBuilder beanName = new StringBuilder();
-        beanName.append(form.getUserType());
-        beanName.append(StringUtils.capitalize(form.getCardType()));
-        beanName.append(userAccount);
-        return beanName.toString();
     }
 }

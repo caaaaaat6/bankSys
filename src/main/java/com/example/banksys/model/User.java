@@ -44,6 +44,11 @@ public class User implements UserDetails {
     @JoinColumn(name = "card_id")
     protected Card card;
 
+    public User(String userPid, String userName, String password) {
+        this.userPid = userPid;
+        this.userName = userName;
+        this.password = password;
+    }
 
     public User(String userPid, String userName, String userType, String password) {
         this.userPid = userPid;

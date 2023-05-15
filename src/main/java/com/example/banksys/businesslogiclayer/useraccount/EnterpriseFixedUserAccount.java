@@ -4,6 +4,7 @@ import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanc
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(force = true)
 //@Service
 public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements BaseFixedAccountRight {
+
     @Override
-    public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Long employeeId) {
-        return super.openEnterpriseAccount(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employeeId);
+    public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
+        return super.openEnterpriseAccount(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee);
     }
 
     @Override
@@ -24,7 +26,6 @@ public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements
 
     @Override
     public double depositByEmployee(double money, int depositDays, Long employeeId) {
-
         return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee(), depositDays);
     }
 

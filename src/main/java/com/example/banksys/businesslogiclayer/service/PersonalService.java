@@ -10,6 +10,7 @@ import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.utils.OpenForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,7 @@ import java.util.Optional;
 @Service
 public class PersonalService {
 
-//    private PersonalUserAccount personalUserAccount;
-//
-//    @Autowired
-//    public void personalUserAccount(PersonalUserAccount personalUserAccount) {
-//        this.personalUserAccount = personalUserAccount;
-//    }
-
     public static final double VIP_OPEN_THRESHOLD = 1000000;
-
     private PersonalCardRepository personalCardRepository;
     private UserRepository userRepository;
 
@@ -35,6 +28,7 @@ public class PersonalService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public Long openAccount(PersonalUserAccount personalUserAccount,
                             PasswordEncoder passwordEncoder,
                             UserRepository userRepository,

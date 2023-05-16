@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLInsert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    @OneToOne(targetEntity = Card.class, fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = Card.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "card_id")
     protected Card card;
 
@@ -57,6 +58,7 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
@@ -66,7 +68,15 @@ public class User implements UserDetails {
                 break;
             case Card.UserType.VIP:
                 list.add(new SimpleGrantedAuthority(Role.VIP_USER));
+                break;
             default:
+        }
+        switch (getCard().getCardType()) {
+            case Card.CardType.CURRENT:
+                list.add(new SimpleGrantedAuthority(Role.CURRENT_RIGHT));
+                break;
+            case Card.CardType.FIXED:
+                list.add(new SimpleGrantedAuthority(Role.FIXED_RIGHT));
         }
         return list;
     }

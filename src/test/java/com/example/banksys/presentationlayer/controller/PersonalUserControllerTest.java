@@ -50,7 +50,6 @@ class PersonalUserControllerTest {
                 apply(springSecurity()) // 很重要这一行
                 .apply(sharedHttpSession()) // 很重要这一行
                 .build();
-//        this.mockMvc = webAppContextSetup(wac).build();
     }
 
     @Test
@@ -92,14 +91,8 @@ class PersonalUserControllerTest {
                 .andDo(result -> {
                     this.mockMvc.perform(get("/users/personal/deposit"))
                             .andDo(print())
-//                            .andExpect(status().isOk())
-                            .andExpect(redirectedUrl("/users/personal/current-deposit"));
+                            .andExpect(redirectedUrl("current-deposit"));
                 });
-
-//        mockMvc.perform(get("/users/personal/deposit"))
-//                .andDo(print())
-////                .andExpect(status().isOk())
-//                .andExpect(redirectedUrl("/users/personal/current-deposit"));
     }
 
     @Test

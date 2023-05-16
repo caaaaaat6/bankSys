@@ -47,16 +47,16 @@ public class PresentationLayerConfig {
         return http
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users/personal/deposit").hasAnyRole("ORDINARY", "VIP")
+                        .requestMatchers("/users/personal/deposit/").hasAnyRole("ORDINARY", "VIP")
+                        .requestMatchers("/users/personal/deposit/current").hasRole("CURRENT")
+                        .requestMatchers("/users/personal/deposit/fixed").hasRole("FIXED")
                         .requestMatchers("/users/enterprise/**").hasRole("ENTERPRISE")
                         .anyRequest().permitAll())
                 .formLogin()
                     .and()
                 .logout()
-//                    .addLogoutHandler(new MyLogoutHandler())
                     .logoutSuccessHandler(new MyLogoutSuccessHandler())
                     .logoutUrl("/logout")
-//                    .logoutSuccessUrl("/login?logout")
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
                     .permitAll()

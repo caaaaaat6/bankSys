@@ -1,6 +1,8 @@
 package com.example.banksys.presentationlayer.utils;
 
 public class Role {
+    public static final String CURRENT_RIGHT = "ROLE_CURRENT";
+    public static final String FIXED_RIGHT = "ROLE_FIXED";
     public static final String ORDINARY_USER = "ROLE_ORDINARY";
     public static final String VIP_USER = "ROLE_VIP";
     public static final String ENTERPRISE_USER = "ROLE_ENTERPRISE";

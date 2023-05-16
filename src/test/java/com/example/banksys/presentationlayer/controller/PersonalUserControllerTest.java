@@ -12,8 +12,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.web.servlet.MvcResult;
@@ -21,22 +24,33 @@ import org.springframework.web.context.WebApplicationContext;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static org.springframework.test.web.servlet.setup.SharedHttpSessionConfigurer.sharedHttpSession;
 
-//@SpringBootTest
-//@Transactional("hibernateTransactionManager")
-@SpringJUnitWebConfig
-@WebMvcTest(controllers = PersonalUserController.class)
+@SpringBootTest
+@Transactional
+//@SpringJUnitWebConfig
+//@SpringJUnitConfig
+//@WebMvcTest(controllers = DepositPersonalController.class)
+@WebAppConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PersonalUserControllerTest {
 
     private final MockMvc mockMvc;
     PersonalUserControllerTest(WebApplicationContext wac) {
-        this.mockMvc = webAppContextSetup(wac).build();
+        this.mockMvc = webAppContextSetup(wac).
+                apply(springSecurity()) // 很重要这一行
+                .apply(sharedHttpSession()) // 很重要这一行
+                .build();
+//        this.mockMvc = webAppContextSetup(wac).build();
     }
 
     @Test
@@ -62,15 +76,42 @@ class PersonalUserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "1",password = "1",authorities = Role.ORDINARY_USER)
+    @WithMockUser(username = "53",password = "1",authorities = Role.ORDINARY_USER)
     void getDepositPage() throws Exception {
-//        mockMvc.perform(post("/users/personal/deposit")
-//                        .param("username","53")
-//                        .param("password","1"))
-//                .andDo(print())
-//                .andExpect(status().isOk());
         mockMvc.perform(get("/users/personal/deposit"))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void withMockAuthenticationTest() throws Exception {
+
+        mockMvc.perform(formLogin("/login").user("53").password("1"))
+                .andExpect(authenticated())
+                .andDo(print())
+                .andDo(result -> {
+                    this.mockMvc.perform(get("/users/personal/deposit"))
+                            .andDo(print())
+//                            .andExpect(status().isOk())
+                            .andExpect(redirectedUrl("/users/personal/current-deposit"));
+                });
+
+//        mockMvc.perform(get("/users/personal/deposit"))
+//                .andDo(print())
+////                .andExpect(status().isOk())
+//                .andExpect(redirectedUrl("/users/personal/current-deposit"));
+    }
+
+    @Test
+    void withMockAuthenticationSharedHttpSessionTest() throws Exception {
+
+        mockMvc.perform(formLogin("/login").user("53").password("1"))
+                .andExpect(authenticated())
+                .andDo(print());
+
+        mockMvc.perform(get("/users/personal/deposit"))
+                .andDo(print())
+//                .andExpect(status().isOk())
+                .andExpect(redirectedUrl("current-deposit"));
     }
 }

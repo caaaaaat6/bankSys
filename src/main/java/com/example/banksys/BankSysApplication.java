@@ -2,18 +2,14 @@ package com.example.banksys;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+//@EnableJpaRepositories("com.example.banksys.dataaccesslayer")
 public class BankSysApplication {
-
-//    @Bean
-//    private TradeRepository tradeRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(BankSysApplication.class, args);
-//         tradeRepository;
-//        Iterable<Trade> all = tradeRepository.findAll();
-//        all.forEach(System.out::println);
     }
 
 }

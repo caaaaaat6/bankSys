@@ -69,6 +69,8 @@ public class User implements UserDetails {
             case Card.UserType.VIP:
                 list.add(new SimpleGrantedAuthority(Role.VIP_USER));
                 break;
+            case Card.UserType.ENTERPRISE:
+                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_USER));
             default:
         }
         switch (getCard().getCardType()) {
@@ -80,18 +82,6 @@ public class User implements UserDetails {
         }
         return list;
     }
-
-//    public String getPassword() {
-//        return card.getPassword();
-//    }
-
-
-
-//    public void setPassword(String password) {
-//        if (card != null) {
-//            card.setPassword(password);
-//        }
-//    }
 
     @Override
     public String getUsername() {

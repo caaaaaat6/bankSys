@@ -1,18 +1,16 @@
 package com.example.banksys.businesslogiclayer.service;
 
-import com.example.banksys.businesslogiclayer.exception.VipOpenMoneyNotEnoughException;
+import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
+import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
-import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
-import com.example.banksys.dataaccesslayer.UserRepository;
-import com.example.banksys.model.Card;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseUser;
-import com.example.banksys.model.User;
-import com.example.banksys.presentationlayer.utils.EnterpriseOpenForm;
-import com.example.banksys.presentationlayer.utils.OpenForm;
+import com.example.banksys.presentationlayer.form.DepositCurrentForm;
+import com.example.banksys.presentationlayer.form.DepositFixedForm;
+import com.example.banksys.presentationlayer.form.EnterpriseOpenForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,19 +43,23 @@ public class EnterpriseService {
                 ));
         enterpriseUserAccount.setEnterpriseUser(enterpriseUser);
         enterpriseUserAccount.setEnterprise(enterprise);
-//        try {
-            enterpriseUserAccount.openEnterpriseAccount(
-                    enterpriseUser.getUserId(),
-                    enterpriseOpenForm.getUserPid(),
-                    enterpriseOpenForm.getUserName(),
-                    encoded,
-                    null,
-                    enterpriseOpenForm.getCardType(),
-                    enterpriseOpenForm.getOpenMoney(),
-                    null);
-//        } catch (Exception e) {
-//            System.out.println("here are some errors");;
-//        }
+        enterpriseUserAccount.openEnterpriseAccount(
+                enterpriseUser.getUserId(),
+                enterpriseOpenForm.getUserPid(),
+                enterpriseOpenForm.getUserName(),
+                encoded,
+                null,
+                enterpriseOpenForm.getCardType(),
+                enterpriseOpenForm.getOpenMoney(),
+                null);
         return enterpriseUser.getUserId();
+    }
+
+    public double depositCurrent(BaseCurrentAccountRight accountRight, DepositCurrentForm depositCurrentForm) {
+        return accountRight.deposit(depositCurrentForm.getMoney());
+    }
+
+    public double depositFixed(BaseFixedAccountRight accountRight, DepositFixedForm depositFixedForm) {
+        return accountRight.deposit(depositFixedForm.getMoney(), depositFixedForm.getDepositDays());
     }
 }

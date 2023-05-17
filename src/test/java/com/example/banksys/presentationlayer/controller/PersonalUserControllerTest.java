@@ -89,9 +89,9 @@ class PersonalUserControllerTest {
                 .andExpect(authenticated())
                 .andDo(print())
                 .andDo(result -> {
-                    this.mockMvc.perform(get("/users/personal/deposit"))
+                    this.mockMvc.perform(get("/users/personal/deposit/"))
                             .andDo(print())
-                            .andExpect(redirectedUrl("current-deposit"));
+                            .andExpect(redirectedUrl("current"));
                 });
     }
 
@@ -105,6 +105,6 @@ class PersonalUserControllerTest {
         mockMvc.perform(get("/users/personal/deposit"))
                 .andDo(print())
 //                .andExpect(status().isOk())
-                .andExpect(redirectedUrl("current-deposit"));
+                .andExpect(redirectedUrl("current"));
     }
 }

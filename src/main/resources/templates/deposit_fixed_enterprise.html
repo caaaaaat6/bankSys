@@ -9,7 +9,7 @@
 <body>
 <h1>定期存款</h1>
 
-<form method="POST" th:action="@{/users/personal/deposit/fixed}" id="depositFixedForm" th:object="${depositFixedForm}">
+<form method="POST" th:action="@{/users/enterprise/deposit/fixed}" id="depositFixedForm" th:object="${depositFixedForm}">
 
     <label for="money">存款金额：</label>
     <input type="number" th:field="*{money}">

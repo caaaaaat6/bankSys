@@ -56,4 +56,13 @@ public class EnterpriseUser extends User {
         this.userType = Card.UserType.ENTERPRISE;
         this.enterprise = enterprise;
     }
+
+    public Card getCard() {
+        return this.enterpriseCard;
+    }
+
+    public void setEnterpriseCard(EnterpriseCard enterpriseCard) {
+        this.enterpriseCard = enterpriseCard;
+        setCard(enterpriseCard);
+    }
 }

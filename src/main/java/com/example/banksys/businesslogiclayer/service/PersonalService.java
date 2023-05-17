@@ -1,13 +1,17 @@
 package com.example.banksys.businesslogiclayer.service;
 
 import com.example.banksys.businesslogiclayer.exception.VipOpenMoneyNotEnoughException;
+import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
+import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.User;
-import com.example.banksys.presentationlayer.utils.OpenForm;
+import com.example.banksys.presentationlayer.form.DepositCurrentForm;
+import com.example.banksys.presentationlayer.form.DepositFixedForm;
+import com.example.banksys.presentationlayer.form.OpenForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,4 +82,15 @@ public class PersonalService {
         personalCardRepository.saveAll(personalCardsByUserPid.get()); // 更新卡表
     }
 
+    @Transactional
+    public double depositCurrent(BaseCurrentAccountRight accountRight, DepositCurrentForm form) {
+        return accountRight.deposit(form.getMoney());
+    }
+
+    @Transactional
+    public double depositFixed(BaseFixedAccountRight accountRight, DepositFixedForm form) {
+        return accountRight.deposit(form.getMoney(), form.getDepositDays());
+    }
+
+//    public double depositFixed(BaseCurrentAccountRight accountRight)
 }

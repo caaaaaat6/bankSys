@@ -2,14 +2,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>活期存款</title>
-</head>
-<body>
-<h1>活期存款</h1>
-
-<form method="POST" th:action="@{/users/personal/deposit/current}" id="depositCurrentForm" th:object="${depositCurrentForm}">
+<form th:fragment="deposit_current(postTo,depositCurrentForm)" method="POST" th:action="${postTo}" id="depositCurrentForm" th:object="__${depositCurrentForm}__">
 
     <label for="money">存款金额：</label>
     <input type="number" th:field="*{money}">
@@ -19,6 +12,4 @@
 
     <button type="submit">Deposit</button>
 </form>
-
-</body>
 </html>

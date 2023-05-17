@@ -1,14 +1,13 @@
 package com.example.banksys.presentationlayer.controller;
 
 import com.example.banksys.businesslogiclayer.service.EnterpriseService;
-import com.example.banksys.businesslogiclayer.service.PersonalService;
 import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.model.Enterprise;
-import com.example.banksys.presentationlayer.utils.EnterpriseOpenForm;
-import com.example.banksys.presentationlayer.utils.OpenForm;
+import com.example.banksys.presentationlayer.form.EnterpriseOpenForm;
+import com.example.banksys.presentationlayer.form.OpenForm;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

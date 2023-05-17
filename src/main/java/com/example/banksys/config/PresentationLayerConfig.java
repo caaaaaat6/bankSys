@@ -47,10 +47,13 @@ public class PresentationLayerConfig {
         return http
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users/personal/deposit/").hasAnyRole("ORDINARY", "VIP")
+                        .requestMatchers("/users/personal/open").permitAll()
+                        .requestMatchers("/users/personal/deposit/**").hasAnyRole("ORDINARY", "VIP")
                         .requestMatchers("/users/personal/deposit/current").hasRole("CURRENT")
                         .requestMatchers("/users/personal/deposit/fixed").hasRole("FIXED")
                         .requestMatchers("/users/enterprise/**").hasRole("ENTERPRISE")
+                        .requestMatchers("/users/enterprise/deposit/current").hasRole("CURRENT")
+                        .requestMatchers("/users/enterprise/deposit/fixed").hasRole("FIXED")
                         .anyRequest().permitAll())
                 .formLogin()
                     .and()

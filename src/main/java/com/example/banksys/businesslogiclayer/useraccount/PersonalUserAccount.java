@@ -61,4 +61,5 @@ public abstract class PersonalUserAccount extends BaseAccount {
         }
         return true;
     }
+
 }

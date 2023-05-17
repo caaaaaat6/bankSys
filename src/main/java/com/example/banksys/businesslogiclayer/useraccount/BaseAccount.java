@@ -128,4 +128,8 @@ public abstract class BaseAccount implements BaseAccountRight{
 
         return balance;
     }
+
+    public Card getCard() {
+        return getUser().getCard();
+    }
 }

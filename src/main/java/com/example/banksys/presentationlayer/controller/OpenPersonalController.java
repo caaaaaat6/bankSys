@@ -5,7 +5,7 @@ import com.example.banksys.businesslogiclayer.service.PersonalService;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
-import com.example.banksys.presentationlayer.utils.OpenForm;
+import com.example.banksys.presentationlayer.form.OpenForm;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -63,7 +62,7 @@ public class OpenPersonalController {
             @Valid
                     OpenForm form, Errors errors, Model model, HttpSession session, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
-            errors.getAllErrors().forEach(System.out::println);
+//            errors.getAllErrors().forEach(System.out::println);
             return "open";
         }
         String beanName = getBeanName(form);

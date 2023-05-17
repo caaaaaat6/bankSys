@@ -7,7 +7,8 @@
 <body>
 <h1>取款</h1>
 
-<form method="POST" th:action="@{/users/enterprise/withdraw}" id="depositCurrentForm" th:object="${withDrawFrom}">
+<!--<form method="POST" th:action="@{/users/personal/withdraw/}" id="depositCurrentForm" th:object="${withdrawForm}">-->
+<form method="POST" th:action="${postTo}" id="depositCurrentForm" th:object="${withdrawForm}">
 
     <label for="money">取款金额：</label>
     <input type="number" th:field="*{money}">

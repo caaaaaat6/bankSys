@@ -1,17 +1,21 @@
 package com.example.banksys.businesslogiclayer.service;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.VipOpenMoneyNotEnoughException;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.DepositCurrentForm;
 import com.example.banksys.presentationlayer.form.DepositFixedForm;
 import com.example.banksys.presentationlayer.form.OpenForm;
+import com.example.banksys.presentationlayer.form.WithdrawForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonalService {
+public class PersonalService implements com.example.banksys.businesslogiclayer.service.Service {
 
     public static final double VIP_OPEN_THRESHOLD = 1000000;
     private PersonalCardRepository personalCardRepository;
@@ -82,14 +86,20 @@ public class PersonalService {
         personalCardRepository.saveAll(personalCardsByUserPid.get()); // 更新卡表
     }
 
+    @Override
     @Transactional
     public double depositCurrent(BaseCurrentAccountRight accountRight, DepositCurrentForm form) {
         return accountRight.deposit(form.getMoney());
     }
 
+    @Override
     @Transactional
     public double depositFixed(BaseFixedAccountRight accountRight, DepositFixedForm form) {
         return accountRight.deposit(form.getMoney(), form.getDepositDays());
+    }
+
+    public double withdraw(BaseAccount account, WithdrawForm form) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        return account.withdraw(form.getMoney());
     }
 
 //    public double depositFixed(BaseCurrentAccountRight accountRight)

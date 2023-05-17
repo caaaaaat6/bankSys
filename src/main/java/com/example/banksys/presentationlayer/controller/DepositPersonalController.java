@@ -76,6 +76,7 @@ public class DepositPersonalController {
     }
 
     @PostMapping("/current")
+    @Transactional
     public String currentDepositPost(Model model, @Valid DepositCurrentForm depositCurrentForm, Errors errors) {
         if (errors.hasErrors()) {
             return "deposit_current";
@@ -87,6 +88,7 @@ public class DepositPersonalController {
     }
 
     @PostMapping("/fixed")
+    @Transactional
     public String fixedDepositPost(Model model, @Valid DepositFixedForm depositFixedForm, Errors errors) {
         if (errors.hasErrors()) {
             return "deposit_fixed";

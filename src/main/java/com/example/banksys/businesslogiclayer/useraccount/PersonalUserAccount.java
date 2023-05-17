@@ -8,6 +8,7 @@ import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.Trade;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public abstract class PersonalUserAccount extends BaseAccount {
     @Autowired
     private PersonalCardRepository personalCardRepository;
 
+    @OneToOne()
     private PersonalCard personalCard;
 
     public void setPersonalCard(PersonalCard personalCard) {
@@ -62,4 +64,8 @@ public abstract class PersonalUserAccount extends BaseAccount {
         return true;
     }
 
+    @Override
+    public Card getCard() {
+        return getPersonalCard();
+    }
 }

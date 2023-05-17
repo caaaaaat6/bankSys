@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class WithdrawForm {
 
-    @NotNull
+    @NotNull(message = "不能为空")
     @Min(value = 0, message = "取款金额不能为负！")
     private double money;
 }

@@ -66,6 +66,9 @@ public abstract class PersonalUserAccount extends BaseAccount {
 
     @Override
     public Card getCard() {
+        if (this.personalCard != null) {
+            return personalCard;
+        }
         if (getUser() == null) {
             return null;
         }

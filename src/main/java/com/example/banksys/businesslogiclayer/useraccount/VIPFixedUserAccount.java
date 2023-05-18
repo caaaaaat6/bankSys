@@ -35,7 +35,7 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
 
     @Override
     public double withdraw(double money) throws WithdrawException {
-        return super.withdraw(money);
+        return BLLUtil.withdrawFixedAccount(getTradeRepository(),getCardRepository(),getCard(),getEmployee(),money);
     }
 
     @Override

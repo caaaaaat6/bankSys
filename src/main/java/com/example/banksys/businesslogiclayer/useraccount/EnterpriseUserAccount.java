@@ -101,4 +101,24 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
         return balance;
     }
+
+    public Card getCard() {
+        if (this.enterpriseCard != null) {
+            return this.enterpriseCard;
+        }
+        if (this.getUser() == null) {
+            return null;
+        }
+        return getUser().getCard();
+    }
+
+    public EnterpriseCard getEnterpriseCard() {
+        if (this.enterpriseCard == null) {
+            if (getCard() == null) {
+                return null;
+            }
+            this.enterpriseCard = this.enterpriseCardRepository.findById(getCard().getCardId()).get();
+        }
+        return this.enterpriseCard;
+    }
 }

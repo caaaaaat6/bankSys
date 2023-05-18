@@ -36,7 +36,7 @@ public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements
 
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
-        return super.withdraw(money);
+        return BLLUtil.withdrawFixedAccount(getTradeRepository(),getCardRepository(),getCard(),getEmployee(),money);
     }
 
     @Override

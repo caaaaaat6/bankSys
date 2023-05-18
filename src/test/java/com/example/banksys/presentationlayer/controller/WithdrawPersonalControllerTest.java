@@ -1,5 +1,6 @@
 package com.example.banksys.presentationlayer.controller;
 
+import com.example.banksys.model.Exception.WithdrawException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +24,10 @@ import static org.springframework.test.web.servlet.setup.SharedHttpSessionConfig
 @Transactional
 @WebAppConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WithDrawControllerTest {
+class WithdrawPersonalControllerTest {
 
     private final MockMvc mockMvc;
-    WithDrawControllerTest(WebApplicationContext wac) {
+    WithdrawPersonalControllerTest(WebApplicationContext wac) {
         this.mockMvc = webAppContextSetup(wac)
                 .apply(springSecurity()) // 很重要这一行
                 .apply(sharedHttpSession()) // 很重要这一行
@@ -45,6 +46,22 @@ class WithDrawControllerTest {
 
         mockMvc.perform(post("/users/personal/withdraw/")
                         .param("money", "2"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void withdrawFixedAccountTest() throws Exception {
+        mockMvc.perform(formLogin("/login").user("74").password("1"))
+                .andExpect(authenticated())
+                .andDo(print());
+
+        mockMvc.perform(get("/users/personal/withdraw/"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/users/personal/withdraw/")
+                        .param("money", "0.1"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

@@ -68,9 +68,9 @@ public abstract class BaseAccount implements BaseAccountRight{
     @Transactional
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
-        double balance = card.withdraw(money);
-        cardRepository.save(card);
-        Trade trade = new Trade(card.getCardId(), employee, Trade.TradeType.WITHDRAW,money,new Date());
+        double balance = getCard().withdraw(money);
+        cardRepository.save(getCard());
+        Trade trade = new Trade(getCard().getCardId(), employee, Trade.TradeType.WITHDRAW,money,new Date());
         tradeRepository.save(trade);
         return balance;
     }
@@ -93,8 +93,8 @@ public abstract class BaseAccount implements BaseAccountRight{
 
     @Override
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
-        double newBalance = card.withdraw(money);
-        getCardRepository().save(card);
+        double newBalance = getCard().withdraw(money);
+        getCardRepository().save(getCard());
 
         toCard.deposit(money);
         getCardRepository().save(toCard);
@@ -127,6 +127,11 @@ public abstract class BaseAccount implements BaseAccountRight{
         getUserRepository().delete(getUser());
 
         return balance;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        this.card = user.getCard();
     }
 
     public Card getCard() {

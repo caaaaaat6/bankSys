@@ -1,5 +1,7 @@
 package com.example.banksys.businesslogiclayer.service;
 
+import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
@@ -8,15 +10,17 @@ import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.model.EnterpriseUser;
+import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.presentationlayer.form.DepositCurrentForm;
 import com.example.banksys.presentationlayer.form.DepositFixedForm;
 import com.example.banksys.presentationlayer.form.EnterpriseOpenForm;
+import com.example.banksys.presentationlayer.form.WithdrawForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class EnterpriseService {
+public class EnterpriseService implements com.example.banksys.businesslogiclayer.service.Service {
 
     private EnterpriseCardRepository enterpriseCardRepository;
     private EnterpriseUserRepository enterpriseUserRepository;
@@ -55,11 +59,20 @@ public class EnterpriseService {
         return enterpriseUser.getUserId();
     }
 
+    @Override
+    @Transactional
     public double depositCurrent(BaseCurrentAccountRight accountRight, DepositCurrentForm depositCurrentForm) {
         return accountRight.deposit(depositCurrentForm.getMoney());
     }
-
+    @Override
+    @Transactional
     public double depositFixed(BaseFixedAccountRight accountRight, DepositFixedForm depositFixedForm) {
         return accountRight.deposit(depositFixedForm.getMoney(), depositFixedForm.getDepositDays());
+    }
+
+    @Override
+    @Transactional
+    public double withdraw(BaseAccount account, WithdrawForm form) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
+        return account.withdraw(form.getMoney());
     }
 }

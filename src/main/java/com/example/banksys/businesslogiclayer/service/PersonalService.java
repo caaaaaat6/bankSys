@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer.service;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.exception.VipOpenMoneyNotEnoughException;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
@@ -14,10 +15,7 @@ import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.Trade;
 import com.example.banksys.model.User;
 import com.example.banksys.model.log.AccountLog;
-import com.example.banksys.presentationlayer.form.DepositCurrentForm;
-import com.example.banksys.presentationlayer.form.DepositFixedForm;
-import com.example.banksys.presentationlayer.form.OpenForm;
-import com.example.banksys.presentationlayer.form.WithdrawForm;
+import com.example.banksys.presentationlayer.form.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,5 +120,11 @@ public class PersonalService implements com.example.banksys.businesslogiclayer.s
         return account.queryTrades();
     }
 
-//    public double depositFixed(BaseCurrentAccountRight accountRight)
+    @Override
+    public double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException {
+        User toUser = userRepository.findById(transferForm.getToUserId()).get();
+        Card toCard = toUser.getCard();
+        return account.transferMoneyTo(toCard,transferForm.getMoney());
+    }
+
 }

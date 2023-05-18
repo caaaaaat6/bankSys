@@ -94,4 +94,10 @@ public class BLLUtil {
         tradeRepository.save(trade);
         return newBalance;
     }
+
+    public static void checkDesirableBalanceBeforeTransfer(TradeRepository tradeRepository, Card card, double money) throws WithdrawException {
+        if (BLLUtil.queryDesirableBalance(tradeRepository, card) < money) {
+            throw new WithdrawException("可取余额不足" + money + "元！");
+        }
+    }
 }

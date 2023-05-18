@@ -5,13 +5,11 @@
       th:with="UserType=${T(com.example.banksys.model.Card.UserType)}"
       >
 <head>
-    <title>Open Personal Account</title>
-<!--    <title>个人开户 open</title>-->
+    <title>个人开户</title>
 </head>
 
 <body>
-<h1>Open Personal Account</h1>
-<!--<h1>个人开户</h1>-->
+<h1>个人开户</h1>
 
 <!--<form method="POST" th:action="@{/users/personal/open}" id="openForm" th:object="${openForm}"-->
 <!--      th:if="${session.openForm != null}" th:attr="value=${session.openForm}">-->
@@ -41,7 +39,7 @@
     <input type="radio" name="cardType" th:value="${T(com.example.banksys.model.Card.CardType).FIXED}">定期账户<br/>
 
     <label for="openMoney">开户金额: </label>
-    <input type="text" th:field="*{openMoney}"/><br/>
+    <input type="number" th:field="*{openMoney}"/><br/>
     <span class="validationError"
           th:if="${#fields.hasErrors('openMoney')}"
           th:errors="*{openMoney}">Invalid open money</span><br/>

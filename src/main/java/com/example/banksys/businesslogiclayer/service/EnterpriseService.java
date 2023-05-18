@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer.service;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
@@ -8,15 +9,10 @@ import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
-import com.example.banksys.model.Enterprise;
-import com.example.banksys.model.EnterpriseUser;
+import com.example.banksys.model.*;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.model.Trade;
 import com.example.banksys.model.log.AccountLog;
-import com.example.banksys.presentationlayer.form.DepositCurrentForm;
-import com.example.banksys.presentationlayer.form.DepositFixedForm;
-import com.example.banksys.presentationlayer.form.EnterpriseOpenForm;
-import com.example.banksys.presentationlayer.form.WithdrawForm;
+import com.example.banksys.presentationlayer.form.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,6 +90,13 @@ public class EnterpriseService implements com.example.banksys.businesslogiclayer
     @Override
     public List<Trade> queryTrades(BaseAccount account) {
         return account.queryTrades();
+    }
+
+    @Override
+    public double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException {
+        User toUser = enterpriseUserRepository.findById(transferForm.getToUserId()).get();
+        Card toCard = toUser.getCard();
+        return account.transferMoneyTo(toCard,transferForm.getMoney());
     }
 
 

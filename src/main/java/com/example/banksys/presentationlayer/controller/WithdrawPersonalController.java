@@ -55,7 +55,6 @@ public class WithdrawPersonalController {
         try {
             balance = service.withdraw(account, withdrawForm);
         } catch (Exception | WithdrawException e) {
-//            e.printStackTrace();
             model.addAttribute("errorMessage", e.getMessage());
             return "errors";
         }

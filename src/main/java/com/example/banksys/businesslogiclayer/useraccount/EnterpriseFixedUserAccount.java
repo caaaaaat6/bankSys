@@ -46,6 +46,7 @@ public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements
 
     @Override
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
+        BLLUtil.checkDesirableBalanceBeforeTransfer(getTradeRepository(),getCard(),money);
         return super.transferMoneyTo(toCard, money);
     }
 

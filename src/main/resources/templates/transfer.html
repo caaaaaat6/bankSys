@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:with="UserType=${T(com.example.banksys.model.Card.UserType)}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>转账</title>
+</head>
+<body>
+<h1>转账</h1>
+<form method="POST" th:action="${postTo}" id="openForm" th:object="${transferForm}"
+      th:attr="value=${session.transferForm}">
+
+
+    <label for="outName">转出账户姓名: </label>
+    <input type="text" th:field="*{outName}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('outName')}"
+          th:errors="*{outName}">转出账户ID与姓名不匹配！</span><br/>
+
+    <label for="toUserId">转入账户ID: </label>
+    <input type="text" th:field="*{toUserId}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('toUserId')}"
+          th:errors="*{toUserId}">转入账户ID不能为空！</span><br/>
+
+    <label for="toName">转入账户姓名: </label>
+    <input type="text" th:field="*{toName}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('toName')}"
+          th:errors="*{toName}">转入账户姓名不能为空！</span><br/>
+
+    <label for="money">转账金额: </label>
+    <input type="number" th:field="*{money}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('money')}"
+          th:errors="*{money}">转账金额不能为空</span><br/>
+
+    <span th:if="${#fields.hasGlobalErrors()}"
+          th:text="${#fields.globalErrors()[0]}"
+          class="error-message"></span><br/>
+    <input type="submit" value="transfer"/>
+    <span th:field="*{error}" th:if="${error!=null}" th:value="${error}"></span>
+</form>
+</body>
+</html>

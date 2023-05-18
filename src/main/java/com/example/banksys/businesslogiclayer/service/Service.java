@@ -1,6 +1,7 @@
 package com.example.banksys.businesslogiclayer.service;
 
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
+import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
@@ -9,6 +10,7 @@ import com.example.banksys.model.Trade;
 import com.example.banksys.model.log.AccountLog;
 import com.example.banksys.presentationlayer.form.DepositCurrentForm;
 import com.example.banksys.presentationlayer.form.DepositFixedForm;
+import com.example.banksys.presentationlayer.form.TransferForm;
 import com.example.banksys.presentationlayer.form.WithdrawForm;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,4 +34,7 @@ public interface Service {
 
     @Transactional
     List<Trade> queryTrades(BaseAccount account);
+
+    @Transactional
+    double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException;
 }

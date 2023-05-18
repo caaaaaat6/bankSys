@@ -25,8 +25,6 @@ public class AccountLog {
     @Column(nullable = false)
     private long cardId;
 
-//    private long employeeId;
-
     @OneToOne
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
@@ -39,23 +37,6 @@ public class AccountLog {
 
     @Column(nullable = false)
     private Date date;
-
-//    public AccountLog(Long userId, Long employeeId, String operationType, String description) {
-//        this.userId = userId;
-//        this.employeeId = employeeId;
-//        this.operationType = operationType;
-//        this.description = description;
-//        this.date = new Date();
-//    }
-//
-//    public AccountLog(Long userId, long cardId, Long employeeId, String operationType, String description) {
-//        this.userId = userId;
-//        this.cardId = cardId;
-//        this.employeeId = employeeId;
-//        this.operationType = operationType;
-//        this.description = description;
-//        this.date = new Date();
-//    }
 
     public Long getEmployeeId() {
         if (employee == null) {

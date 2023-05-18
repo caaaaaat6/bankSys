@@ -20,9 +20,6 @@ public class Trade {
     @Column(nullable = false)
     private Long cardId;
 
-//    @Column(nullable = true)
-//    private Long employeeId;
-
     @OneToOne
     private Employee employee;
 

@@ -13,8 +13,6 @@ public interface AccountLogRepository extends CrudRepository<AccountLog, Long> {
 
     List<AccountLog> findAllByEmployee(Employee employee);
 
-//    List<AccountLog> findAllByEmployeeId(Employee employee);
-
     List<AccountLog> findAllByEmployeeIn(List<Employee> employees);
 
     List<AccountLog> findAllByCardIdAndOperationTypeOrderByDateDesc(long cardId, String operationType);

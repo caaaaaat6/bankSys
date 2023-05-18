@@ -11,7 +11,9 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.PersonalCard;
+import com.example.banksys.model.Trade;
 import com.example.banksys.model.User;
+import com.example.banksys.model.log.AccountLog;
 import com.example.banksys.presentationlayer.form.DepositCurrentForm;
 import com.example.banksys.presentationlayer.form.DepositFixedForm;
 import com.example.banksys.presentationlayer.form.OpenForm;
@@ -102,6 +104,22 @@ public class PersonalService implements com.example.banksys.businesslogiclayer.s
     @Transactional
     public double withdraw(BaseAccount account, WithdrawForm form) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
         return account.withdraw(form.getMoney());
+    }
+
+    @Override
+    @Transactional
+    public String queryBalance(BaseAccount account) {
+        return account.queryBalance();
+    }
+
+    @Override
+    public List<AccountLog> queryQueryLogs(BaseAccount account) {
+        return account.queryQueryLogs();
+    }
+
+    @Override
+    public List<Trade> queryTrades(BaseAccount account) {
+        return account.queryTrades();
     }
 
 //    public double depositFixed(BaseCurrentAccountRight accountRight)

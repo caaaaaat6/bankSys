@@ -57,6 +57,13 @@ public class AccountLog {
 //        this.date = new Date();
 //    }
 
+    public Long getEmployeeId() {
+        if (employee == null) {
+            return null;
+        }
+        return employee.getEmployeeId();
+    }
+
     public AccountLog(Long userId, Employee employee, String operationType, String description) {
         this.userId = userId;
         this.employee = employee;

@@ -44,6 +44,10 @@ public class Trade {
 
     }
 
+    public Long getEmployeeId() {
+        return employee.getEmployeeId();
+    }
+
     public Trade(Long cardId, Employee employee, String tradeType, double money, Date tradeDate) {
         this.cardId = cardId;
         this.employee = employee;

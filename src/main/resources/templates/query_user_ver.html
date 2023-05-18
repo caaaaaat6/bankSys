@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查询</title>
+</head>
+<body>
+<script th:src="@{/js/auto_logout.js}"></script>
+
+
+<!-- Display balance -->
+<h2>可取余额/总余额: <span th:text="${balance}"></span></h2>
+
+<!-- Display query logs -->
+<h3>查询日志:</h3>
+<table border="1px" cellpadding="10" cellspacing="0">
+    <thead>
+    <tr>
+        <th>日期</th>
+        <th>描述</th>
+        <th>雇员ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="queryLog, queryRow : ${queryLogs}">
+        <td th:text="${queryLog.date}"></td>
+        <td th:text="${queryLog.description}"></td>
+        <td th:text="${queryLog.employeeId}"></td>
+    </tr>
+    <tr th:if="${queryLogs.size() == 0}">
+        <td colspan="3">No query logs available</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Display trade logs -->
+<h3>交易日志:</h3>
+<table border="1px" cellpadding="10" cellspacing="0">
+    <thead>
+    <tr>
+        <th>交易日期</th>
+        <th>交易类型</th>
+        <th>交易金额</th>
+        <th th:if="${tradeLogs.size() > 0 && tradeLogs[0].tradeType eq 'fixed'}">到期日期</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tradeLog, tradeRow : ${tradeLogs}">
+        <td th:text="${tradeLog.tradeDate}"></td>
+        <td th:text="${tradeLog.tradeType}"></td>
+        <td th:text="${tradeLog.money}"></td>
+        <td th:if="${tradeLog.tradeType eq 'fixed'}" th:text="${tradeLog.expireDate}"></td>
+    </tr>
+    <tr th:if="${tradeLogs.size() == 0}">
+        <td colspan="4">没有有效的交易记录</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

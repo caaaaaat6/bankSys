@@ -6,8 +6,8 @@ import com.example.banksys.model.Card;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
+import com.example.banksys.model.log.AccountLog;
 
-import java.util.Date;
 import java.util.List;
 
 // 职员权限
@@ -26,7 +26,9 @@ interface BaseAccountRight {
     String queryBalance();
 
     //按范围查询
-    List<Trade> queryDaybook(Date start, Date end);
+    List<Trade> queryTrades();
+
+    List<AccountLog> queryQueryLogs();
 
     //转账
     double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException;

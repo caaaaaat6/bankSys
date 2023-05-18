@@ -12,6 +12,7 @@ import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
 import com.example.banksys.model.User;
+import com.example.banksys.model.log.AccountLog;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -87,8 +88,13 @@ public abstract class BaseAccount implements BaseAccountRight{
     }
 
     @Override
-    public List<Trade> queryDaybook(Date start, Date end) {
-        return null;
+    public List<Trade> queryTrades() {
+        return getTradeRepository().findAllByCardIdOrderByTradeDateDesc(getCard().getCardId());
+    }
+
+    @Override
+    public List<AccountLog> queryQueryLogs() {
+        return getAccountLogRepository().findAllByCardIdAndOperationTypeOrderByDateDesc(getCard().getCardId(), AccountLog.OperationType.QUERY);
     }
 
     @Override

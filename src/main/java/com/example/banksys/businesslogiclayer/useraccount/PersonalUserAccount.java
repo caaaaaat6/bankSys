@@ -24,7 +24,7 @@ public abstract class PersonalUserAccount extends BaseAccount {
     @Autowired
     private PersonalCardRepository personalCardRepository;
 
-    @OneToOne()
+//    @OneToOne
     private PersonalCard personalCard;
 
     public void setPersonalCard(PersonalCard personalCard) {
@@ -42,9 +42,9 @@ public abstract class PersonalUserAccount extends BaseAccount {
 
     @Override
     public double withdraw(double money) throws WithdrawException {
-        double balance = personalCard.withdraw(money);
+        double balance = getPersonalCard().withdraw(money);
         personalCardRepository.save(personalCard);
-        Trade trade = new Trade(personalCard.getCardId(), getEmployee(), Trade.TradeType.WITHDRAW, money, new Date());
+        Trade trade = new Trade(getPersonalCard().getCardId(), getEmployee(), Trade.TradeType.WITHDRAW, money, new Date());
         tradeRepository.save(trade);
         return balance;
     }
@@ -66,6 +66,20 @@ public abstract class PersonalUserAccount extends BaseAccount {
 
     @Override
     public Card getCard() {
-        return getPersonalCard();
+        if (getUser() == null) {
+            return null;
+        }
+        return getUser().getCard();
     }
+
+    public PersonalCard getPersonalCard() {
+        if (personalCard == null) {
+            if (getCard() == null) {
+                return null;
+            }
+            this.personalCard = getPersonalCardRepository().findById(getCard().getCardId()).get();
+        }
+        return personalCard;
+    }
+
 }

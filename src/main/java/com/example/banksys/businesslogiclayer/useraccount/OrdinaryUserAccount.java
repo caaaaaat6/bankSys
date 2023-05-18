@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 
 public abstract class OrdinaryUserAccount extends PersonalUserAccount {
 
-    Logger logger = LoggerFactory.getLogger(OrdinaryUserAccount.class);
-
     @Override
     public String queryBalance() {
         return super.queryBalance();

@@ -107,4 +107,5 @@ class PersonalUserControllerTest {
 //                .andExpect(status().isOk())
                 .andExpect(redirectedUrl("current"));
     }
+
 }

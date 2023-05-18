@@ -98,6 +98,8 @@ public class PersonalService implements com.example.banksys.businesslogiclayer.s
         return accountRight.deposit(form.getMoney(), form.getDepositDays());
     }
 
+    @Override
+    @Transactional
     public double withdraw(BaseAccount account, WithdrawForm form) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException {
         return account.withdraw(form.getMoney());
     }

@@ -8,6 +8,7 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.WithdrawForm;
+import com.example.banksys.presentationlayer.helper.GetWithdrawPageHelper;
 import com.example.banksys.presentationlayer.utils.BeanNameUtil;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationContext;
@@ -27,11 +28,13 @@ public class WithdrawEnterpriseController {
     public static final String ACCOUNT_ATTRIBUTE = "account";
     private ApplicationContext context;
     private EnterpriseUserRepository enterpriseUserRepository;
+    private UserRepository userRepository;
     private Service service;
 
-    public WithdrawEnterpriseController(ApplicationContext context, EnterpriseUserRepository enterpriseUserRepository, Service enterpriseService) {
+    public WithdrawEnterpriseController(ApplicationContext context, EnterpriseUserRepository enterpriseUserRepository, UserRepository userRepository, Service enterpriseService) {
         this.context = context;
         this.enterpriseUserRepository = enterpriseUserRepository;
+        this.userRepository = userRepository;
         this.service = enterpriseService;
     }
 
@@ -49,6 +52,7 @@ public class WithdrawEnterpriseController {
         model.addAttribute(ACCOUNT_ATTRIBUTE, account);
         model.addAttribute("postTo","");
         return "withdraw";
+//        return GetWithdrawPageHelper.getWithdrawPage(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
     }
 
     @PostMapping("/")

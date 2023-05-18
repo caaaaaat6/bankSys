@@ -6,6 +6,7 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.WithdrawForm;
+import com.example.banksys.presentationlayer.helper.GetWithdrawPageHelper;
 import com.example.banksys.presentationlayer.utils.BeanNameUtil;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationContext;
@@ -40,13 +41,7 @@ public class WithdrawPersonalController {
 
     @GetMapping("/")
     public String getWithdrawPage(Model model, Authentication authentication) {
-        Long userId = Long.parseLong(authentication.getName());
-        User user = userRepository.findById(userId).get();
-        BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
-        account.setUser(user);
-        model.addAttribute(ACCOUNT_ATTRIBUTE, account);
-        model.addAttribute("postTo","");
-        return "withdraw";
+        return GetWithdrawPageHelper.getWithdrawPage(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
     }
 
     @PostMapping("/")

@@ -21,6 +21,7 @@ import java.util.List;
 @Table(name = "User", indexes = {@Index(columnList = "employeeId", unique = true)})
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING, length = 30)
 @DiscriminatorValue("PersonalUser")
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements UserDetails {
 
     public static final int PASSWORD_LENGTH = 512;

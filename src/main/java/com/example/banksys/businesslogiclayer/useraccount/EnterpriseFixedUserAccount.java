@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor(force = true)
-//@Service
 public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements BaseFixedAccountRight {
 
+    /**
+     * 没有advice的提示，但是能够织入，IDEA有bug，日志还是能正常写入数据库
+     */
     @Override
     public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         return super.openEnterpriseAccount(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee);
@@ -36,6 +38,9 @@ public class EnterpriseFixedUserAccount extends EnterpriseUserAccount implements
 
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
+        if (!canWithdraw(money)) {
+            throw new EnterpriseWithdrawBalanceNotEnoughException("企业用户剩余存款余额不足" + BALANCE_THRESHOLD + "元，无法取款！");
+        }
         return BLLUtil.withdrawFixedAccount(getTradeRepository(),getCardRepository(),getCard(),getEmployee(),money);
     }
 

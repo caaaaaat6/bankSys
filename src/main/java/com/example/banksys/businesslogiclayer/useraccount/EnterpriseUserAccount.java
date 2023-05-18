@@ -62,7 +62,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         return newBalance;
     }
 
-    private boolean canWithdraw(double money) {
+    public boolean canWithdraw(double money) {
         double balance = getEnterpriseCard().getBalance();
         if (balance - money >= BALANCE_THRESHOLD) {
             return true;

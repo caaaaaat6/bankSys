@@ -37,15 +37,15 @@ public class OpenEnterpriseControllerTest {
 
     @Test
     void processOpenEnterprise(@Autowired EnterpriseRepository enterpriseRepository) throws Exception {
-        Enterprise enterprise = enterpriseRepository.findById(6L).get();
+        Enterprise enterprise = enterpriseRepository.findById(21L).get();
         mockMvc.perform(post("/users/enterprise/open")
                         .param("userName","杨过")
                         .param("userPid","11111120000102002X")
                         .param("cardType", Card.CardType.CURRENT)
                         .param("openMoney","10000")
 //                        .param("enterprise", "Enterprise(enterpriseId=6,+enterpriseName=华为)")
-                        .param("enterpriseId", "6")
-                        .param("password", "1")
+                        .param("enterpriseId", enterprise.getEnterpriseId() + "")
+                        .param("password", "21")
                         .param("confirm", "1"))
                 .andExpect(status().isOk())
                 .andDo(print());

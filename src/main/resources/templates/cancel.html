@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>错误</title>
+    <title>取消操作</title>
 </head>
 <body>
-<h1>错误</h1>
-
 <script th:src="@{/js/auto_logout.js}"></script>
 
-<p th:text="${errorMessage}"></p>
+<h1>取消操作成功！</h1>
+<p th:object="${successMessage}" th:text="${successMessage}"></p>
 </body>
 </html>

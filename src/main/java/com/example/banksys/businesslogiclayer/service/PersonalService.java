@@ -111,20 +111,29 @@ public class PersonalService implements com.example.banksys.businesslogiclayer.s
     }
 
     @Override
+    @Transactional
     public List<AccountLog> queryQueryLogs(BaseAccount account) {
         return account.queryQueryLogs();
     }
 
     @Override
+    @Transactional
     public List<Trade> queryTrades(BaseAccount account) {
         return account.queryTrades();
     }
 
     @Override
+    @Transactional
     public double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException {
         User toUser = userRepository.findById(transferForm.getToUserId()).get();
         Card toCard = toUser.getCard();
         return account.transferMoneyTo(toCard,transferForm.getMoney());
+    }
+
+    @Override
+    @Transactional
+    public double close(BaseAccount account) {
+        return account.closeAccount();
     }
 
 }

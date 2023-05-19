@@ -10,7 +10,6 @@ import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.PostPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import com.example.banksys.presentationlayer.utils.validator.OrderedChecks;
-import jakarta.validation.Valid;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -23,18 +22,18 @@ import org.springframework.web.bind.annotation.*;
 import static com.example.banksys.presentationlayer.controller.TransferPersonalController.ACCOUNT_ATTRIBUTE;
 
 @Controller
-@RequestMapping("/users/personal/transfer/")
+@RequestMapping("/users/enterprise/transfer/")
 @SessionAttributes({ACCOUNT_ATTRIBUTE,"transferForm"})
-public class TransferPersonalController {
+public class TransferEnterpriseController {
     public static final String ACCOUNT_ATTRIBUTE = "account";
     private ApplicationContext context;
     private UserRepository userRepository;
     private Service service;
 
-    public TransferPersonalController(ApplicationContext context, UserRepository userRepository, Service personalService) {
+    public TransferEnterpriseController(ApplicationContext context, UserRepository userRepository, Service enterpriseService) {
         this.context = context;
         this.userRepository = userRepository;
-        this.service = personalService;
+        this.service = enterpriseService;
     }
 
     @ModelAttribute("transferForm")

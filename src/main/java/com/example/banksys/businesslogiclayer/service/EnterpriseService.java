@@ -78,26 +78,37 @@ public class EnterpriseService implements com.example.banksys.businesslogiclayer
     }
 
     @Override
+    @Transactional
     public String queryBalance(BaseAccount account) {
         return account.queryBalance();
     }
 
     @Override
+    @Transactional
     public List<AccountLog> queryQueryLogs(BaseAccount account) {
         return account.queryQueryLogs();
     }
 
     @Override
+    @Transactional
     public List<Trade> queryTrades(BaseAccount account) {
         return account.queryTrades();
     }
 
     @Override
+    @Transactional
     public double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException {
         User toUser = enterpriseUserRepository.findById(transferForm.getToUserId()).get();
         Card toCard = toUser.getCard();
         return account.transferMoneyTo(toCard,transferForm.getMoney());
     }
+
+    @Override
+    @Transactional
+    public double close(BaseAccount account) {
+        return account.closeAccount();
+    }
+
 
 
 }

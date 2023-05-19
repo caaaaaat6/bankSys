@@ -11,12 +11,16 @@ import org.springframework.ui.Model;
 public class GetPageHelper {
 
     public static String getPage(Model model, Authentication authentication, UserRepository userRepository, ApplicationContext context, final String ACCOUNT_ATTRIBUTE, String template) {
+        addAcount(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
+        model.addAttribute("postTo","");
+        return template;
+    }
+
+    public static void addAcount(Model model, Authentication authentication, UserRepository userRepository, ApplicationContext context, String ACCOUNT_ATTRIBUTE) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId).get();
         BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
         account.setUser(user);
         model.addAttribute(ACCOUNT_ATTRIBUTE, account);
-        model.addAttribute("postTo","");
-        return template;
     }
 }

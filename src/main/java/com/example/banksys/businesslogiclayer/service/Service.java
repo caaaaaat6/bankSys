@@ -37,4 +37,7 @@ public interface Service {
 
     @Transactional
     double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException;
+
+    @Transactional
+    double close(BaseAccount account);
 }

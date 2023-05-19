@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import static com.example.banksys.presentationlayer.controller.TransferPersonalController.ACCOUNT_ATTRIBUTE;
 
 @Controller
-@RequestMapping("/users/personal/close/")
+@RequestMapping("/users/enterprise/close/")
 @SessionAttributes({ACCOUNT_ATTRIBUTE})
-public class ClosePersonalController extends CloseController {
-    public ClosePersonalController(ApplicationContext context, UserRepository userRepository, Service personalService) {
+public class CloseEnterpriseController extends CloseController {
+    public CloseEnterpriseController(ApplicationContext context, UserRepository userRepository, Service enterpriseService) {
         setContext(context);
         setUserRepository(userRepository);
-        setService(personalService);
+        setService(enterpriseService);
     }
 
     @GetMapping("/")

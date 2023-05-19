@@ -21,7 +21,10 @@ import java.util.List;
 public abstract class EnterpriseUserAccount extends BaseAccount {
 
     @Autowired
-    EnterpriseUserRepository enterpriseUserRepository;
+    private EnterpriseUserRepository enterpriseUserRepository;
+
+    @Autowired
+    protected EnterpriseCardRepository enterpriseCardRepository;
 
     protected EnterpriseUser enterpriseUser;
 
@@ -33,6 +36,7 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
     Logger logger = LoggerFactory.getLogger(EnterpriseUserAccount.class);
 
+
     public void setEnterpriseCard(EnterpriseCard enterpriseCard) {
         setCard(enterpriseCard);
         this.enterpriseCard = enterpriseCard;
@@ -42,9 +46,6 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         setUser(enterpriseUser);
         this.enterpriseUser = enterpriseUser;
     }
-
-    @Autowired
-    protected EnterpriseCardRepository enterpriseCardRepository;
 
     public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         enterpriseCard = new EnterpriseCard(userId, userPid, userName, Card.UserType.ENTERPRISE, password, enterpriseId, cardType, openMoney);
@@ -88,13 +89,13 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
 
     @Override
     public double closeAccount()  {
+        Enterprise enterprise = getEnterprise();
 
         double balance =  super.closeAccount();
 
-
         // 删除企业所有用户
         List<EnterpriseUser> enterpriseUserList = getEnterprise().getEnterpriseUserList();
-        getEnterprise().setEnterpriseUserList(null); // 消除企业对企业用户的引用
+        enterprise.setEnterpriseUserList(null); // 消除企业对企业用户的引用
         enterpriseUserList.forEach(e -> {e.setEnterprise(null);});
         getEnterpriseUserRepository().deleteAll(enterpriseUserList);
 
@@ -120,5 +121,20 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
             this.enterpriseCard = this.enterpriseCardRepository.findById(getCard().getCardId()).get();
         }
         return this.enterpriseCard;
+    }
+
+    public Enterprise getEnterprise() {
+        if (this.enterprise == null) {
+            this.enterprise = getEnterpriseUser().getEnterprise();
+        }
+        return this.enterprise;
+    }
+
+    public EnterpriseUser getEnterpriseUser() {
+        if (this.enterpriseUser == null) {
+            Long userId = getUser().getUserId();
+            this.enterpriseUser = getEnterpriseUserRepository().findById(userId).get();
+        }
+        return this.enterpriseUser;
     }
 }

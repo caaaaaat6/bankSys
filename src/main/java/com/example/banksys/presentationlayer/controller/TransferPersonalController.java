@@ -8,6 +8,7 @@ import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.presentationlayer.form.TransferForm;
 import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
+import com.example.banksys.presentationlayer.utils.validator.OrderedChecks;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.banksys.presentationlayer.controller.TransferPersonalController.ACCOUNT_ATTRIBUTE;
@@ -46,7 +48,7 @@ public class TransferPersonalController {
 
     @PostMapping("/")
     @Transactional
-    public String transferPost(Model model, @Valid TransferForm transferForm, Errors errors) {
+    public String transferPost(Model model, @Validated(OrderedChecks.class) TransferForm transferForm, Errors errors) {
         ToFrontendHelper.addPostUrl(model, "");
         if (errors.hasErrors()) {
             return "transfer";

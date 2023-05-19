@@ -1,4 +1,4 @@
-package com.example.banksys.presentationlayer.utils;
+package com.example.banksys.presentationlayer.utils.validator;
 
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.User;
@@ -20,11 +20,15 @@ public abstract class UserIdNameMatchesValidator  {
     }
 
     public boolean checkIdAndName(Long userId, String userName) {
+//        if (userId == null) {
+//            return false;
+//        }
         Optional<User> byId = userRepository.findById(userId);
         if (byId.isEmpty()) {
             return false;
         }
-        if (byId.get().getUsername().equals(userName)) {
+        boolean equal = byId.get().getUserName().equals(userName);
+        if (equal) {
             return true;
         }
         return false;

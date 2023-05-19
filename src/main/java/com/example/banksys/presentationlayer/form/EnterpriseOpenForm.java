@@ -1,7 +1,7 @@
 package com.example.banksys.presentationlayer.form;
 
 import com.example.banksys.model.Card;
-import com.example.banksys.presentationlayer.utils.PasswordMatches;
+import com.example.banksys.presentationlayer.utils.validator.PasswordMatches;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.banksys.presentationlayer.utils;
+package com.example.banksys.presentationlayer.utils.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

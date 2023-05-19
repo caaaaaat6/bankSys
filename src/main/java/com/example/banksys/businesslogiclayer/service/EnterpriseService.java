@@ -21,7 +21,7 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 
 @Service
-public class EnterpriseService implements com.example.banksys.businesslogiclayer.service.Service {
+public class EnterpriseService extends BaseService implements com.example.banksys.businesslogiclayer.service.Service {
 
     private EnterpriseCardRepository enterpriseCardRepository;
     private EnterpriseUserRepository enterpriseUserRepository;
@@ -101,6 +101,12 @@ public class EnterpriseService implements com.example.banksys.businesslogiclayer
         User toUser = enterpriseUserRepository.findById(transferForm.getToUserId()).get();
         Card toCard = toUser.getCard();
         return account.transferMoneyTo(toCard,transferForm.getMoney());
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(BaseAccount account, PasswordEncoder passwordEncoder, ChangePasswordForm changePasswordForm) {
+        super.changePassword(account, passwordEncoder, changePasswordForm);
     }
 
     @Override

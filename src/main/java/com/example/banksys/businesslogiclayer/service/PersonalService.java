@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonalService implements com.example.banksys.businesslogiclayer.service.Service {
+public class PersonalService extends BaseService implements com.example.banksys.businesslogiclayer.service.Service {
 
     public static final double VIP_OPEN_THRESHOLD = 1000000;
     private PersonalCardRepository personalCardRepository;
@@ -128,6 +128,12 @@ public class PersonalService implements com.example.banksys.businesslogiclayer.s
         User toUser = userRepository.findById(transferForm.getToUserId()).get();
         Card toCard = toUser.getCard();
         return account.transferMoneyTo(toCard,transferForm.getMoney());
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(BaseAccount account, PasswordEncoder passwordEncoder, ChangePasswordForm changePasswordForm) {
+        super.changePassword(account, passwordEncoder, changePasswordForm);
     }
 
     @Override

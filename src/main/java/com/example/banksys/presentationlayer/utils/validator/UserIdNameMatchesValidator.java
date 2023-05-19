@@ -20,9 +20,6 @@ public abstract class UserIdNameMatchesValidator  {
     }
 
     public boolean checkIdAndName(Long userId, String userName) {
-//        if (userId == null) {
-//            return false;
-//        }
         Optional<User> byId = userRepository.findById(userId);
         if (byId.isEmpty()) {
             return false;

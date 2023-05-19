@@ -8,10 +8,8 @@ import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.Trade;
 import com.example.banksys.model.log.AccountLog;
-import com.example.banksys.presentationlayer.form.DepositCurrentForm;
-import com.example.banksys.presentationlayer.form.DepositFixedForm;
-import com.example.banksys.presentationlayer.form.TransferForm;
-import com.example.banksys.presentationlayer.form.WithdrawForm;
+import com.example.banksys.presentationlayer.form.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -39,5 +37,10 @@ public interface Service {
     double transfer(BaseAccount account, TransferForm transferForm) throws EnterpriseWithdrawBalanceNotEnoughException, UntransferableException, WithdrawException;
 
     @Transactional
+    void changePassword(BaseAccount account, PasswordEncoder passwordEncoder, ChangePasswordForm changePasswordForm);
+
+    @Transactional
     double close(BaseAccount account);
+
+
 }

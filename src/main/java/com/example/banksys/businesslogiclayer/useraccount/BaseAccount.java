@@ -29,7 +29,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor(force = true)
 @Service
-public abstract class BaseAccount implements BaseAccountRight{
+public abstract class BaseAccount implements BaseAccountRight {
 
     private User user;
 
@@ -71,20 +71,19 @@ public abstract class BaseAccount implements BaseAccountRight{
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
         double balance = getCard().withdraw(money);
         cardRepository.save(getCard());
-        Trade trade = new Trade(getCard().getCardId(), employee, Trade.TradeType.WITHDRAW,money,new Date());
+        Trade trade = new Trade(getCard().getCardId(), employee, Trade.TradeType.WITHDRAW, money, new Date());
         tradeRepository.save(trade);
         return balance;
     }
 
     /**
-     *
      * @return 返回 可取余额/总余额
      */
     @Override
     public String queryBalance() {
         double balance = BLLUtil.queryBalance(getCard());
         double desirableBalance = BLLUtil.queryDesirableBalance(getTradeRepository(), getCard());
-        return BLLUtil.presentQueryBalanceResult(desirableBalance,balance);
+        return BLLUtil.presentQueryBalanceResult(desirableBalance, balance);
     }
 
     @Override
@@ -113,8 +112,9 @@ public abstract class BaseAccount implements BaseAccountRight{
     }
 
     @Override
-    public void changePassWord() {
-
+    public void changePassWord(String newPassword) {
+        getUser().setPassword(newPassword);
+        userRepository.save(getUser());
     }
 
     @Override

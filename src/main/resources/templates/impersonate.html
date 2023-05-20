@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录客户账户</title>
+</head>
+<body>
+<h1>登录客户账户</h1>
+<form method="POST" th:action="@{/employee/impersonate}" class="form">
+    <label for="usernameField">客户账户ID：</label>
+    <input type="text" name="username" id="usernameField" />
+    <input type="submit" value="Switch User" />
+</form>
+</body>
+</html>

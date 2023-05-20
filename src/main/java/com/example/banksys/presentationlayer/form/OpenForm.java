@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 @NoArgsConstructor(force = true)
-public class OpenForm {
+public class OpenForm implements ConfirmPasswordForm {
 
     @NotBlank(message = "不能为空")
     private String userPid;

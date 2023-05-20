@@ -4,7 +4,9 @@ import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.service.Service;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.model.Exception.WithdrawException;
+import com.example.banksys.presentationlayer.form.ChangePasswordForm;
 import com.example.banksys.presentationlayer.form.TransferForm;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 
@@ -26,4 +28,5 @@ public class PostPageHelper {
         ToFrontendHelper.addSuccessMessage(model,"账户余额为：" + balance);
         return "success";
     }
+
 }

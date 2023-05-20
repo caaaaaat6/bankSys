@@ -1,5 +1,6 @@
 package com.example.banksys.presentationlayer.utils.validator;
 
+import com.example.banksys.presentationlayer.form.ConfirmPasswordForm;
 import com.example.banksys.presentationlayer.form.OpenForm;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -13,7 +14,7 @@ public class PasswordMatchesValidator
 
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
-        OpenForm openForm = (OpenForm) o;
+        ConfirmPasswordForm openForm = (ConfirmPasswordForm) o;
         if (openForm.getPassword() == null || openForm.getConfirm() == null) {
             return false;
         }

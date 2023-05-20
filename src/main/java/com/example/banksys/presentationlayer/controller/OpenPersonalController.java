@@ -27,7 +27,6 @@ import static com.example.banksys.presentationlayer.utils.BeanNameUtil.getBeanNa
 public class OpenPersonalController {
 
     private PasswordEncoder passwordEncoder;
-    private PersonalCardRepository personalCardRepository;
     private UserRepository userRepository;
     private ApplicationContext context;
     private PersonalService personalService;
@@ -40,8 +39,7 @@ public class OpenPersonalController {
         this.personalService = personalService;
     }
 
-    public OpenPersonalController(PersonalCardRepository personalCardRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.personalCardRepository = personalCardRepository;
+    public OpenPersonalController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -52,8 +50,7 @@ public class OpenPersonalController {
     }
 
     @GetMapping
-    public String openForm(Model model) {
-//        model.addAttribute("openForm", new OpenForm());
+    public String openForm() {
         return "open";
     }
 
@@ -62,7 +59,6 @@ public class OpenPersonalController {
             @Valid
                     OpenForm form, Errors errors, Model model, HttpSession session, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
-//            errors.getAllErrors().forEach(System.out::println);
             return "open";
         }
         String beanName = getBeanName(form);
@@ -74,14 +70,13 @@ public class OpenPersonalController {
             model.addAttribute("errorMessage", e.getMessage());
             return "errors";
         }
-        clearOpenForm(session, sessionStatus);
+        clearOpenForm(session);
         model.addAttribute("cardId", cardId);
         return "open_success";
     }
 
     @ModelAttribute("openForm")
-    public void clearOpenForm(HttpSession session, SessionStatus sessionStatus) {
+    public void clearOpenForm(HttpSession session) {
         session.removeAttribute("openForm");
-//        sessionStatus.setComplete();
     }
 }

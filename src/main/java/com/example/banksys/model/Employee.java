@@ -6,6 +6,7 @@ import com.example.banksys.presentationlayer.utils.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,13 +24,14 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 public class Employee extends User implements EmployeeRight, UserDetails {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long employeeId;
+//    @Column(columnDefinition = "bigint UNIQUE key auto_increment")
+    private Long employeeId;
 
     @Column(length = 16)
     private String employeeType;
 
     @ManyToOne
+    @ToString.Exclude
     private Department department;
 
     private boolean enabled;
@@ -97,5 +99,21 @@ public class Employee extends User implements EmployeeRight, UserDetails {
     public boolean isEnabled() {
 //        return isEnabled();
         return true;
+    }
+
+    public Long getEmployeeId() {
+        if (employeeId == null) {
+            this.employeeId = getUserId();
+        }
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+        this.employeeId = userId;
     }
 }

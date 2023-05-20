@@ -5,7 +5,10 @@
     <title>操作成功</title>
 </head>
 <body>
-<script th:src="@{/js/auto_logout.js}"></script>
+
+<script th:if="${session.employee==null}" th:src="@{/js/auto_logout.js}"></script>
+<script th:if="${session.employee!=null}" th:src="@{/js/auto_exit_impersonation.js}"></script>
+
 <h1>操作成功！</h1>
 <p th:object="${successMessage}" th:text="${successMessage}"></p>
 </body>

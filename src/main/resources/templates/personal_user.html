@@ -13,7 +13,7 @@
 <a href="/users/personal/withdraw/">取款</a><br>
 <a href="/users/personal/query/">查询</a><br>
 <a href="/users/personal/transfer/">转账</a><br>
-<a href="/users/personal/change_password/">改密码</a><br>
+<a th:if="${session.employee==null}" href="/users/personal/change_password/">改密码</a><br th:if="${session.employee==null}" >
 <a href="/users/personal/close/">销户</a>
 
 </body>

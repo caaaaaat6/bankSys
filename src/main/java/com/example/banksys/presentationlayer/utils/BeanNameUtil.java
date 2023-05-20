@@ -35,4 +35,9 @@ public class BeanNameUtil {
 
         return beanName.toString();
     }
+
+    public static String getBeanName(String employeeTypeEn) {
+        String employeeAccount = "EmployeeAccount";
+        return employeeTypeEn + employeeAccount;
+    }
 }

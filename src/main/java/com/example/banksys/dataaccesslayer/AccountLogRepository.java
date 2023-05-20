@@ -16,4 +16,6 @@ public interface AccountLogRepository extends CrudRepository<AccountLog, Long> {
     List<AccountLog> findAllByEmployeeIn(List<Employee> employees);
 
     List<AccountLog> findAllByCardIdAndOperationTypeOrderByDateDesc(long cardId, String operationType);
+
+    List<AccountLog> findAllByEmployeeInAndCardIdIn(List<Employee> employees, List<Long> cardIds);
 }

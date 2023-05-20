@@ -19,6 +19,6 @@ public class Department {
 
     private String departmentName;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Employee> employeeList;
 }

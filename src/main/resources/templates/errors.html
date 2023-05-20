@@ -7,7 +7,9 @@
 <body>
 <h1>错误</h1>
 
-<script th:src="@{/js/auto_logout.js}"></script>
+<!--<script th:src="@{/js/auto_logout.js}"></script>-->
+<script th:if="${session.employee==null}" th:src="@{/js/auto_logout.js}"></script>
+<script th:if="${session.employee!=null}" th:src="@{/js/auto_exit_impersonation.js}"></script>
 
 <p th:text="${errorMessage}"></p>
 </body>

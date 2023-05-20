@@ -15,12 +15,6 @@ public abstract class HeadEmployeeAccount extends ManagerEmployeeAccount {
     EmployeeRepository employeeRepository;
 
     @Override
-    public List<AccountLog> findReport() {
-        List<Employee> all = employeeRepository.findAll();
-        return getAccountLogRepository().findAllByEmployeeIn(all);
-    }
-
-    @Override
     public List<Employee> findEmployeeManaged() {
         return employeeRepository.findAll();
     }

@@ -1,5 +1,6 @@
 package com.example.banksys.presentationlayer.helper;
 
+import com.example.banksys.businesslogiclayer.employeeaccount.BaseEmployeeAccount;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
@@ -14,7 +15,7 @@ public class GetPageHelper {
 
     public static String getPage(Model model, Authentication authentication, UserRepository userRepository, ApplicationContext context, final String ACCOUNT_ATTRIBUTE, String template) {
         addAccount(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
-        model.addAttribute("postTo","");
+        model.addAttribute("postTo", "");
         return template;
     }
 
@@ -37,6 +38,14 @@ public class GetPageHelper {
 
         Employee employee = (Employee) model.getAttribute("employee");
         account.setEmployee(employee);
+        return account;
+    }
+
+    public static BaseEmployeeAccount addEmployeeAccountAttribute(Model model, Authentication authentication, ApplicationContext context, EmployeeRepository employeeRepository) {
+        Employee employee = (Employee) model.getAttribute("employee");
+        BaseEmployeeAccount account = (BaseEmployeeAccount) context.getBean(BeanNameUtil.getBeanName(employee.getEmployeeType()));
+        account.setEmployee(employee);
+        model.addAttribute("employeeAccount", account);
         return account;
     }
 }

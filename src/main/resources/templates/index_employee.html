@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      th:with="EmployeeType=${T(com.example.banksys.model.Employee.EmployeeType)}">
 <head>
     <meta charset="UTF-8">
     <title>雇员操作页面</title>
@@ -8,7 +11,8 @@
 <h1>雇员操作页面</h1>
 
 <a href="/employee/impersonate">登录客户账户</a><br>
-<a href="/employee/find_managed">查询所管雇员</a><br>
+<a th:if="${session.employee.employeeType ne EmployeeType.FRONT_DESK_EN}" href="/employee/find_managed">查询所管雇员</a>
+<br th:if="${session.employee.employeeType ne EmployeeType.FRONT_DESK_EN}">
 <a href="/employee/find_report">查询流水</a><br>
 
 </body>

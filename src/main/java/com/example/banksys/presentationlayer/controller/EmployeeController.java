@@ -7,6 +7,7 @@ import com.example.banksys.dataaccesslayer.DepartmentRepository;
 import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Department;
+import com.example.banksys.model.Employee;
 import com.example.banksys.presentationlayer.form.RegisterForm;
 import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
@@ -20,19 +21,23 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.example.banksys.presentationlayer.controller.EmployeeController.EMPLOYEE_ACCOUNT;
+
 
 @Controller
 @RequestMapping("/employee/")
-@SessionAttributes({"registerForm","employee"})
+@SessionAttributes({"registerForm", "employee", EMPLOYEE_ACCOUNT})
 public class EmployeeController {
-
+    public static final String EMPLOYEE_ACCOUNT = "employeeAccount";
     private PasswordEncoder passwordEncoder;
     private EmployeeRepository employeeRepository;
     private DepartmentRepository departmentRepository;
     private ApplicationContext context;
     private EmployeeService service;
 
-    public EmployeeController(PasswordEncoder passwordEncoder, EmployeeRepository employeeRepository,DepartmentRepository departmentRepository, ApplicationContext context, EmployeeService employeeServiceImpl) {
+    public EmployeeController(PasswordEncoder passwordEncoder, EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, ApplicationContext context, EmployeeService employeeServiceImpl) {
         this.passwordEncoder = passwordEncoder;
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
@@ -48,6 +53,7 @@ public class EmployeeController {
     @GetMapping
     public String getIndexPage(Model model, Authentication authentication) {
         GetPageHelper.addEmployee(model, authentication, employeeRepository);
+        GetPageHelper.addEmployeeAccountAttribute(model, authentication, context, employeeRepository);
         return "index_employee";
     }
 
@@ -64,10 +70,18 @@ public class EmployeeController {
             return "register_employee";
         }
         String beanName = BeanNameUtil.getBeanName(form);
-        BaseEmployeeAccount account = (BaseEmployeeAccount) context.getBean(beanName);
+//        BaseEmployeeAccount account = (BaseEmployeeAccount) context.getBean(beanName);
         Long id = service.register(employeeRepository, departmentRepository, passwordEncoder, form);
         model.addAttribute("id", id);
         ToFrontendHelper.addSuccessMessage(model, "您的登录ID为" + id + "，请牢记！\n注册信息已提交系统管理员，请耐心等待审核。");
         return "success";
+    }
+
+    @GetMapping("/find_managed")
+    public String findManaged(Model model) {
+        BaseEmployeeAccount account = (BaseEmployeeAccount) model.getAttribute(EMPLOYEE_ACCOUNT);
+        List<Employee> employeeManaged = service.findEmployeeManaged(account);
+        model.addAttribute("employees", employeeManaged);
+        return "find_managed";
     }
 }

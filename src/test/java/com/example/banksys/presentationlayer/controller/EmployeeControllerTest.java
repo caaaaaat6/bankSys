@@ -1,13 +1,18 @@
 package com.example.banksys.presentationlayer.controller;
 
+import com.example.banksys.dataaccesslayer.DepartmentRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Department;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
@@ -83,5 +88,24 @@ class EmployeeControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void findManaged() throws Exception {
+        mockMvc.perform(formLogin("/login").user("100").password("1"))
+                .andExpect(authenticated())
+        ;
+
+        mockMvc.perform(get("/employee/"));
+
+        mockMvc.perform(get("/employee/find_managed"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void findEmployeeListByDepartmentFetched(@Autowired DepartmentRepository departmentRepository) {
+        Optional<Department> byId = departmentRepository.findById(1L);
+        assert byId.get().getEmployeeList().size() != 0;
     }
 }

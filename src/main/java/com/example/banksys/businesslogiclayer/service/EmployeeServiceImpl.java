@@ -21,6 +21,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         Department department = departmentRepository.findById(form.getDepartmentId()).get();
         Employee employee = new Employee(form.getEmployeeType(), form.getUserName(), form.getUserPid(),department, encoder.encode(form.getPassword()));
         Employee save = employeeRepository.save(employee);
+
+        department.getEmployeeList().add(save);
+        departmentRepository.save(department); //同时更新部门的列表，因为用了OneToMany，需要更新
+
+        save.setEmployeeId(save.getUserId());
+        employeeRepository.save(save);
         return save.getUserId();
     }
 

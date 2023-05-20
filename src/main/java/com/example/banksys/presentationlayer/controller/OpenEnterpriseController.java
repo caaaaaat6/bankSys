@@ -5,6 +5,7 @@ import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Enterprise;
 import com.example.banksys.presentationlayer.form.EnterpriseOpenForm;
 import com.example.banksys.presentationlayer.form.OpenForm;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import static com.example.banksys.presentationlayer.utils.BeanNameUtil.getBeanName;
 
 @Controller
-@SessionAttributes({"openForm"})
+@SessionAttributes({"openForm", "employee"})
 @RequestMapping("/users/enterprise/open")
 public class OpenEnterpriseController {
 
@@ -71,6 +72,10 @@ public class OpenEnterpriseController {
         }
         String beanName = getBeanName(form);
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) context.getBean(beanName);
+
+        Employee employee = (Employee) model.getAttribute("employee");
+        enterpriseUserAccount.setEmployee(employee);
+
         Long userId = null;
         try {
             userId = enterpriseService.openAccount(enterpriseUserAccount, passwordEncoder, form);

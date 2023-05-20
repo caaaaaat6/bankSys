@@ -19,7 +19,7 @@ public abstract class CloseController {
     private UserService service;
 
     public String getClosePage(Model model, Authentication authentication) {
-        GetPageHelper.addAcount(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
+        GetPageHelper.addAccount(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
         model.addAttribute("yesUrl","y");
         model.addAttribute("noUrl","n");
         return "close";

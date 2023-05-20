@@ -9,11 +9,8 @@ import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
-import com.example.banksys.model.Card;
+import com.example.banksys.model.*;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.model.PersonalCard;
-import com.example.banksys.model.Trade;
-import com.example.banksys.model.User;
 import com.example.banksys.model.log.AccountLog;
 import com.example.banksys.presentationlayer.form.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,6 +42,7 @@ public class PersonalService extends BaseUserService implements UserService {
         if (openForm.getUserType().equals(Card.UserType.VIP)) {
             checkOpenMoney(openForm.getOpenMoney(), openForm.getUserPid());
         }
+        Employee employee = personalUserAccount.getEmployee();
         String encoded = passwordEncoder.encode(openForm.getPassword());
         User user = userRepository.save(new User(openForm.getUserPid(), openForm.getUserName(), openForm.getUserType(),encoded));
         personalUserAccount.setUser(user);
@@ -57,7 +55,7 @@ public class PersonalService extends BaseUserService implements UserService {
                 null,
                 openForm.getCardType(),
                 openForm.getOpenMoney(),
-                null);
+                employee);
         return user.getUserId();
     }
 

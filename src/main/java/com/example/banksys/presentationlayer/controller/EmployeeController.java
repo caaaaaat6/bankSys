@@ -8,9 +8,11 @@ import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Department;
 import com.example.banksys.presentationlayer.form.RegisterForm;
+import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import com.example.banksys.presentationlayer.utils.BeanNameUtil;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/employee/")
-@SessionAttributes({"registerForm"})
+@SessionAttributes({"registerForm","employee"})
 public class EmployeeController {
 
     private PasswordEncoder passwordEncoder;
@@ -44,8 +46,8 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public String getIndexPage(Model model) {
-
+    public String getIndexPage(Model model, Authentication authentication) {
+        GetPageHelper.addEmployee(model, authentication, employeeRepository);
         return "index_employee";
     }
 

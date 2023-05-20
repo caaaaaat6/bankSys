@@ -5,6 +5,7 @@ import com.example.banksys.businesslogiclayer.service.PersonalService;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
+import com.example.banksys.model.Employee;
 import com.example.banksys.presentationlayer.form.OpenForm;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ import static com.example.banksys.presentationlayer.utils.BeanNameUtil.getBeanNa
 
 @Slf4j
 @Controller
-@SessionAttributes({"openForm"})
+@SessionAttributes({"openForm", "employee"})
 @RequestMapping("/users/personal/open")
 public class OpenPersonalController {
 
@@ -63,6 +64,10 @@ public class OpenPersonalController {
         }
         String beanName = getBeanName(form);
         PersonalUserAccount personalUserAccount = (PersonalUserAccount) context.getBean(beanName);
+
+        Employee employee = (Employee) model.getAttribute("employee");
+        personalUserAccount.setEmployee(employee);
+
         Long cardId;
         try {
             cardId = personalService.openAccount(personalUserAccount, passwordEncoder, userRepository, form);

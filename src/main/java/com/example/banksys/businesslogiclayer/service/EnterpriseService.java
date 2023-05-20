@@ -37,6 +37,7 @@ public class EnterpriseService extends BaseUserService implements UserService {
                             PasswordEncoder passwordEncoder,
                             EnterpriseOpenForm enterpriseOpenForm
     ) throws Exception {
+        Employee employee = enterpriseUserAccount.getEmployee();
         String encoded = passwordEncoder.encode(enterpriseOpenForm.getPassword());
         Enterprise enterprise = enterpriseRepository.findById(enterpriseOpenForm.getEnterpriseId()).get();
         EnterpriseUser enterpriseUser = enterpriseUserRepository.save(new EnterpriseUser(
@@ -55,7 +56,7 @@ public class EnterpriseService extends BaseUserService implements UserService {
                 null,
                 enterpriseOpenForm.getCardType(),
                 enterpriseOpenForm.getOpenMoney(),
-                null);
+                employee);
         return enterpriseUser.getUserId();
     }
 

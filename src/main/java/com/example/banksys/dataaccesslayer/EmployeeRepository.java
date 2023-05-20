@@ -8,4 +8,6 @@ import java.util.List;
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
     List<Employee> findAll();
+
+    List<Employee> findAllByEnabled(Boolean enabled);
 }

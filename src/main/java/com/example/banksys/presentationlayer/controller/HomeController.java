@@ -1,5 +1,10 @@
 package com.example.banksys.presentationlayer.controller;
 
+import com.example.banksys.businesslogiclayer.service.EmployeeService;
+import com.example.banksys.dataaccesslayer.EmployeeRepository;
+import com.example.banksys.model.Employee;
+import com.example.banksys.presentationlayer.form.ReviewForm;
+import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -7,15 +12,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
 @RequestMapping("/")
 public class HomeController {
+
+    private EmployeeService employeeService;
+    private EmployeeRepository employeeRepository;
+
+    public HomeController(EmployeeService employeeService, EmployeeRepository employeeRepository) {
+        this.employeeService = employeeService;
+        this.employeeRepository = employeeRepository;
+    }
+
+    @ModelAttribute("reviewForm")
+    public ReviewForm createReviewForm() {
+        return new ReviewForm();
+    }
 
     @GetMapping("/")
     public String routUser() {
@@ -35,6 +53,20 @@ public class HomeController {
     @GetMapping("/employee")
     public String employee() {
         return "index_employee";
+    }
+
+    @GetMapping("/admin/")
+    public String admin(Model model) {
+        List<Employee> employeeNotEnabled = employeeService.findEmployeeNotEnabled(employeeRepository);
+        model.addAttribute("employees", employeeNotEnabled);
+        return "admin";
+    }
+
+    @PostMapping("/admin/")
+    public String adminPost(Model model, ReviewForm form) {
+        employeeService.reviewEmployee(employeeRepository, form);
+        ToFrontendHelper.addSuccessMessage(model, "审核操作成功！");
+        return "success";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

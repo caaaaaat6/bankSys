@@ -1,12 +1,14 @@
 package com.example.banksys.model;
 
 import com.example.banksys.businesslogiclayer.employeeaccount.EmployeeRight;
+import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.model.log.AccountLog;
 import com.example.banksys.presentationlayer.utils.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -97,8 +99,7 @@ public class Employee extends User implements EmployeeRight, UserDetails {
 
     @Override
     public boolean isEnabled() {
-//        return isEnabled();
-        return true;
+        return enabled;
     }
 
     public Long getEmployeeId() {

@@ -7,6 +7,7 @@ import com.example.banksys.model.Department;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
 import com.example.banksys.presentationlayer.form.RegisterForm;
+import com.example.banksys.presentationlayer.form.ReviewForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,6 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-
 
     @Override
     public Long register(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, PasswordEncoder encoder, RegisterForm form) {
@@ -38,5 +38,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> findEmployeeManaged(BaseEmployeeAccount account) {
         return account.findEmployeeManaged();
+    }
+
+    @Override
+    public List<Employee> findEmployeeNotEnabled(EmployeeRepository employeeRepository) {
+        return employeeRepository.findAllByEnabled(false);
+    }
+
+    @Override
+    public void reviewEmployee(EmployeeRepository employeeRepository, ReviewForm form) {
+        Iterable<Employee> allById = employeeRepository.findAllById(form.getSelectedEmployeesId());
+        allById.forEach(employee -> employee.setEnabled(true));
+        employeeRepository.saveAll(allById);
     }
 }

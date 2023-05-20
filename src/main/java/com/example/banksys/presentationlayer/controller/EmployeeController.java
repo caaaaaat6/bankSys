@@ -8,6 +8,7 @@ import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Department;
 import com.example.banksys.model.Employee;
+import com.example.banksys.model.log.AccountLog;
 import com.example.banksys.presentationlayer.form.RegisterForm;
 import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
@@ -83,5 +84,13 @@ public class EmployeeController {
         List<Employee> employeeManaged = service.findEmployeeManaged(account);
         model.addAttribute("employees", employeeManaged);
         return "find_managed";
+    }
+
+    @GetMapping("/find_report")
+    public String findReport(Model model) {
+        BaseEmployeeAccount account = (BaseEmployeeAccount) model.getAttribute(EMPLOYEE_ACCOUNT);
+        List<AccountLog> report = service.findReport(account);
+        model.addAttribute("report", report);
+        return "/find_report";
     }
 }

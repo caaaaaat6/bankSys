@@ -89,6 +89,7 @@ public class PresentationLayerConfig {
                         .requestMatchers("/users/enterprise/deposit/current").hasRole("CURRENT")
                         .requestMatchers("/users/enterprise/deposit/fixed").hasRole("FIXED")
                         .requestMatchers("/employee/register/").permitAll()
+                        .requestMatchers("/admin/").hasRole(Role.SYSTEM_ADMIN)
                         .requestMatchers("/employee/impersonate/exit").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE, "PREVIOUS_ADMINISTRATOR")
                         .requestMatchers("/employee/impersonate").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
                         .requestMatchers("/employee/**").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)

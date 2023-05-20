@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询流水</title>
+</head>
+<body>
+<h1>查询流水</h1>
+
+<p th:text="'所在部门：' + ${session.employee.department.departmentName}"></p>
+
+<table border="1px" cellpadding="10" cellspacing="0">
+    <thead>
+    <tr>
+        <th>用户ID</th>
+        <th>雇员ID</th>
+        <th>操作类型</th>
+        <th>描述</th>
+        <th>时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="log, queryRow : ${report}">
+        <td th:text="${log.userId}"></td>
+        <td th:text="${log.employee.employeeId}"></td>
+        <td th:text="${log.operationType}"></td>
+        <td th:text="${log.description}"></td>
+        <td th:text="${log.date}"></td>
+    </tr>
+    <tr th:if="${report.size() == 0}">
+        <td colspan="3">No query logs available</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -34,7 +34,7 @@ interface BaseAccountRight {
     double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException;
 
 //    //改密码
-    void changePassWord(String newPassword);
+    void changePassword(String newPassword);
 
     //销户
     double closeAccount() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException;

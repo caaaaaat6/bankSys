@@ -112,7 +112,7 @@ public abstract class BaseAccount implements BaseAccountRight {
     }
 
     @Override
-    public void changePassWord(String newPassword) {
+    public void changePassword(String newPassword) {
         getUser().setPassword(newPassword);
         userRepository.save(getUser());
     }

@@ -10,6 +10,6 @@ public abstract class BaseService implements Service{
     @Transactional
     public void changePassword(BaseAccount account, PasswordEncoder passwordEncoder, ChangePasswordForm changePasswordForm) {
         String password = changePasswordForm.getPassword();
-        account.changePassWord(passwordEncoder.encode(password));
+        account.changePassword(passwordEncoder.encode(password));
     }
 }

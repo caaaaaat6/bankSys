@@ -5,29 +5,26 @@ import com.example.banksys.dataaccesslayer.AccountLogRepository;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Aspect
 @Component
-public class QueryBalanceMonitor {
-
-    private static final Logger logger = LoggerFactory.getLogger(QueryBalanceMonitor.class);
-
-    @Autowired
+public class ChangePasswordMonitor {
     private AccountLogRepository accountLogRepository;
 
-    @Pointcut("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.queryBalance(..))")
-    public void queryBalance(){}
+    public ChangePasswordMonitor(AccountLogRepository accountLogRepository) {
+        this.accountLogRepository = accountLogRepository;
+    }
 
-    @AfterReturning(value = "execution(* queryBalance())", returning = "desirableBalance_balance")
-    public void queryBalanceLog(JoinPoint joinPoint, String desirableBalance_balance) {
+    @After(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.changePassword(..))")
+    public void queryBalanceLog(JoinPoint joinPoint) {
         BaseAccount account = (BaseAccount) joinPoint.getTarget();
 
         // 获取accountLog所需的信息
@@ -35,14 +32,14 @@ public class QueryBalanceMonitor {
         long userId = card.getUserId();
         long cardId = card.getCardId();
         Employee employee = account.getEmployee();
-        String operationType = AccountLog.OperationType.QUERY;
+        String operationType = AccountLog.OperationType.CHANGE_PASSWORD;
         StringBuilder description = new StringBuilder();
 
-        description.append("可取余额/总余额：" + desirableBalance_balance + "元");
+        description.append("修改账户密码");
 
         AccountLog accountLog = new AccountLog(userId,cardId,employee,operationType,description.toString());
         accountLogRepository.save(accountLog);
 
-        logger.info(accountLog.toString());
+        log.info(accountLog.toString());
     }
 }

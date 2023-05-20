@@ -40,6 +40,11 @@ public class OrdinaryCurrentUserAccount extends OrdinaryUserAccount implements B
     }
 
     @Override
+    public void changePassword(String newPassword) {
+        super.changePassword(newPassword);
+    }
+
+    @Override
     public double closeAccount() {
         return super.closeAccount();
     }

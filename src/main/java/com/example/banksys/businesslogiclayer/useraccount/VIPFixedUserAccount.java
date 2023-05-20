@@ -45,6 +45,11 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
     }
 
     @Override
+    public void changePassword(String newPassword) {
+        super.changePassword(newPassword);
+    }
+
+    @Override
     public double closeAccount() {
         return super.closeAccount();
     }

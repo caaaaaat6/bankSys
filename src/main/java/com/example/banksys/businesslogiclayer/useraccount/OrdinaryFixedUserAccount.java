@@ -6,10 +6,7 @@ import com.example.banksys.businesslogiclayer.util.BLLUtil;
 import com.example.banksys.model.Card;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.model.Trade;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import java.util.Date;
 
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class OrdinaryFixedUserAccount extends OrdinaryUserAccount implements BaseFixedAccountRight {
@@ -44,6 +41,11 @@ public class OrdinaryFixedUserAccount extends OrdinaryUserAccount implements Bas
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         BLLUtil.checkDesirableBalanceBeforeTransfer(getTradeRepository(),getCard(),money);
         return super.transferMoneyTo(toCard, money);
+    }
+
+    @Override
+    public void changePassword(String newPassword) {
+        super.changePassword(newPassword);
     }
 
     @Override

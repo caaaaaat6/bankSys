@@ -97,8 +97,15 @@ public class Employee extends User implements EmployeeRight, UserDetails {
         return list;
     }
 
+    /**
+     * 系统管理员不需要审核
+     */
     @Override
     public boolean isEnabled() {
+        if (getEmployeeType().equals(EmployeeType.ADMIN_EN)) {
+            this.enabled = true;
+            return true;
+        }
         return enabled;
     }
 

@@ -4,6 +4,7 @@ import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.WithdrawForm;
@@ -48,6 +49,10 @@ public class WithdrawEnterpriseController {
         User user = enterpriseUserRepository.findById(userId).get();
         BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
         account.setUser(user);
+
+        Employee employee = (Employee) model.getAttribute("employee");
+        account.setEmployee(employee);
+
         model.addAttribute(ACCOUNT_ATTRIBUTE, account);
         ToFrontendHelper.addPostUrl(model,"");
         return "withdraw";

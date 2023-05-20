@@ -5,6 +5,7 @@ import com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRigh
 import com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight;
 import com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount;
 import com.example.banksys.dataaccesslayer.UserRepository;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.DepositCurrentForm;
 import com.example.banksys.presentationlayer.form.DepositFixedForm;
@@ -28,7 +29,7 @@ import static com.example.banksys.presentationlayer.controller.DepositPersonalCo
 @Slf4j
 @Controller
 @RequestMapping("/users/personal/deposit/")
-@SessionAttributes({CURRENT_ACCOUNT_ATTRIBUTE, FIXED_ACCOUNT_ATTRIBUTE})
+@SessionAttributes({CURRENT_ACCOUNT_ATTRIBUTE, FIXED_ACCOUNT_ATTRIBUTE, "employee"})
 public class DepositPersonalController {
     public static final String PERSONAL_ACCOUNT_ATTRIBUTE = "personalAccount";
     public static final String CURRENT_ACCOUNT_ATTRIBUTE = "currentAccount";
@@ -60,6 +61,10 @@ public class DepositPersonalController {
         User user = userRepository.findById(userId).get();
         PersonalUserAccount personalUserAccount = (PersonalUserAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
         personalUserAccount.setUser(user);
+
+        Employee employee = (Employee) model.getAttribute("employee");
+        personalUserAccount.setEmployee(employee);
+
         return RedirectDepositHelper.getRedirectString(model, user.getUserId(), personalUserAccount);
     }
 

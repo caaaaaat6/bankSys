@@ -15,7 +15,7 @@ import static com.example.banksys.presentationlayer.controller.TransferPersonalC
 
 @Controller
 @RequestMapping("/users/personal/close/")
-@SessionAttributes({ACCOUNT_ATTRIBUTE})
+@SessionAttributes({ACCOUNT_ATTRIBUTE, "employee"})
 public class ClosePersonalController extends CloseController {
     public ClosePersonalController(ApplicationContext context, UserRepository userRepository, UserService personalService) {
         setContext(context);

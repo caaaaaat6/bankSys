@@ -8,13 +8,7 @@ import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.utils.BeanNameUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
-import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 import org.springframework.ui.Model;
-
-import java.util.Collection;
 
 public class GetPageHelper {
 
@@ -25,10 +19,7 @@ public class GetPageHelper {
     }
 
     public static void addAccount(Model model, Authentication authentication, UserRepository userRepository, ApplicationContext context, String ACCOUNT_ATTRIBUTE) {
-        Long userId = Long.parseLong(authentication.getName());
-        User user = userRepository.findById(userId).get();
-        BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
-        account.setUser(user);
+        BaseAccount account = getAccountAndSetEmployee(model, authentication, context, userRepository);
         model.addAttribute(ACCOUNT_ATTRIBUTE, account);
     }
 
@@ -36,5 +27,16 @@ public class GetPageHelper {
         Long userId = Long.parseLong(authentication.getName());
         Employee employee = employeeRepository.findById(userId).get();
         model.addAttribute("employee", employee);
+    }
+
+    public static BaseAccount getAccountAndSetEmployee(Model model, Authentication authentication, ApplicationContext context, UserRepository userRepository) {
+        Long userId = Long.parseLong(authentication.getName());
+        User user = userRepository.findById(userId).get();
+        BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
+        account.setUser(user);
+
+        Employee employee = (Employee) model.getAttribute("employee");
+        account.setEmployee(employee);
+        return account;
     }
 }

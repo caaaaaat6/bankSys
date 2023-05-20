@@ -11,8 +11,4 @@ public abstract class BaseEmployeeAccount implements EmployeeRight {
 
     private Employee employee;
 
-    @Override
-    public void changePassword() {
-
-    }
 }

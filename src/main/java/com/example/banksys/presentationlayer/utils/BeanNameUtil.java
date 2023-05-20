@@ -1,6 +1,7 @@
 package com.example.banksys.presentationlayer.utils;
 
 import com.example.banksys.presentationlayer.form.OpenForm;
+import com.example.banksys.presentationlayer.form.RegisterForm;
 import org.springframework.util.StringUtils;
 
 public class BeanNameUtil {
@@ -11,6 +12,14 @@ public class BeanNameUtil {
         beanName.append(form.getUserType());
         beanName.append(StringUtils.capitalize(form.getCardType()));
         beanName.append(userAccount);
+        return beanName.toString();
+    }
+
+    public static String getBeanName(RegisterForm form) {
+        String employeeAccount = "EmployeeAccount";
+        StringBuilder beanName = new StringBuilder();
+        beanName.append(form.getEmployeeType());
+        beanName.append(employeeAccount);
         return beanName.toString();
     }
 

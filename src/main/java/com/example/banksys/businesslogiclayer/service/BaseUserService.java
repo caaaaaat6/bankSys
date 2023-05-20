@@ -5,7 +5,7 @@ import com.example.banksys.presentationlayer.form.ChangePasswordForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class BaseService implements Service{
+public abstract class BaseUserService implements UserService {
     @Override
     @Transactional
     public void changePassword(BaseAccount account, PasswordEncoder passwordEncoder, ChangePasswordForm changePasswordForm) {

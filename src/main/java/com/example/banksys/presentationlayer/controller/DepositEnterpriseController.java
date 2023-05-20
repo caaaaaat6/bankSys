@@ -60,13 +60,13 @@ public class DepositEnterpriseController {
         return RedirectDepositHelper.getRedirectString(model, userId, enterpriseUserAccount);
     }
 
-    @Secured(value = {Role.CURRENT_RIGHT})
+    @Secured(value = {Role.CURRENT_RIGHT_ROLE})
     @GetMapping("/current")
     public String currentDeposit() {
         return "deposit_current_enterprise";
     }
 
-    @Secured(value = {Role.FIXED_RIGHT})
+    @Secured(value = {Role.FIXED_RIGHT_ROLE})
     @GetMapping("/fixed")
     public String fixedDeposit() {
         return "deposit_fixed_enterprise";

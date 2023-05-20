@@ -17,11 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.annotation.Annotation;
 import java.util.List;
 
 @Service
-public class EnterpriseService extends BaseService implements com.example.banksys.businesslogiclayer.service.Service {
+public class EnterpriseService extends BaseUserService implements UserService {
 
     private EnterpriseCardRepository enterpriseCardRepository;
     private EnterpriseUserRepository enterpriseUserRepository;

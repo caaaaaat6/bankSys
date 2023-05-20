@@ -1,13 +1,11 @@
 package com.example.banksys.presentationlayer.controller;
 
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.WithdrawForm;
 import com.example.banksys.presentationlayer.helper.GetWithdrawPageHelper;
-import com.example.banksys.presentationlayer.utils.BeanNameUtil;
 import jakarta.validation.Valid;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -26,9 +24,9 @@ public class WithdrawPersonalController {
     public static final String ACCOUNT_ATTRIBUTE = "account";
     private ApplicationContext context;
     private UserRepository userRepository;
-    private Service service;
+    private UserService service;
 
-    public WithdrawPersonalController(ApplicationContext context, UserRepository userRepository, Service personalService) {
+    public WithdrawPersonalController(ApplicationContext context, UserRepository userRepository, UserService personalService) {
         this.context = context;
         this.userRepository = userRepository;
         this.service = personalService;

@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface EmployeeRight {
 
-    void changePassword();
-
     List<AccountLog> findReport();
 
     default List<Employee> findEmployeeManaged() {

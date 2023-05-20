@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import javax.lang.model.type.UnionType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +43,7 @@ public class EnterpriseUser extends User {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         switch (getUserType()) {
             case Card.UserType.ENTERPRISE:
-                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_USER));
+                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_USER_ROLE));
                 break;
             default:
         }

@@ -4,14 +4,12 @@ import com.example.banksys.presentationlayer.utils.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLInsert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -65,21 +63,21 @@ public class User implements UserDetails {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         switch (getUserType()) {
             case Card.UserType.ORDINARY:
-                list.add(new SimpleGrantedAuthority(Role.ORDINARY_USER));
+                list.add(new SimpleGrantedAuthority(Role.ORDINARY_USER_ROLE));
                 break;
             case Card.UserType.VIP:
-                list.add(new SimpleGrantedAuthority(Role.VIP_USER));
+                list.add(new SimpleGrantedAuthority(Role.VIP_USER_ROLE));
                 break;
             case Card.UserType.ENTERPRISE:
-                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_USER));
+                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_USER_ROLE));
             default:
         }
         switch (getCard().getCardType()) {
             case Card.CardType.CURRENT:
-                list.add(new SimpleGrantedAuthority(Role.CURRENT_RIGHT));
+                list.add(new SimpleGrantedAuthority(Role.CURRENT_RIGHT_ROLE));
                 break;
             case Card.CardType.FIXED:
-                list.add(new SimpleGrantedAuthority(Role.FIXED_RIGHT));
+                list.add(new SimpleGrantedAuthority(Role.FIXED_RIGHT_ROLE));
         }
         return list;
     }

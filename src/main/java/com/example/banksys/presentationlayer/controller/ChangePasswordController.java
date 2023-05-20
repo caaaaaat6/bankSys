@@ -1,22 +1,16 @@
 package com.example.banksys.presentationlayer.controller;
 
-import com.example.banksys.businesslogiclayer.service.PersonalService;
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.presentationlayer.form.ChangePasswordForm;
-import com.example.banksys.presentationlayer.form.OpenForm;
 import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
-import com.example.banksys.presentationlayer.utils.validator.OrderedChecks;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
-
-import javax.swing.*;
 
 public abstract class ChangePasswordController {
 
@@ -24,9 +18,9 @@ public abstract class ChangePasswordController {
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private ApplicationContext context;
-    private Service service;
+    private UserService service;
 
-    public ChangePasswordController(PasswordEncoder passwordEncoder, UserRepository userRepository, ApplicationContext context, Service personalService) {
+    public ChangePasswordController(PasswordEncoder passwordEncoder, UserRepository userRepository, ApplicationContext context, UserService personalService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.context = context;

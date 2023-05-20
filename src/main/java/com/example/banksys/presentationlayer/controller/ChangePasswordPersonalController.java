@@ -1,6 +1,6 @@
 package com.example.banksys.presentationlayer.controller;
 
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.presentationlayer.form.ChangePasswordForm;
 import com.example.banksys.presentationlayer.utils.validator.OrderedChecks;
@@ -23,7 +23,7 @@ import static com.example.banksys.presentationlayer.controller.ChangePasswordCon
 @RequestMapping("/users/personal/change_password/")
 public class ChangePasswordPersonalController extends ChangePasswordController {
 
-    public ChangePasswordPersonalController(PasswordEncoder passwordEncoder, UserRepository userRepository, ApplicationContext context, Service personalService) {
+    public ChangePasswordPersonalController(PasswordEncoder passwordEncoder, UserRepository userRepository, ApplicationContext context, UserService personalService) {
         super(passwordEncoder, userRepository, context, personalService);
     }
 

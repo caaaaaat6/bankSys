@@ -1,14 +1,10 @@
 package com.example.banksys.presentationlayer.controller;
 
-import com.example.banksys.businesslogiclayer.exception.UntransferableException;
-import com.example.banksys.businesslogiclayer.service.Service;
-import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.dataaccesslayer.UserRepository;
-import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.presentationlayer.form.TransferForm;
 import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.PostPageHelper;
-import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import com.example.banksys.presentationlayer.utils.validator.OrderedChecks;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -28,9 +24,9 @@ public class TransferEnterpriseController {
     public static final String ACCOUNT_ATTRIBUTE = "account";
     private ApplicationContext context;
     private UserRepository userRepository;
-    private Service service;
+    private UserService service;
 
-    public TransferEnterpriseController(ApplicationContext context, UserRepository userRepository, Service enterpriseService) {
+    public TransferEnterpriseController(ApplicationContext context, UserRepository userRepository, UserService enterpriseService) {
         this.context = context;
         this.userRepository = userRepository;
         this.service = enterpriseService;

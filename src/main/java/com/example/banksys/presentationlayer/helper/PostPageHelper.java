@@ -1,18 +1,16 @@
 package com.example.banksys.presentationlayer.helper;
 
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.model.Exception.WithdrawException;
-import com.example.banksys.presentationlayer.form.ChangePasswordForm;
 import com.example.banksys.presentationlayer.form.TransferForm;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 
 public class PostPageHelper {
 
-    public static String transferPost(Model model, Errors errors, final String ACCOUNT_ATTRIBUTE, Service service, TransferForm transferForm) {
+    public static String transferPost(Model model, Errors errors, final String ACCOUNT_ATTRIBUTE, UserService service, TransferForm transferForm) {
         ToFrontendHelper.addPostUrl(model, "");
         if (errors.hasErrors()) {
             return "transfer";

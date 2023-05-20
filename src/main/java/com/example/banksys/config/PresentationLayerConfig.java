@@ -1,13 +1,16 @@
 package com.example.banksys.config;
 
 import com.example.banksys.dataaccesslayer.CardRepository;
+import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.dataaccesslayer.PersonalCardRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Card;
+import com.example.banksys.model.Employee;
 import com.example.banksys.model.PersonalCard;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.MyLogoutHandler;
 import com.example.banksys.presentationlayer.MyLogoutSuccessHandler;
+import com.example.banksys.presentationlayer.utils.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,9 +33,14 @@ public class PresentationLayerConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    public UserDetailsService userDetailsService(UserRepository userRepository, EmployeeRepository employeeRepository) {
         return userId -> {
-            Optional<User> byId = userRepository.findById(Long.parseLong(userId));
+            Long id = Long.parseLong(userId);
+            Optional<Employee> employee = employeeRepository.findById(id);
+            if (employee.isPresent()) {
+                return employee.get();
+            }
+            Optional<User> byId = userRepository.findById(id);
             if (byId.isEmpty()) {
                 throw new UsernameNotFoundException("Account '" + userId + "' not found");
             }
@@ -57,6 +65,9 @@ public class PresentationLayerConfig {
                         .requestMatchers("/users/enterprise/**").hasRole("ENTERPRISE")
                         .requestMatchers("/users/enterprise/deposit/current").hasRole("CURRENT")
                         .requestMatchers("/users/enterprise/deposit/fixed").hasRole("FIXED")
+                        .requestMatchers("/employee/register/").permitAll()
+                        .requestMatchers("/employee/impersonate").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
+                        .requestMatchers("/employee/**").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
                         .anyRequest().permitAll())
                 .formLogin()
                     .and()

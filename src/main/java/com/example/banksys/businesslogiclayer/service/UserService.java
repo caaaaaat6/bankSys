@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface Service {
+public interface UserService {
     @Transactional
     double depositCurrent(BaseCurrentAccountRight accountRight, DepositCurrentForm form);
 

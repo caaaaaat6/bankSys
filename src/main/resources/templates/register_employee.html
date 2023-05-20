@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:with="EmployeeType=${T(com.example.banksys.model.Employee.EmployeeType)}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理员注册</title>
+</head>
+<body>
+<h1>系统管理员注册</h1>
+<form method="POST" th:action="@{/employee/register/}" id="registerForm" th:object="${registerForm}"
+      th:attr="value=${session.registerForm}">
+
+    <label for="userName">姓名: </label>
+    <input type="text" th:field="*{userName}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('userName')}"
+          th:errors="*{userName}">Invalid user name</span><br/>
+
+    <label for="userPid">身份证号码: </label>
+    <input type="text" th:field="*{userPid}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('userPid')}"
+          th:errors="*{userPid}">Invalid user pid</span><br/>
+
+    <label for="employeeType">用户类型: </label><br/>
+    <!--    <input type="radio" name="userType" th:value="${T(com.example.banksys.model.Card.UserType).ORDINARY}" checked>普通个人用户<br/>-->
+    <input type="radio" name="employeeType" th:value="${EmployeeType.FRONT_DESK_EN}" checked>前台操作员<br/>
+    <input type="radio" name="employeeType" th:value="${EmployeeType.MANAGER_EN}" >银行经理<br/>
+    <input type="radio" name="employeeType" th:value="${EmployeeType.CURRENT_HEAD_EN}" >活期银行业务总管<br/>
+    <input type="radio" name="employeeType" th:value="${EmployeeType.FIXED_HEAD_EN}" >定期银行业务总管<br/>
+    <input type="radio" name="employeeType" th:value="${EmployeeType.ADMIN_EN}" >系统管理员<br/>
+
+    <label for="department">部门:</label>
+    <select id="department" name="department" th:field="*{departmentId}">
+        <option
+                th:each="department:${departments}"
+                th:value="${department.departmentId}"
+                th:text="${department.departmentName}"
+        >
+        </option>
+    </select><br/>
+
+    <label for="password">密码: </label>
+    <input type="password" th:field="*{password}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('password')}"
+          th:errors="*{password}">Invalid password</span><br/>
+
+    <label for="confirm">确认密码: </label>
+    <input type="password" th:field="*{confirm}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('confirm')}"
+          th:errors="*{confirm}">Password validation failed</span>
+    <br/>
+
+    <span th:if="${#fields.hasGlobalErrors()}"
+          th:text="${#fields.globalErrors()[0]}"
+          class="error-message"></span><br/>
+    <input type="submit" value="Register"/>
+    <span th:field="*{error}" th:if="${error!=null}" th:value="${error}"></span>
+</form>
+</body>
+</html>

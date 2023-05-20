@@ -35,7 +35,7 @@ public class Card implements UserDetails {
     @Column(length = 32, nullable = false)
     private String userName;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String userType;
 
     @Column(length = 512, nullable = false)
@@ -95,6 +95,7 @@ public class Card implements UserDetails {
         public static final String ORDINARY = "ordinary";
         public static final String VIP = "vip";
         public static final String ENTERPRISE = "enterprise";
+//        public static final String EMPLOYEE = "employee";
     }
 
     public static class CardType {

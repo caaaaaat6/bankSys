@@ -1,14 +1,12 @@
 package com.example.banksys.presentationlayer.controller;
 
-import com.example.banksys.businesslogiclayer.service.EnterpriseService;
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.User;
 import com.example.banksys.presentationlayer.form.WithdrawForm;
-import com.example.banksys.presentationlayer.helper.GetWithdrawPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import com.example.banksys.presentationlayer.utils.BeanNameUtil;
 import jakarta.validation.Valid;
@@ -30,9 +28,9 @@ public class WithdrawEnterpriseController {
     private ApplicationContext context;
     private EnterpriseUserRepository enterpriseUserRepository;
     private UserRepository userRepository;
-    private Service service;
+    private UserService service;
 
-    public WithdrawEnterpriseController(ApplicationContext context, EnterpriseUserRepository enterpriseUserRepository, UserRepository userRepository, Service enterpriseService) {
+    public WithdrawEnterpriseController(ApplicationContext context, EnterpriseUserRepository enterpriseUserRepository, UserRepository userRepository, UserService enterpriseService) {
         this.context = context;
         this.enterpriseUserRepository = enterpriseUserRepository;
         this.userRepository = userRepository;

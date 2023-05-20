@@ -1,6 +1,6 @@
 package com.example.banksys.presentationlayer.helper;
 
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.businesslogiclayer.useraccount.BaseAccount;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Trade;
@@ -16,7 +16,7 @@ import java.util.List;
 public class GetQueryPageHelper {
 
 
-    public static String getQueryPage(Model model, Authentication authentication, ApplicationContext context, UserRepository userRepository, Service service){
+    public static String getQueryPage(Model model, Authentication authentication, ApplicationContext context, UserRepository userRepository, UserService service){
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId).get();
         BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));

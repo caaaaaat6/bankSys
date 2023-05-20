@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonalService extends BaseService implements com.example.banksys.businesslogiclayer.service.Service {
+public class PersonalService extends BaseUserService implements UserService {
 
     public static final double VIP_OPEN_THRESHOLD = 1000000;
     private PersonalCardRepository personalCardRepository;

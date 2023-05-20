@@ -1,6 +1,6 @@
 package com.example.banksys.presentationlayer.controller;
 
-import com.example.banksys.businesslogiclayer.service.Service;
+import com.example.banksys.businesslogiclayer.service.UserService;
 import com.example.banksys.dataaccesslayer.UserRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,7 @@ import static com.example.banksys.presentationlayer.controller.TransferPersonalC
 @RequestMapping("/users/personal/close/")
 @SessionAttributes({ACCOUNT_ATTRIBUTE})
 public class ClosePersonalController extends CloseController {
-    public ClosePersonalController(ApplicationContext context, UserRepository userRepository, Service personalService) {
+    public ClosePersonalController(ApplicationContext context, UserRepository userRepository, UserService personalService) {
         setContext(context);
         setUserRepository(userRepository);
         setService(personalService);

@@ -63,13 +63,13 @@ public class DepositPersonalController {
         return RedirectDepositHelper.getRedirectString(model, user.getUserId(), personalUserAccount);
     }
 
-    @Secured(value = {Role.CURRENT_RIGHT})
+    @Secured(value = {Role.CURRENT_RIGHT_ROLE})
     @GetMapping("/current")
     public String currentDeposit() {
         return "deposit_current";
     }
 
-    @Secured(value = {Role.FIXED_RIGHT})
+    @Secured(value = {Role.FIXED_RIGHT_ROLE})
     @GetMapping("/fixed")
     public String fixedDeposit() {
         return "deposit_fixed";

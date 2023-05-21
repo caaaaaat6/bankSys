@@ -22,7 +22,10 @@ public class Enterprise {
 
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "enterprise", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<EnterpriseUser> enterpriseUserList;
 
+    public Enterprise(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+    }
 }

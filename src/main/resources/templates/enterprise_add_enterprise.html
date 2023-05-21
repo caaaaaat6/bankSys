@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加企业</title>
+</head>
+<body>
+<h1>添加企业</h1>
+
+<form method="POST" th:action="@{/users/enterprise/open/add_enterprise}" id="addEnterpriseForm" th:object="${addEnterpriseForm}">
+
+    <label for="enterpriseName">企业名称: </label>
+    <input type="text" th:field="*{enterpriseName}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('enterpriseName')}"
+          th:errors="*{enterpriseName}">Invalid user name</span><br/>
+
+    <span th:if="${#fields.hasGlobalErrors()}"
+          th:text="${#fields.globalErrors()[0]}"
+          class="error-message"></span><br/>
+    <input type="submit" value="Register"/>
+    <span th:field="*{error}" th:if="${error!=null}" th:value="${error}"></span>
+    <!--    <button type="submit">提交</button>-->
+
+</form>
+</body>
+</html>

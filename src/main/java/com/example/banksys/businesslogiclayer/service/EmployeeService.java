@@ -4,7 +4,9 @@ import com.example.banksys.businesslogiclayer.employeeaccount.BaseEmployeeAccoun
 import com.example.banksys.dataaccesslayer.DepartmentRepository;
 import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.model.Employee;
+import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.log.AccountLog;
+import com.example.banksys.presentationlayer.form.AddDepartmentForm;
 import com.example.banksys.presentationlayer.form.RegisterForm;
 import com.example.banksys.presentationlayer.form.ReviewForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,4 +25,6 @@ public interface EmployeeService {
     List<Employee> findEmployeeNotEnabled(EmployeeRepository employeeRepository);
 
     void reviewEmployee(EmployeeRepository employeeRepository, ReviewForm form);
+
+    void addDepartment(DepartmentRepository departmentRepository, AddDepartmentForm form);
 }

@@ -9,6 +9,7 @@ import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.dataaccesslayer.EnterpriseCardRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
+import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.*;
 import com.example.banksys.model.Exception.WithdrawException;
 import com.example.banksys.model.log.AccountLog;
@@ -115,6 +116,24 @@ public class EnterpriseService extends BaseUserService implements UserService {
         return account.closeAccount();
     }
 
+    @Transactional
+    public List<EnterpriseUser> getEnterpriseUsers(EnterpriseUserAccount account) {
+        List<EnterpriseUser> enterpriseUserList = account.getEnterpriseUser().getEnterprise().getEnterpriseUserList();
+        return  enterpriseUserList;
+    }
 
+    public void deleteEnterpriseUser(UserRepository userRepository, SelectedUserIdForm form) {
+        userRepository.deleteAllById(form.getSelectedUserId());
+    }
 
+    public Long addEnterpriseUser(EnterpriseUserAccount account, EnterpriseUserRepository enterpriseUserRepository, AddEnterpriseUserForm form, PasswordEncoder encoder) {
+        EnterpriseUser enterpriseUser = new EnterpriseUser(form.getUserPid(), form.getUserName(), Card.UserType.ENTERPRISE, encoder.encode(form.getPassword()), EnterpriseUser.RightType.USER, account.getEnterprise(), account.getEnterpriseCard());
+        EnterpriseUser save = enterpriseUserRepository.save(enterpriseUser);
+        return save.getUserId();
+    }
+
+    public void addEnterprise(EnterpriseRepository enterpriseRepository, AddEnterpriseForm form) {
+        Enterprise enterprise = new Enterprise(form.getEnterpriseName());
+        enterpriseRepository.save(enterprise);
+    }
 }

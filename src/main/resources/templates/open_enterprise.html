@@ -44,7 +44,10 @@
                 th:text="${enterprise.enterpriseName}"
         >
         </option>
-    </select><br/>
+    </select>
+
+    <a href="/users/enterprise/open/add_enterprise">添加企业</a>
+    <br/>
 
     <label for="password">密码: </label>
     <input type="password" th:field="*{password}"/>

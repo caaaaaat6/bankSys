@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+      th:with="RightType=${T(com.example.banksys.model.EnterpriseUser.RightType)}">
 <head>
     <meta charset="UTF-8">
     <title>用户操作</title>
@@ -13,7 +16,8 @@
 <a href="/users/enterprise/query/">查询</a><br>
 <a href="/users/enterprise/transfer/">转账</a><br>
 <a href="/users/enterprise/change_password/">改密码</a><br>
-<a href="/users/enterprise/close/">销户</a>
+<a href="/users/enterprise/close/">销户</a><br>
+<a th:if="${session.account.enterpriseUser.rightType eq RightType.SUPER}" href="/users/enterprise/manage">管理企业账户</a><br>
 
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加企业用户</title>
+</head>
+<body>
+<h1>添加企业用户</h1>
+
+<form method="POST" th:action="@{/users/enterprise/manage/add}" id="openForm" th:object="${addEnterpriseUserForm}">
+
+    <label for="userName">姓名: </label>
+    <input type="text" th:field="*{userName}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('userName')}"
+          th:errors="*{userName}">Invalid user name</span><br/>
+
+    <label for="userPid">身份证号码: </label>
+    <input type="text" th:field="*{userPid}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('userPid')}"
+          th:errors="*{userPid}">Invalid user pid</span><br/>
+
+    <label for="password">密码: </label>
+    <input type="password" th:field="*{password}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('password')}"
+          th:errors="*{password}">Invalid open money</span><br/>
+
+    <label for="confirm">确认密码: </label>
+    <input type="password" th:field="*{confirm}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('confirm')}"
+          th:errors="*{confirm}">Password validation failed</span>
+    <br/>
+
+    <span th:if="${#fields.hasGlobalErrors()}"
+          th:text="${#fields.globalErrors()[0]}"
+          class="error-message"></span><br/>
+    <input type="submit" value="Register"/>
+    <span th:field="*{error}" th:if="${error!=null}" th:value="${error}"></span>
+    <!--    <button type="submit">提交</button>-->
+
+</form>
+</body>
+</html>

@@ -22,7 +22,7 @@ public class EnterpriseUser extends User {
     @Column(length = 32)
     private String rightType;
 
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "enterprise_id", nullable = false)
     private Enterprise enterprise;
 
@@ -47,6 +47,15 @@ public class EnterpriseUser extends User {
                 break;
             default:
         }
+        switch (getRightType()) {
+            case RightType.SUPER:
+                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_SUPER_ROLE));
+                break;
+            case RightType.USER:
+                list.add(new SimpleGrantedAuthority(Role.ENTERPRISE_ORDINARY_ROLE));
+                break;
+            default:
+        }
         return list;
     }
 
@@ -63,5 +72,12 @@ public class EnterpriseUser extends User {
     public void setEnterpriseCard(EnterpriseCard enterpriseCard) {
         this.enterpriseCard = enterpriseCard;
         setCard(enterpriseCard);
+    }
+
+    public EnterpriseUser(String userPid, String userName, String userType, String password, String rightType, Enterprise enterprise, EnterpriseCard enterpriseCard) {
+        super(userPid, userName, userType, password);
+        this.rightType = rightType;
+        this.enterprise = enterprise;
+        this.enterpriseCard = enterpriseCard;
     }
 }

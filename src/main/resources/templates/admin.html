@@ -7,27 +7,6 @@
 <body>
 <h1>雇员管理</h1>
 
-<!--<table border="1px" cellpadding="10" cellspacing="0">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>雇员ID</th>-->
-<!--        <th>雇员姓名</th>-->
-<!--        <th>雇员类型</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr th:each="employee, queryRow : ${employees}">-->
-<!--        <td th:text="${employee.userId}"></td>-->
-<!--        <td th:text="${employee.userName}"></td>-->
-<!--        <td th:text="${employee.employeeType}"></td>-->
-<!--        <td th:text="${employee.employeeType}"></td>-->
-<!--    </tr>-->
-<!--    <tr th:if="${employees.size() == 0}">-->
-<!--        <td colspan="3">No query logs available</td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
-
 <form th:action="@{/admin/}" method="post" th:object="${reviewForm}">
     <table border="1px" cellpadding="10" cellspacing="0">
         <thead>

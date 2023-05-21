@@ -21,4 +21,8 @@ public class Department {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Employee> employeeList;
+
+    public Department(String departmentName) {
+        this.departmentName = departmentName;
+    }
 }

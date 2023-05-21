@@ -7,8 +7,10 @@ import com.example.banksys.dataaccesslayer.EnterpriseRepository;
 import com.example.banksys.dataaccesslayer.EnterpriseUserRepository;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.Enterprise;
+import com.example.banksys.presentationlayer.form.AddEnterpriseForm;
 import com.example.banksys.presentationlayer.form.EnterpriseOpenForm;
 import com.example.banksys.presentationlayer.form.OpenForm;
+import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -35,7 +38,9 @@ public class OpenEnterpriseController {
     private EnterpriseRepository enterpriseRepository;
 
     @Autowired
-    public void context(ApplicationContext context) { this.context = context; }
+    public void context(ApplicationContext context) {
+        this.context = context;
+    }
 
     @Autowired
     public void enterpriseService(EnterpriseService enterpriseService) {
@@ -56,10 +61,15 @@ public class OpenEnterpriseController {
         return new EnterpriseOpenForm();
     }
 
+    @ModelAttribute
+    public AddEnterpriseForm createAddEnterpriseForm() {
+        return new AddEnterpriseForm();
+    }
+
     @GetMapping
     public String openForm(Model model) {
         Iterable<Enterprise> all = enterpriseRepository.findAll();
-        model.addAttribute("enterprises",all);
+        model.addAttribute("enterprises", all);
         return "open_enterprise";
     }
 
@@ -92,5 +102,20 @@ public class OpenEnterpriseController {
     @ModelAttribute("openForm")
     public void clearOpenForm(HttpSession session, SessionStatus sessionStatus) {
         session.removeAttribute("openForm");
+    }
+
+    @GetMapping("/add_enterprise")
+    public String getAddEnterprisePage() {
+        return "enterprise_add_enterprise";
+    }
+
+    @PostMapping("/add_enterprise")
+    public String postAddEnterprisePage(Model model, @Validated AddEnterpriseForm form, Errors errors) {
+        if (errors.hasErrors()) {
+            return "enterprise_add_enterprise";
+        }
+        enterpriseService.addEnterprise(enterpriseRepository, form);
+        ToFrontendHelper.addSuccessMessage(model, "添加企业成功！");
+        return "success";
     }
 }

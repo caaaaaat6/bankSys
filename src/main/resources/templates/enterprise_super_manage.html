@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+ th:with="RightType=${T(com.example.banksys.model.EnterpriseUser.RightType)}">
+<head>
+    <meta charset="UTF-8">
+    <title>企业super账户管理界面</title>
+</head>
+<body>
+<h1>企业super账户管理界面</h1>
+<p th:text="'企业：' + ${session.account.enterpriseUser.enterprise.enterpriseName}"></p>
+
+<h3>新建账户</h3>
+<a href="/users/enterprise/manage/add">新建账户</a>
+
+<h3>查看及删除账户</h3>
+<form th:action="@{/users/enterprise/manage}" method="post" th:object="${selectedUserIdForm}">
+    <table border="1px" cellpadding="10" cellspacing="0">
+        <thead>
+        <tr>
+            <th>企业用户账户ID</th>
+            <th>企业用户账户姓名</th>
+            <th>权限</th>
+            <th>删除该账户</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="enterpriseUser, queryRow : ${enterpriseUsers}">
+            <td th:text="${enterpriseUser.userId}"></td>
+            <td th:text="${enterpriseUser.userName}"></td>
+            <td th:text="${enterpriseUser.rightType}"></td>
+            <td>
+                <input type="checkbox" th:if="${enterpriseUser.rightType ne RightType.SUPER}" th:field="*{selectedUserId}" th:value="${enterpriseUser.userId}">
+            </td>
+        </tr>
+        <tr th:if="${enterpriseUsers.size() == 0}">
+            <td colspan="3">该企业没有企业用户</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

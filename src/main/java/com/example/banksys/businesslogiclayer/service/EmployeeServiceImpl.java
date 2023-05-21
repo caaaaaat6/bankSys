@@ -5,7 +5,9 @@ import com.example.banksys.dataaccesslayer.DepartmentRepository;
 import com.example.banksys.dataaccesslayer.EmployeeRepository;
 import com.example.banksys.model.Department;
 import com.example.banksys.model.Employee;
+import com.example.banksys.model.EnterpriseUser;
 import com.example.banksys.model.log.AccountLog;
+import com.example.banksys.presentationlayer.form.AddDepartmentForm;
 import com.example.banksys.presentationlayer.form.RegisterForm;
 import com.example.banksys.presentationlayer.form.ReviewForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,4 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         allById.forEach(employee -> employee.setEnabled(true));
         employeeRepository.saveAll(allById);
     }
+
+    @Override
+    public void addDepartment(DepartmentRepository departmentRepository, AddDepartmentForm form) {
+        Department department = new Department(form.getDepartmentName());
+        departmentRepository.save(department);
+    }
+
 }

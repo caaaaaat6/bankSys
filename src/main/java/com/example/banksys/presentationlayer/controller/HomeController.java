@@ -1,13 +1,17 @@
 package com.example.banksys.presentationlayer.controller;
 
 import com.example.banksys.businesslogiclayer.service.EmployeeService;
+import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.dataaccesslayer.EmployeeRepository;
+import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Employee;
 import com.example.banksys.presentationlayer.form.ReviewForm;
+import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -17,17 +21,24 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.banksys.presentationlayer.controller.HomeController.ACCOUNT_ATTRIBUTE;
+
 @Slf4j
 @Controller
 @RequestMapping("/")
+@SessionAttributes({ACCOUNT_ATTRIBUTE})
 public class HomeController {
-
+    public static final String ACCOUNT_ATTRIBUTE = "account";
     private EmployeeService employeeService;
     private EmployeeRepository employeeRepository;
+    private ApplicationContext context;
+    private UserRepository userRepository;
 
-    public HomeController(EmployeeService employeeService, EmployeeRepository employeeRepository) {
+    public HomeController(EmployeeService employeeService, EmployeeRepository employeeRepository, ApplicationContext context, UserRepository userRepository) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;
+        this.context = context;
+        this.userRepository = userRepository;
     }
 
     @ModelAttribute("reviewForm")
@@ -46,7 +57,11 @@ public class HomeController {
     }
 
     @GetMapping("/users/enterprise/")
-    public String enterpriseUser() {
+    public String enterpriseUser(Model model,Authentication authentication) {
+        EnterpriseUserAccount account = (EnterpriseUserAccount) model.getAttribute(ACCOUNT_ATTRIBUTE);
+        if (account == null) {
+            GetPageHelper.addAccount(model,authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
+        }
         return "enterprise_user";
     }
 

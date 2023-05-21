@@ -9,6 +9,8 @@ import com.example.banksys.dataaccesslayer.UserRepository;
 import com.example.banksys.model.Department;
 import com.example.banksys.model.Employee;
 import com.example.banksys.model.log.AccountLog;
+import com.example.banksys.presentationlayer.form.AddDepartmentForm;
+import com.example.banksys.presentationlayer.form.AddEnterpriseForm;
 import com.example.banksys.presentationlayer.form.RegisterForm;
 import com.example.banksys.presentationlayer.helper.GetPageHelper;
 import com.example.banksys.presentationlayer.helper.ToFrontendHelper;
@@ -51,6 +53,11 @@ public class EmployeeController {
         return new RegisterForm();
     }
 
+    @ModelAttribute
+    public AddDepartmentForm createAddDepartmentForm() {
+        return new AddDepartmentForm();
+    }
+
     @GetMapping
     public String getIndexPage(Model model, Authentication authentication) {
         GetPageHelper.addEmployee(model, authentication, employeeRepository);
@@ -71,10 +78,24 @@ public class EmployeeController {
             return "register_employee";
         }
         String beanName = BeanNameUtil.getBeanName(form);
-//        BaseEmployeeAccount account = (BaseEmployeeAccount) context.getBean(beanName);
         Long id = service.register(employeeRepository, departmentRepository, passwordEncoder, form);
         model.addAttribute("id", id);
         ToFrontendHelper.addSuccessMessage(model, "您的登录ID为" + id + "，请牢记！\n注册信息已提交系统管理员，请耐心等待审核。");
+        return "success";
+    }
+
+    @GetMapping("/register/add_department")
+    public String getAddDepartmentPage() {
+        return "employee_add_department";
+    }
+
+    @PostMapping("/register/add_department")
+    public String postAddDepartmentPage(Model model, @Validated AddDepartmentForm form, Errors errors) {
+        if (errors.hasErrors()) {
+            return "employee_add_department";
+        }
+        service.addDepartment(departmentRepository, form);
+        ToFrontendHelper.addSuccessMessage(model, "添加部门成功！");
         return "success";
     }
 
@@ -93,4 +114,6 @@ public class EmployeeController {
         model.addAttribute("report", report);
         return "/find_report";
     }
+
+
 }

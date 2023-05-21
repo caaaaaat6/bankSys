@@ -6,6 +6,8 @@ public class Role {
     public static final String ORDINARY_USER_ROLE = "ROLE_ORDINARY";
     public static final String VIP_USER_ROLE = "ROLE_VIP";
     public static final String ENTERPRISE_USER_ROLE = "ROLE_ENTERPRISE";
+    public static final String ENTERPRISE_SUPER_ROLE = "ROLE_SUPER";
+    public static final String ENTERPRISE_ORDINARY_ROLE = "ROLE_ORDINARY";
     public static final String FRONT_DESK_EMPLOYEE_ROLE = "ROLE_FRONT_DESK";
     public static final String MANAGER_EMPLOYEE_ROLE = "ROLE_MANAGER";
     public static final String CURRENT_HEAD_EMPLOYEE_ROLE = "ROLE_CURRENT_HEAD";
@@ -18,6 +20,8 @@ public class Role {
     public static final String ORDINARY_USER = "ORDINARY";
     public static final String VIP_USER = "VIP";
     public static final String ENTERPRISE_USER = "ENTERPRISE";
+    public static final String ENTERPRISE_SUPER = "SUPER";
+    public static final String ENTERPRISE_ORDINARY = "ORDINARY";
     public static final String FRONT_DESK_EMPLOYEE = "FRONT_DESK";
     public static final String MANAGER_EMPLOYEE = "MANAGER";
     public static final String CURRENT_HEAD_EMPLOYEE = "CURRENT_HEAD";

@@ -7,8 +7,12 @@
 <head>
     <meta charset="UTF-8">
     <title>雇员注册</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+
+<script th:src="@{/js/show_department_if_checked.js}"}></script>
+
 <h1>雇员注册</h1>
 <form method="POST" th:action="@{/employee/register/}" id="registerForm" th:object="${registerForm}"
       th:attr="value=${session.registerForm}">
@@ -33,7 +37,7 @@
     <input type="radio" name="employeeType" th:value="${EmployeeType.FIXED_HEAD_EN}" >定期银行业务总管<br/>
     <input type="radio" name="employeeType" th:value="${EmployeeType.ADMIN_EN}" >系统管理员<br/>
 
-    <label for="department">部门:</label>
+    <label id="departmentLabel" for="department">部门:</label>
     <select id="department" name="department" th:field="*{departmentId}">
         <option
                 th:each="department:${departments}"
@@ -43,7 +47,7 @@
         </option>
     </select>
 
-    <a href="/employee/register/add_department">添加部门</a>
+    <a id="href_add_department" href="/employee/register/add_department">添加部门</a>
     <br/>
 
     <label for="password">密码: </label>

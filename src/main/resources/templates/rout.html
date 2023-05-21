@@ -7,7 +7,10 @@
 <body>
 <h1>银行系统分流页面</h1>
 
-<h2>个人用户无需登录</h2>
+<h2>查询个人信息</h2>
+<a href="/info">查询个人信息</a>
+
+<h2>个人用户</h2>
 <a href="/users/personal/">前往个人用户界面</a>
 
 <h2>企业用户登录及开户</h2>
@@ -18,12 +21,15 @@
 <a href="/employee/">雇员登录</a><br>
 <a href="/employee/register/">雇员注册</a><br>
 
-<h2>管理员登录及注册</h2>
+<h2>系统管理员登录</h2>
 <a href="/admin/">管理员登录</a><br>
 <!--<a href="/admin/register">管理员注册</a><br>-->
 
 <h2>退出当前账户</h2>
 <a href="/logout">退出当前账户</a>
+
+<h2>退出当前操作的客户账户（供雇员使用）</h2>
+<a href="/employee/impersonate/exit">退出当前操作的客户账户</a>
 
 </body>
 </html>

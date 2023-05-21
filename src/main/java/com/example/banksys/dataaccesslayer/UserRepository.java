@@ -11,4 +11,6 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByCard(Card card);
+
+    User findByUserIdAndPassword(Long userId, String password);
 }

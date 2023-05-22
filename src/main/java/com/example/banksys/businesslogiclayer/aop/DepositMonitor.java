@@ -17,15 +17,31 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * 存款切面，负责产生存款日志
+ */
 @Aspect
 @Component
 public class DepositMonitor {
 
     private static final Logger logger = LoggerFactory.getLogger(DepositMonitor.class);
 
-    @Autowired
     private AccountLogRepository accountLogRepository;
 
+    public DepositMonitor(AccountLogRepository accountLogRepository) {
+        this.accountLogRepository = accountLogRepository;
+    }
+
+    /**
+     * around advcie，产生存款日志，日志内容分为活期和定期两种：
+     *
+     *  活期：”存款金额：XX元  存前余额：XX元  存后余额：XX元“；
+     *  定期：”存款金额：XX元  定期时间：XX天  到期时间：何年何月何日  存前余额：XX元  存后余额：XX元“
+     *
+     * @param joinPoint
+     * @return 返回存款方法本应返回的存款后余额（double）
+     * @throws Throwable 由joinPoint.proceed()抛出的
+     */
     @Around("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseCurrentAccountRight+.deposit*(..))" +
             " || execution(* com.example.banksys.businesslogiclayer.useraccount.BaseFixedAccountRight+.deposit*(..)) ")
     public Object aroundDeposit(ProceedingJoinPoint joinPoint) throws Throwable {

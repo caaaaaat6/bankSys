@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 查询余额的切面，负责产生查询余额的日志
+ */
 @Aspect
 @Component
 public class QueryBalanceMonitor {
@@ -23,9 +26,17 @@ public class QueryBalanceMonitor {
     @Autowired
     private AccountLogRepository accountLogRepository;
 
+    /**
+     * 查询余额的pointcut
+     */
     @Pointcut("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.queryBalance(..))")
     public void queryBalance(){}
 
+    /**
+     * 查询余额sfterReturning advice，日志内容：”可取余额/总余额：XX/XX元“
+     * @param joinPoint
+     * @param desirableBalance_balance 可取余额
+     */
     @AfterReturning(value = "execution(* queryBalance())", returning = "desirableBalance_balance")
     public void queryBalanceLog(JoinPoint joinPoint, String desirableBalance_balance) {
         BaseAccount account = (BaseAccount) joinPoint.getTarget();

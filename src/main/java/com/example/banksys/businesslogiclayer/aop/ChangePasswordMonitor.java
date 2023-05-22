@@ -13,6 +13,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+/**
+ * 改密码的切面，负责记录改密码日志
+ */
 @Slf4j
 @Aspect
 @Component
@@ -23,8 +26,12 @@ public class ChangePasswordMonitor {
         this.accountLogRepository = accountLogRepository;
     }
 
+    /**
+     * 产生改密码的日志，日志内容：”修改账户密码“， 并在后台控制台上产生一条log
+     * @param joinPoint
+     */
     @After(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.changePassword(..))")
-    public void queryBalanceLog(JoinPoint joinPoint) {
+    public void changePasswordLog(JoinPoint joinPoint) {
         BaseAccount account = (BaseAccount) joinPoint.getTarget();
 
         // 获取accountLog所需的信息

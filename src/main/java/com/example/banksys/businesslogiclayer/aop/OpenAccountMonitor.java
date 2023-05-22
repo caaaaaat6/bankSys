@@ -19,12 +19,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 开户切面，负责产生开户日志
+ */
 @Aspect
 @Component
 public class OpenAccountMonitor {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenAccountMonitor.class);
 
+    /**
+     * 企业开户的开户金额门限
+     */
     public static final double ENTERPRISE_OPEN_MONEY_THRESHOLD = 10000;
 
     @Autowired
@@ -34,9 +40,8 @@ public class OpenAccountMonitor {
     private UserRepository userRepository;
 
     /**
-     * 个人用户开户后的日志切面
+     * 个人用户开户后的日志afterReturning advice，日志内容：”开户金额：XX元  账户类型：ordinary/vip 定期活期：定期/活期“
      * @param joinPoint
-     * @param employee
      */
     @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.PersonalUserAccount+.openAccount(..)) " +
             " && args(userId, userPid, userName, userType, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")
@@ -56,8 +61,8 @@ public class OpenAccountMonitor {
     }
 
     /**
-     * 企业用户开户前的切面
-     * @throws EnterpriseAccountOpenMoneyNotEnoughException
+     * 企业用户开户前的切面，负责判断：1.是否已有五个账户；2.开户金额是否大于门限；3.确定新开企业用户的权限为Super。
+     * @throws EnterpriseAccountOpenMoneyNotEnoughException 企业账户开户金额不足门限异常
      */
     @Before(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)")
@@ -89,7 +94,7 @@ public class OpenAccountMonitor {
     }
 
     /**
-     *  企业用户开户日志
+     *  企业用户开户日志afterReturning advice，日志内容：”开户金额：XX元  账户类型：ordinary/vip 定期活期：定期/活期“
      */
     @AfterReturning(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)", returning = "cardId")

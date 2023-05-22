@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 取款切面，负责产生取款日志
+ */
 @Aspect
 @Component
 public class WithdrawMonitor {
@@ -28,8 +31,15 @@ public class WithdrawMonitor {
 
     }
 
+    /**
+     * 产生取款日志, 日志内容：”取款金额：XX元  取前金额：XX元  取后金额：XX元“
+     * @param proceedingJoinPoint
+     * @param money 取款金额
+     * @return 取款后余额
+     * @throws Throwable 由joinPoint.proceed()抛出的
+     */
     @Around(value = "execution(* withdraw(..)) && args(money)")
-    public Object beforeWithdraw(ProceedingJoinPoint proceedingJoinPoint, double money) throws Throwable {
+    public Object aroundWithdraw(ProceedingJoinPoint proceedingJoinPoint, double money) throws Throwable {
         BaseAccount account = (BaseAccount) proceedingJoinPoint.getTarget();
 
         Long userId = account.getUser().getUserId();

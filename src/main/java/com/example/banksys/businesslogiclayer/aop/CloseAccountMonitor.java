@@ -12,18 +12,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 负责产生销户日志
+ */
 @Aspect
 @Component
 public class CloseAccountMonitor {
 
     private static final Logger logger = LoggerFactory.getLogger(CloseAccountMonitor.class);
 
-    @Autowired
     AccountLogRepository accountLogRepository;
 
+    public CloseAccountMonitor(AccountLogRepository accountLogRepository) {
+        this.accountLogRepository = accountLogRepository;
+    }
+
+    /**
+     * 销户的pointcut
+     */
     @Pointcut("execution(* com.example.banksys.businesslogiclayer.useraccount.BaseAccount+.closeAccount())")
     public void closeAccount() {}
 
+    /**
+     * 销户日志before advice，日志内容：”销户前余额：XX元“， 并在后台控制台上产生一条log
+     * @param joinPoint
+     */
     @Before("execution(* closeAccount())")
     public void closeAccountLog(JoinPoint joinPoint) {
         BaseAccount account = (BaseAccount) joinPoint.getTarget();

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +33,7 @@ public class Employee extends User implements EmployeeRight, UserDetails {
     @Column(length = 16)
     private String employeeType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
     private Department department;
 
@@ -50,6 +51,10 @@ public class Employee extends User implements EmployeeRight, UserDetails {
         this.department = department;
         setUserPid(pid);
         setPassword(password);
+        if (employeeType.equals(Employee.EmployeeType.ADMIN_EN)) {
+            this.enabled = true;
+            this.department = null;
+        }
     }
 
     public static class EmployeeType {
@@ -75,6 +80,7 @@ public class Employee extends User implements EmployeeRight, UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         list.add(new SimpleGrantedAuthority(Role.EMPLOYEE_ROLE));
+        list.add(new SimpleGrantedAuthority(SwitchUserFilter.ROLE_PREVIOUS_ADMINISTRATOR));
         switch (getEmployeeType()) {
             case EmployeeType.FRONT_DESK_EN:
                 list.add(new SimpleGrantedAuthority(Role.FRONT_DESK_EMPLOYEE_ROLE));
@@ -104,9 +110,20 @@ public class Employee extends User implements EmployeeRight, UserDetails {
     public boolean isEnabled() {
         if (getEmployeeType().equals(EmployeeType.ADMIN_EN)) {
             this.enabled = true;
-            return true;
         }
         return enabled;
+    }
+
+    public boolean getEnabled() {
+        if (getEmployeeType().equals(EmployeeType.ADMIN_EN)) {
+            this.enabled = true;
+        }
+        return enabled;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
+        this.enabled = true;
     }
 
     public Long getEmployeeId() {

@@ -95,6 +95,7 @@ public class PresentationLayerConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/info").hasAnyRole(Role.ENTERPRISE_USER, Role.ORDINARY_USER, Role.VIP_USER)
                         .requestMatchers("/users/personal/").permitAll()
                         .requestMatchers("/users/personal/open").permitAll()
                         .requestMatchers("/users/personal/deposit/**").hasAnyRole("ORDINARY", "VIP")
@@ -110,7 +111,8 @@ public class PresentationLayerConfig {
                         .requestMatchers("/admin/").hasRole(Role.SYSTEM_ADMIN)
                         .requestMatchers("/employee/register/").permitAll()
                         .requestMatchers("/employee/register/**").permitAll()
-                        .requestMatchers("/employee/impersonate/exit").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE, "PREVIOUS_ADMINISTRATOR")
+//                        .requestMatchers("/employee/impersonate/exit").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE, "PREVIOUS_ADMINISTRATOR")
+                        .requestMatchers("/employee/impersonate/exit").authenticated()
                         .requestMatchers("/employee/impersonate").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
                         .requestMatchers("/employee/**").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
                         .anyRequest().permitAll())

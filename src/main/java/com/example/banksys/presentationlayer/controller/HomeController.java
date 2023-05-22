@@ -92,4 +92,10 @@ public class HomeController {
         }
         return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
+
+    @GetMapping("/info")
+    public String getInfo(Model model, Authentication authentication) {
+        GetPageHelper.addAccount(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
+        return "info";
+    }
 }

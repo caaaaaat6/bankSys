@@ -8,10 +8,11 @@
 <h1>查询所管雇员</h1>
 
 <p th:text="'雇员总人数：' + ${employees.size()} + '人'"></p>
-<p th:text="'所在部门：' + ${session.employee.department.departmentName}"></p>
+<p th:if="${session.employee.department!=null}" th:text="'所在部门：' + ${session.employee.department.departmentName}"></p>
 <table border="1px" cellpadding="10" cellspacing="0">
     <thead>
     <tr>
+        <th>雇员部门</th>
         <th>雇员ID</th>
         <th>雇员姓名</th>
         <th>雇员类型</th>
@@ -19,6 +20,8 @@
     </thead>
     <tbody>
     <tr th:each="employee, queryRow : ${employees}">
+        <td th:if="${employee.department!=null}" th:text="${employee.department.departmentName}"></td>
+        <td th:if="${employee.department==null}" th:text="无"></td>
         <td th:text="${employee.userId}"></td>
         <td th:text="${employee.userName}"></td>
         <td th:text="${employee.employeeType}"></td>

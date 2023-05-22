@@ -30,10 +30,10 @@ public class ManagerEmployeeAccount extends FrontDeskEmployeeAccount {
     }
 
     public List<AccountLog> findReportByCardType(String cardType) {
-        List<Card> cardsByCardType = getCardRepository().findCardsByCardType(Card.CardType.FIXED);
+        List<Card> cardsByCardType = getCardRepository().findCardsByCardType(cardType);
         List<Long> cardIds = new ArrayList<>();
         cardsByCardType.forEach(card -> cardIds.add(card.getCardId()));
-        List<AccountLog> allByEmployeeInAndCardIdIn = getAccountLogRepository().findAllByEmployeeInAndCardIdIn(getEmployee().getDepartment().getEmployeeList(), cardIds);
+        List<AccountLog> allByEmployeeInAndCardIdIn = getAccountLogRepository().findAllByCardIdInOrderByDateDesc(cardIds);
         return allByEmployeeInAndCardIdIn;
     }
 }

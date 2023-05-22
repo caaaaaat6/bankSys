@@ -22,8 +22,8 @@ public class EnterpriseUser extends User {
     @Column(length = 32)
     private String rightType;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "enterprise_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "enterprise_id")
     private Enterprise enterprise;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

@@ -77,7 +77,6 @@ public class EmployeeController {
         if (errors.hasErrors()) {
             return "register_employee";
         }
-        String beanName = BeanNameUtil.getBeanName(form);
         Long id = service.register(employeeRepository, departmentRepository, passwordEncoder, form);
         model.addAttribute("id", id);
         ToFrontendHelper.addSuccessMessage(model, "您的登录ID为" + id + "，请牢记！\n注册信息已提交系统管理员，请耐心等待审核。");

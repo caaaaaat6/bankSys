@@ -57,7 +57,8 @@ public class DepositPersonalController {
     @Transactional
     @GetMapping("/")
     public String getDepositPage(Model model, Authentication authentication) {
-        Long userId = Long.parseLong(authentication.getName());
+        String username = authentication.getName();
+        Long userId = Long.parseLong(username);
         User user = userRepository.findById(userId).get();
         PersonalUserAccount personalUserAccount = (PersonalUserAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
         personalUserAccount.setUser(user);

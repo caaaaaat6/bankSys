@@ -40,7 +40,7 @@ public class CustomSwitchUserFilter extends SwitchUserFilter  {
             throw new BadCredentialsException("账户ID或密码错误！");
         }
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(byUserIdAndPassword, password, byUserIdAndPassword.get().getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(byUserIdAndPassword.get(), password, byUserIdAndPassword.get().getAuthorities());
         return authentication;
     }
 }

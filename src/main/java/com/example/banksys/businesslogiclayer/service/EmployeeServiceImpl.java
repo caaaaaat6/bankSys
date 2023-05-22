@@ -22,9 +22,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Long register(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, PasswordEncoder encoder, RegisterForm form) {
         Department department = departmentRepository.findById(form.getDepartmentId()).get();
         Employee employee = new Employee(form.getEmployeeType(), form.getUserName(), form.getUserPid(),department, encoder.encode(form.getPassword()));
+        if (form.getEmployeeType().equals(Employee.EmployeeType.ADMIN_EN)) {
+            employee.setEnabled(true);
+        }
         Employee save = employeeRepository.save(employee);
 
-        department.getEmployeeList().add(save);
+        if (!form.getEmployeeType().equals(Employee.EmployeeType.ADMIN_EN)
+            || !form.getEmployeeType().equals(Employee.EmployeeType.FIXED_HEAD_EN)
+            || !form.getEmployeeType().equals(Employee.EmployeeType.CURRENT_HEAD_EN)) {
+            department.getEmployeeList().add(save);
+        }
         departmentRepository.save(department); //同时更新部门的列表，因为用了OneToMany，需要更新
 
         save.setEmployeeId(save.getUserId());

@@ -2,7 +2,7 @@ package com.example.banksys.businesslogiclayer.aop;
 
 import com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseAccountOpenMoneyNotEnoughException;
-import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExsitException;
+import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExistException;
 import com.example.banksys.businesslogiclayer.exception.FiveEnterpriseAccountOpenedException;
 import com.example.banksys.dataaccesslayer.*;
 import com.example.banksys.model.Card;
@@ -66,7 +66,7 @@ public class OpenAccountMonitor {
      */
     @Before(value = "execution(* com.example.banksys.businesslogiclayer.useraccount.EnterpriseUserAccount+.openEnterpriseAccount(..))" +
             " && args(userId, userPid, userName, password, enterpriseId, cardType, openMoney, employee)")
-    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException, EnterpriseCardExsitException {
+    public void beforeEnterpriseOpenAccount(JoinPoint joinPoint, long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) throws EnterpriseAccountOpenMoneyNotEnoughException, FiveEnterpriseAccountOpenedException, EnterpriseCardExistException {
         EnterpriseUserAccount enterpriseUserAccount = (EnterpriseUserAccount) joinPoint.getTarget();
         Enterprise enterprise = enterpriseUserAccount.getEnterprise();
 
@@ -88,7 +88,7 @@ public class OpenAccountMonitor {
             enterpriseUser.setRightType(EnterpriseUser.RightType.SUPER);
         } else {
             enterpriseUser.setRightType(EnterpriseUser.RightType.USER);
-            throw new EnterpriseCardExsitException("该企业已经开了一个账户，无法开更多的账户！");
+            throw new EnterpriseCardExistException("该企业已经开了一个账户，无法开更多的账户！");
         }
         userRepository.save(enterpriseUser);
     }

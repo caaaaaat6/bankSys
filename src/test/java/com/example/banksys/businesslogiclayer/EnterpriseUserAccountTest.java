@@ -1,6 +1,6 @@
 package com.example.banksys.businesslogiclayer;
 
-import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExsitException;
+import com.example.banksys.businesslogiclayer.exception.EnterpriseCardExistException;
 import com.example.banksys.businesslogiclayer.exception.EnterpriseWithdrawBalanceNotEnoughException;
 import com.example.banksys.businesslogiclayer.exception.UntransferableException;
 import com.example.banksys.businesslogiclayer.useraccount.EnterpriseCurrentUserAccount;
@@ -134,6 +134,6 @@ class EnterpriseUserAccountTest {
 
     @Test
     void openEnterpriseAccountWithException() {
-        Assert.assertThrows(EnterpriseCardExsitException.class, () -> enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101003X", "董八", "1111111", 6L, Card.CardType.CURRENT, 10001, null));
+        Assert.assertThrows(EnterpriseCardExistException.class, () -> enterpriseCurrentUserAccount.openEnterpriseAccount(1, "11111120000101003X", "董八", "1111111", 6L, Card.CardType.CURRENT, 10001, null));
     }
 }

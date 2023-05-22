@@ -24,10 +24,10 @@ public class EnterpriseCurrentUserAccount extends EnterpriseUserAccount implemen
         return BLLUtil.currentDeposit(getCardRepository(), getTradeRepository(), getCard(), money);
     }
 
-    @Override
-    public double depositByEmployee(double money, Long employeeId) {
-        return BLLUtil.currentDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee());
-    }
+//    @Override
+//    public double depositByEmployee(double money, Long employeeId) {
+//        return BLLUtil.currentDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee());
+//    }
 
     @Override
     public String queryBalance() {
@@ -45,8 +45,8 @@ public class EnterpriseCurrentUserAccount extends EnterpriseUserAccount implemen
     }
 
     @Override
-    public void changePassword(String newPassword) {
-        super.changePassword(newPassword);
+    public void changePassword(String newEncodedPassword) {
+        super.changePassword(newEncodedPassword);
     }
 
     @Override

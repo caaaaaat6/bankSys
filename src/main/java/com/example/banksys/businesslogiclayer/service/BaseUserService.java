@@ -11,9 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class BaseUserService implements UserService {
 
     /**
-     * 销户
+     * 改密码
      * @param account 用户基类
-     * @return 销户时取出的所有余额
      */
     @Override
     @Transactional

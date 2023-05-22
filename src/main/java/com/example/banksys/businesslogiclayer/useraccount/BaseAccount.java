@@ -26,17 +26,29 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 用户账户基类
+ */
 @Data
 @NoArgsConstructor(force = true)
 @Service
 public abstract class BaseAccount implements BaseAccountRight {
 
+    /**
+     * 账户持有账户对应的用户
+     */
     private User user;
 
+    /**
+     * 账户持有为账户操作的雇员，若无，则为null
+     */
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "employeeId")
     private Employee employee;
 
+    /**
+     * 账户持有账户对应的银行卡
+     */
     private Card card;
 
     @Autowired
@@ -51,11 +63,21 @@ public abstract class BaseAccount implements BaseAccountRight {
     @Autowired
     protected AccountLogRepository accountLogRepository;
 
-    // TODO
-    //  1.需要检查身份证号码是否符合规则
-    //  2.待测试1.
-    //  4.收集该用户所有卡的开卡金额，判断是否升级为VIP用户(只在个人用户中判断,在service中实现）
+    /**
+     * 开户
+     * @param userId
+     * @param userPid
+     * @param userName
+     * @param userType
+     * @param password
+     * @param enterpriseId
+     * @param cardType
+     * @param openMoney
+     * @param employee
+     * @return 所新开账户的ID
+     */
     @Override
+    @Transactional
     public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         card = new Card(userId, userPid, userName, userType, password, cardType, openMoney);
         long cardId = cardRepository.save(card).getCardId();
@@ -63,9 +85,13 @@ public abstract class BaseAccount implements BaseAccountRight {
     }
 
 
-    // TODO
-    //  1.待测试
-    //  3.是否需要原子性
+    /**
+     * 取款
+     * @param money 取款金额
+     * @return 取款后余额
+     * @throws WithdrawException 取款后余额为负异常
+     * @throws EnterpriseWithdrawBalanceNotEnoughException 企业用户取款后余额不足门限异常
+     */
     @Transactional
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
@@ -77,6 +103,7 @@ public abstract class BaseAccount implements BaseAccountRight {
     }
 
     /**
+     * 查询余额
      * @return 返回 可取余额/总余额
      */
     @Override
@@ -86,16 +113,33 @@ public abstract class BaseAccount implements BaseAccountRight {
         return BLLUtil.presentQueryBalanceResult(desirableBalance, balance);
     }
 
+    /**
+     * 查询交易明细
+     * @return 交易明细
+     */
     @Override
     public List<Trade> queryTrades() {
         return getTradeRepository().findAllByCardIdOrderByTradeDateDesc(getCard().getCardId());
     }
 
+    /**
+     * 查询以前查询产生的日志
+     * @return 查询日志
+     */
     @Override
     public List<AccountLog> queryQueryLogs() {
         return getAccountLogRepository().findAllByCardIdAndOperationTypeOrderByDateDesc(getCard().getCardId(), AccountLog.OperationType.QUERY);
     }
 
+    /**
+     * 转账
+     * @param toCard 转入的银行卡
+     * @param money 转账金额
+     * @return
+     * @throws EnterpriseWithdrawBalanceNotEnoughException 企业用户取款后余额不足门限异常
+     * @throws WithdrawException 取款后余额为负异常
+     * @throws UntransferableException 无法转账异常
+     */
     @Override
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         double newBalance = getCard().withdraw(money);
@@ -111,12 +155,20 @@ public abstract class BaseAccount implements BaseAccountRight {
         return newBalance;
     }
 
+    /**
+     * 改密码
+     * @param newEncodedPassword 新的已加密的密码
+     */
     @Override
-    public void changePassword(String newPassword) {
-        getUser().setPassword(newPassword);
+    public void changePassword(String newEncodedPassword) {
+        getUser().setPassword(newEncodedPassword);
         userRepository.save(getUser());
     }
 
+    /**
+     * 销户
+     * @return 销户时取出的余额
+     */
     @Override
     public double closeAccount() {
         double balance = getCard().getBalance();

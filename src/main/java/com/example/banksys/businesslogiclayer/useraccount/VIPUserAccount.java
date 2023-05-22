@@ -13,24 +13,19 @@ import java.util.List;
 
 public abstract class VIPUserAccount extends PersonalUserAccount {
 
-    Logger logger = LoggerFactory.getLogger(VIPUserAccount.class);
 
     public static final double DEGRADE_THRESHOLD = 100000;
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public double withdraw(double money) throws WithdrawException {
 
-        // 直接改card的userType， 看能不能保存上。能保存上。
-//        getPersonalCard().setUserType(Card.UserType.ORDINARY);
-//        getPersonalCardRepository().save(getPersonalCard());
-
         boolean isDegrade = checkDegrade(money);
         if (isDegrade) {
             doDegrade();
-
-//            getPersonalCard().setUserType(Card.UserType.ORDINARY);  // 这里也能改成功
-//            getPersonalCardRepository().save(getPersonalCard());
         }
         double balance = super.withdraw(money);
         return balance;
@@ -40,10 +35,6 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
      * 完成降级，将所有个人卡降级为ordinary，并且将用户类型降级为ordinary
      */
     private void doDegrade() {
-
-//        getPersonalCard().setUserType(Card.UserType.ORDINARY); // 这里也能保存上
-//        getPersonalCardRepository().saveAll(Arrays.asList(getPersonalCard())); // 改成saveAll也能保存上
-
         String userPid = getPersonalCard().getUserPid();
         List<PersonalCard> personalCardsByUserPid = getPersonalCardRepository().findPersonalCardsByUserPid(userPid).get(); // 这样就保存不上了
 
@@ -56,6 +47,11 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
         getUserRepository().save(getUser());
     }
 
+    /**
+     * 判断Vip账户是否需要降级，通常由取款或者转账造成
+     * @param money
+     * @return Vip账户是否需要降级
+     */
     private boolean checkDegrade(double money) {
         String userPid = getPersonalCard().getUserPid();
         List<PersonalCard> personalCardsByUserPid = getPersonalCardRepository().findPersonalCardsByUserPid(userPid).get();
@@ -69,6 +65,9 @@ public abstract class VIPUserAccount extends PersonalUserAccount {
         return false;
     }
 
+    /**
+     * 完成降级，将所有个人卡降级为ordinary，并且将用户类型降级为ordinary
+     */
     @Override
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         if (checkDegrade(money)) {

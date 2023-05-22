@@ -15,16 +15,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
+/**
+ * 个人用户账户基类
+ */
 @Data
 @NoArgsConstructor(force = true)
 public abstract class PersonalUserAccount extends BaseAccount {
 
-
-
     @Autowired
     private PersonalCardRepository personalCardRepository;
 
-//    @OneToOne
+    /**
+     * 个人用户账户持有一个个人银行卡
+     */
     private PersonalCard personalCard;
 
     public void setPersonalCard(PersonalCard personalCard) {
@@ -32,6 +35,9 @@ public abstract class PersonalUserAccount extends BaseAccount {
         setCard(personalCard);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         personalCard = new PersonalCard(userId, userPid, userName, userType, password, cardType, openMoney);
@@ -40,6 +46,9 @@ public abstract class PersonalUserAccount extends BaseAccount {
         return cardId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public double withdraw(double money) throws WithdrawException {
         double balance = getPersonalCard().withdraw(money);
@@ -49,6 +58,15 @@ public abstract class PersonalUserAccount extends BaseAccount {
         return balance;
     }
 
+    /**
+     * 转账，个人用户只能向个人用户转账，不能向企业用户转账
+     * @param toCard 转入的银行卡
+     * @param money 转账金额
+     * @return 转出银行卡的转后余额
+     * @throws EnterpriseWithdrawBalanceNotEnoughException
+     * @throws WithdrawException
+     * @throws UntransferableException 无法转账异常
+     */
     @Override
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         if (!transferableTo(toCard)) {
@@ -57,6 +75,11 @@ public abstract class PersonalUserAccount extends BaseAccount {
         return super.transferMoneyTo(toCard, money);
     }
 
+    /**
+     * 判断能否转账
+     * @param toCard 转入银行卡
+     * @return 能否转账
+     */
     private boolean transferableTo(Card toCard) {
         if (toCard.getUserType().equals(Card.UserType.ENTERPRISE)) {
             return false;

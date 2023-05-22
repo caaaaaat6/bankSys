@@ -16,9 +16,6 @@ interface BaseAccountRight {
     //开户
     long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee);
 
-//    // 存款
-//    double deposit(double money);
-
     //取款
     double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException;
 
@@ -33,8 +30,8 @@ interface BaseAccountRight {
     //转账
     double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException;
 
-//    //改密码
-    void changePassword(String newPassword);
+    //改密码
+    void changePassword(String newEncodedPassword);
 
     //销户
     double closeAccount() throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException;

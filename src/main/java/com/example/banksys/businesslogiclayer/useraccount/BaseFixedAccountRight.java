@@ -2,14 +2,18 @@ package com.example.banksys.businesslogiclayer.useraccount;
 
 import org.springframework.transaction.annotation.Transactional;
 
-// 职员的定期权限
+/**
+ * 账户的定期权限
+ */
 public interface BaseFixedAccountRight extends BaseAccountRight {
 
-    // 定期存款，有参数：depositDays 存款天数
+    /**
+     * 定期存款
+     * @param money 定期存款金额
+     * @param depositDays 定期存款天数
+     * @return 存款后余额
+     */
     @Transactional
     double deposit(double money, int depositDays);
-
-    @Transactional
-    double depositByEmployee(double money, int depositDays, Long employeeId);
 
 }

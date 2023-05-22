@@ -23,10 +23,10 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
         return BLLUtil.fixedDeposit(getCardRepository(), getTradeRepository(), getCard(), money, depositDays);
     }
 
-    @Override
-    public double depositByEmployee(double money, int depositDays, Long employeeId) {
-        return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee(), depositDays);
-    }
+//    @Override
+//    public double depositByEmployee(double money, int depositDays, Long employeeId) {
+//        return BLLUtil.fixedDepositByEmployee(getCardRepository(), getTradeRepository(), getCard(), money, getEmployee(), depositDays);
+//    }
 
     @Override
     public String queryBalance() {
@@ -45,8 +45,8 @@ public class VIPFixedUserAccount extends VIPUserAccount implements BaseFixedAcco
     }
 
     @Override
-    public void changePassword(String newPassword) {
-        super.changePassword(newPassword);
+    public void changePassword(String newEncodedPassword) {
+        super.changePassword(newEncodedPassword);
     }
 
     @Override

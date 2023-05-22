@@ -8,13 +8,14 @@ import com.example.banksys.model.*;
 import com.example.banksys.model.Exception.WithdrawException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 企业用户庄户基类
+ */
 @Data
 @NoArgsConstructor(force = true)
 @Service
@@ -26,16 +27,25 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
     @Autowired
     protected EnterpriseCardRepository enterpriseCardRepository;
 
+    /**
+     * 企业账户持有一个企业用户
+     */
     protected EnterpriseUser enterpriseUser;
 
+    /**
+     * 企业账户持有一个企业银行卡
+     */
     protected EnterpriseCard enterpriseCard;
 
+    /**
+     * 企业账户持有一个企业
+     */
     protected Enterprise enterprise;
 
+    /**
+     * 企业账户余额门限
+     */
     public static final double BALANCE_THRESHOLD = 10000;
-
-    Logger logger = LoggerFactory.getLogger(EnterpriseUserAccount.class);
-
 
     public void setEnterpriseCard(EnterpriseCard enterpriseCard) {
         setCard(enterpriseCard);
@@ -47,6 +57,18 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         this.enterpriseUser = enterpriseUser;
     }
 
+    /**
+     * 企业账户开户功能
+     * @param userId
+     * @param userPid
+     * @param userName
+     * @param password
+     * @param enterpriseId
+     * @param cardType 定期/活期
+     * @param openMoney
+     * @param employee
+     * @return 开户后的账户ID
+     */
     public long openEnterpriseAccount(long userId, String userPid, String userName, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {
         enterpriseCard = new EnterpriseCard(userId, userPid, userName, Card.UserType.ENTERPRISE, password, enterpriseId, cardType, openMoney);
         getEnterpriseUser().setEnterpriseCard(enterpriseCard);
@@ -54,6 +76,13 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         return cardId;
     }
 
+    /**
+     *
+     * @param money 取款金额
+     * @return 取款后余额
+     * @throws WithdrawException 取款后余额为负异常
+     * @throws EnterpriseWithdrawBalanceNotEnoughException 企业用户剩余存款余额不足门限异常
+     */
     @Override
     public double withdraw(double money) throws WithdrawException, EnterpriseWithdrawBalanceNotEnoughException {
         if (!canWithdraw(money)) {
@@ -63,6 +92,11 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         return newBalance;
     }
 
+    /**
+     * 判断取款后余额是否大于企业余额门限
+     * @param money
+     * @return
+     */
     public boolean canWithdraw(double money) {
         double balance = getEnterpriseCard().getBalance();
         if (balance - money >= BALANCE_THRESHOLD) {
@@ -71,6 +105,15 @@ public abstract class EnterpriseUserAccount extends BaseAccount {
         return false;
     }
 
+    /**
+     * 转账
+     * @param toCard 转入的银行卡
+     * @param money 转账金额
+     * @return 转账后余额
+     * @throws EnterpriseWithdrawBalanceNotEnoughException 企业用户取款后余额不足门限异常
+     * @throws WithdrawException 取款后余额为负异常
+     * @throws UntransferableException 无法转账异常
+     */
     @Override
     public double transferMoneyTo(Card toCard, double money) throws EnterpriseWithdrawBalanceNotEnoughException, WithdrawException, UntransferableException {
         if (!transferableTo(toCard)) {

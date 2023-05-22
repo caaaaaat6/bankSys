@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+/**
+ * 前台操作员账号
+ */
 @Data
 @NoArgsConstructor(force = true)
 public class FrontDeskEmployeeAccount extends BaseEmployeeAccount {
@@ -19,6 +22,10 @@ public class FrontDeskEmployeeAccount extends BaseEmployeeAccount {
     @Autowired
     AccountLogRepository accountLogRepository;
 
+    /**
+     * 查看自己的流水报告
+     * @return 返回自己的流水报告
+     */
     @Override
     public List<AccountLog> findReport() {
         return accountLogRepository.findAllByEmployee(getEmployee());

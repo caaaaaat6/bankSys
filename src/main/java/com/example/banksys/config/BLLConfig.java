@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Scope;
 
 import java.util.Date;
 
+/**
+ * Bean配置类
+ */
 @Configuration
 @EnableAspectJAutoProxy
 public class BLLConfig {

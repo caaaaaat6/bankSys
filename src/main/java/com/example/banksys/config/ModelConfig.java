@@ -10,7 +10,7 @@ public class ModelConfig {
 
     @Bean
     @Scope("prototype")
-    public FrontDeskEmployeeAccount getFrontDestEmployee() {
+    public FrontDeskEmployeeAccount getFrontDeskEmployee() {
         return new FrontDeskEmployeeAccount();
     }
 }

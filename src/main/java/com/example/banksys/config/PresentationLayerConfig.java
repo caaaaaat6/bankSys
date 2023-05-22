@@ -22,7 +22,6 @@ import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
-//@EnableWebMvc
 public class PresentationLayerConfig {
 
     @Bean
@@ -30,6 +29,12 @@ public class PresentationLayerConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 配置UserDetailsService
+     * @param userRepository
+     * @param employeeRepository
+     * @return
+     */
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository, EmployeeRepository employeeRepository) {
         return userId -> {
@@ -46,32 +51,11 @@ public class PresentationLayerConfig {
         };
     }
 
-
-
-//    @Bean
-//    public SwitchUserFilter switchUserFilter(UserDetailsService userDetailsService, UserRepository userRepository) {
-//        SwitchUserFilter filter = new SwitchUserFilter();
-//        filter.setUserDetailsService(userId -> {
-//            Long id = Long.parseLong(userId);
-//            Optional<User> byId = userRepository.findById(id);
-//            if (byId.isEmpty()) {
-//                throw new UsernameNotFoundException("Account '" + userId + "' not found");
-//            }
-//            return byId.get();
-//        });
-//
-//        filter.setSwitchUserUrl("/employee/impersonate");
-//        filter.setExitUserUrl("/employee/impersonate/exit");
-//        filter.setSwitchFailureUrl("/employee/");
-//        filter.setTargetUrl("/");
-//        return filter;
-//    }
-
-//    @Bean
-//    public UserDetailsService customUserDetailsService(UserRepository userRepository, EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
-//        return new CustomUserDetailsService(userRepository, passwordEncoder, employeeRepository);
-//    }
-
+    /**
+     * 配置SwitchUserFilter
+     * @param userRepository
+     * @return 自定义的SwitchUserFilter
+     */
     @Bean
     public SwitchUserFilter customSwitchUserFilter(UserRepository userRepository) {
         SwitchUserFilter filter = new CustomSwitchUserFilter(userRepository, passwordEncoder());
@@ -91,6 +75,12 @@ public class PresentationLayerConfig {
         return filter;
     }
 
+    /**
+     * security配置，权限配置
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http

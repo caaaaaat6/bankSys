@@ -13,6 +13,9 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserFilt
 
 import java.util.Optional;
 
+/**
+ * 自定义SwitchUserFilter，以实现雇员登录用户账户时不仅输入用户账户的ID，还要输入用户账户的密码，并验证
+ */
 public class CustomSwitchUserFilter extends SwitchUserFilter  {
 
     private final UserRepository userRepository;
@@ -22,6 +25,12 @@ public class CustomSwitchUserFilter extends SwitchUserFilter  {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * 重写切换用户方法
+     * @param request
+     * @return
+     * @throws BadCredentialsException 账户ID或密码错误
+     */
     @Override
     protected Authentication attemptSwitchUser(HttpServletRequest request) throws BadCredentialsException {
         // Retrieve the user's name and password from the request

@@ -11,32 +11,18 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-//public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
-//
-//    @Override
-//    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//        String requestUrl = request.getRequestURI();
-//        if (checkLogOutUrl(requestUrl, "/deposit")) {
-//            try {
-//                response.sendRedirect("/logout");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    private boolean checkLogOutUrl(String requestUrl, String... endsWithUrl) {
-//        boolean ret = false;
-//        for (String s : endsWithUrl) {
-//            ret |= requestUrl.endsWith(s);
-//        }
-//        return ret;
-//    }
-//}
 @Component
 public class MyLogoutSuccessHandler extends
         SimpleUrlLogoutSuccessHandler implements LogoutSuccessHandler {
 
+    /**
+     * 登录成功则返回上一级
+     * @param request
+     * @param response
+     * @param authentication
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse
             response, Authentication authentication)

@@ -8,6 +8,9 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * 身份证号与账户ID的匹配注解实现类
+ */
 public class PidMatchesValidator implements ConstraintValidator<PidMatches, Object> {
 
     @Autowired

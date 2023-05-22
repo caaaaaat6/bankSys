@@ -5,6 +5,9 @@ import com.example.banksys.presentationlayer.form.OpenForm;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * 验证密码匹配注解实现类
+ */
 public class PasswordMatchesValidator
   implements ConstraintValidator<PasswordMatches, Object> {
     

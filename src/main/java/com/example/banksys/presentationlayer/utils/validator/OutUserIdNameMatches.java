@@ -11,6 +11,9 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * 转账时，转出账户ID与姓名匹配注解
+ */
 @Target({TYPE,ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = OutUserIdNameMatchesValidator.class)

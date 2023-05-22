@@ -1,5 +1,8 @@
 package com.example.banksys.presentationlayer.utils;
 
+/**
+ * Spring Security Role的声明类
+ */
 public class Role {
     public static final String CURRENT_RIGHT_ROLE = "ROLE_CURRENT";
     public static final String FIXED_RIGHT_ROLE = "ROLE_FIXED";

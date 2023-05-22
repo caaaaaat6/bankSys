@@ -22,139 +22,62 @@ public class BLLConfig {
         return new Date();
     }
 
-//    @Bean
-//    @Scope(value = "session")
-//    public OrdinaryCurrentUserAccount ordinaryCurrentUserAccount() {
-//        return new OrdinaryCurrentUserAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public OrdinaryFixedUserAccount ordinaryFixedUserAccount() {
-//        return new OrdinaryFixedUserAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public EnterpriseCurrentUserAccount enterpriseCurrentUserAccount() {
-//        return new EnterpriseCurrentUserAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public EnterpriseFixedUserAccount enterpriseFixedUserAccount() {
-//        return new EnterpriseFixedUserAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public VIPFixedUserAccount vipFixedUserAccount() {
-//        return new VIPFixedUserAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public VIPCurrentUserAccount vipCurrentUserAccount() {
-//        return new VIPCurrentUserAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public CurrentHeadEmployeeAccount currentHeadEmployeeAccount() {
-//        return new CurrentHeadEmployeeAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public FixedHeadEmployeeAccount fixedHeadEmployeeAccount() {
-//        return new FixedHeadEmployeeAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public ManagerEmployeeAccount managerEmployeeAccount() {
-//        return new ManagerEmployeeAccount();
-//    }
-//
-//    @Bean
-////    @Scope(value = "prototype")
-//    @Scope(value = "session")
-//    public FrontDeskEmployeeAccount frontDeskEmployeeAccount() {
-//        return new FrontDeskEmployeeAccount();
-//    }
-@Bean
-@Scope(value = "session")
-public OrdinaryCurrentUserAccount ordinaryCurrentUserAccount() {
-    return new OrdinaryCurrentUserAccount();
-}
+    @Bean
+    @Scope(value = "session")
+    public OrdinaryCurrentUserAccount ordinaryCurrentUserAccount() {
+        return new OrdinaryCurrentUserAccount();
+    }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public OrdinaryFixedUserAccount ordinaryFixedUserAccount() {
         return new OrdinaryFixedUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public EnterpriseCurrentUserAccount enterpriseCurrentUserAccount() {
         return new EnterpriseCurrentUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public EnterpriseFixedUserAccount enterpriseFixedUserAccount() {
         return new EnterpriseFixedUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public VIPFixedUserAccount vipFixedUserAccount() {
         return new VIPFixedUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public VIPCurrentUserAccount vipCurrentUserAccount() {
         return new VIPCurrentUserAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public CurrentHeadEmployeeAccount currentHeadEmployeeAccount() {
         return new CurrentHeadEmployeeAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public FixedHeadEmployeeAccount fixedHeadEmployeeAccount() {
         return new FixedHeadEmployeeAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public ManagerEmployeeAccount managerEmployeeAccount() {
         return new ManagerEmployeeAccount();
     }
 
     @Bean
     @Scope(value = "prototype")
-//    @Scope(value = "session")
     public FrontDeskEmployeeAccount frontDeskEmployeeAccount() {
         return new FrontDeskEmployeeAccount();
     }

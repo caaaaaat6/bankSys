@@ -20,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * 企业Service
+ */
 @Service
 public class EnterpriseService extends BaseUserService implements UserService {
 
@@ -33,11 +36,18 @@ public class EnterpriseService extends BaseUserService implements UserService {
         this.enterpriseRepository = enterpriseRepository;
     }
 
+    /**
+     * 企业开户
+     * @param enterpriseUserAccount 企业用户账户基类
+     * @param passwordEncoder 密码加密器
+     * @param enterpriseOpenForm 企业账户开户表单
+     * @return 所新开企业账户的账户ID
+     */
     @Transactional
     public Long openAccount(EnterpriseUserAccount enterpriseUserAccount,
                             PasswordEncoder passwordEncoder,
                             EnterpriseOpenForm enterpriseOpenForm
-    ) throws Exception {
+    )  {
         Employee employee = enterpriseUserAccount.getEmployee();
         String encoded = passwordEncoder.encode(enterpriseOpenForm.getPassword());
         Enterprise enterprise = enterpriseRepository.findById(enterpriseOpenForm.getEnterpriseId()).get();
@@ -116,22 +126,48 @@ public class EnterpriseService extends BaseUserService implements UserService {
         return account.closeAccount();
     }
 
+    /**
+     * super查询该企业下所有用户
+     * @param account 企业用户账户
+     * @return 该企业下所有用户
+     */
     @Transactional
     public List<EnterpriseUser> getEnterpriseUsers(EnterpriseUserAccount account) {
         List<EnterpriseUser> enterpriseUserList = account.getEnterpriseUser().getEnterprise().getEnterpriseUserList();
         return  enterpriseUserList;
     }
 
+    /**
+     * 删除企业用户
+     * @param userRepository
+     * @param form 被选中用户账户ID的表单
+     */
+    @Transactional
     public void deleteEnterpriseUser(UserRepository userRepository, SelectedUserIdForm form) {
         userRepository.deleteAllById(form.getSelectedUserId());
     }
 
+    /**
+     * super添加用户账户
+     * @param account 企业用户账户
+     * @param enterpriseUserRepository
+     * @param form 添加企业用户表单
+     * @param encoder
+     * @return 所新建企业用户账户ID
+     */
+    @Transactional
     public Long addEnterpriseUser(EnterpriseUserAccount account, EnterpriseUserRepository enterpriseUserRepository, AddEnterpriseUserForm form, PasswordEncoder encoder) {
         EnterpriseUser enterpriseUser = new EnterpriseUser(form.getUserPid(), form.getUserName(), Card.UserType.ENTERPRISE, encoder.encode(form.getPassword()), EnterpriseUser.RightType.USER, account.getEnterprise(), account.getEnterpriseCard());
         EnterpriseUser save = enterpriseUserRepository.save(enterpriseUser);
         return save.getUserId();
     }
 
+    /**
+     * 添加企业
+     * @param enterpriseRepository
+     * @param form 添加企业表单
+     */
+    @Transactional
     public void addEnterprise(EnterpriseRepository enterpriseRepository, AddEnterpriseForm form) {
         Enterprise enterprise = new Enterprise(form.getEnterpriseName());
         enterpriseRepository.save(enterprise);

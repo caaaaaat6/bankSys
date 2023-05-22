@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     generate-unique-name: false
-    name: bankDB1
-    url: jdbc:mysql://localhost:3306/bankDB1?characterEncoding=utf8&useSSL=true
+    name: bankDB
+    url: jdbc:mysql://localhost:3306/bankDB?characterEncoding=utf8&useSSL=true
     username: root
     password: 123456
   jpa:

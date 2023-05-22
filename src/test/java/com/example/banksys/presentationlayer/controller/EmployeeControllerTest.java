@@ -41,7 +41,7 @@ class EmployeeControllerTest {
 
     @Test
     void openPersonalAccountWithEmployee() throws Exception {
-        mockMvc.perform(formLogin("/login").user("84").password("1"))
+        mockMvc.perform(formLogin("/login").user("102").password("1"))
                 .andExpect(authenticated())
 //                .andDo(print())
         ;
@@ -66,7 +66,7 @@ class EmployeeControllerTest {
 
     @Test
     void openEnterpriseAccountWithEmployee() throws Exception {
-        mockMvc.perform(formLogin("/login").user("84").password("1"))
+        mockMvc.perform(formLogin("/login").user("102").password("1"))
                 .andExpect(authenticated())
 //                .andDo(print())
         ;

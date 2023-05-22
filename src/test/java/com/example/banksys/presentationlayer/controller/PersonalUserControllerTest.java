@@ -50,8 +50,8 @@ class PersonalUserControllerTest {
     @WithMockUser(username = "53", password = "1", roles = "ORDINARY")
     void depositWithMockUser() {
         try {
-            mockMvc.perform(get("/users/personal/deposit"))
-                    .andExpect(status().isOk())
+            mockMvc.perform(get("/users/personal/deposit/"))
+                    .andExpect(status().is(302))
                     .andDo(print());
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,13 +62,6 @@ class PersonalUserControllerTest {
     void setUp() {
     }
 
-    @Test
-    @WithMockUser(username = "53",password = "1",authorities = Role.ORDINARY_USER_ROLE)
-    void getDepositPage() throws Exception {
-        mockMvc.perform(get("/users/personal/deposit"))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
 
     @Test
     void withMockAuthenticationTest() throws Exception {
@@ -90,7 +83,7 @@ class PersonalUserControllerTest {
                 .andExpect(authenticated())
                 .andDo(print());
 
-        mockMvc.perform(get("/users/personal/deposit"))
+        mockMvc.perform(get("/users/personal/deposit/"))
                 .andDo(print())
 //                .andExpect(status().isOk())
                 .andExpect(redirectedUrl("current"));

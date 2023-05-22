@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 
+/**
+ * 改密码控制器基类
+ */
 public abstract class ChangePasswordController {
 
     public static final String ACCOUNT_ATTRIBUTE = "account";

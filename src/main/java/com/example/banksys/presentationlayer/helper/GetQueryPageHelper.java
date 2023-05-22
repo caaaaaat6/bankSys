@@ -13,7 +13,15 @@ import java.util.List;
 
 public class GetQueryPageHelper {
 
-
+    /**
+     * GetMapping帮助方法，得到查询的页面，并向model添加所查询的信息
+     * @param model
+     * @param authentication
+     * @param context
+     * @param userRepository
+     * @param service
+     * @return
+     */
     public static String getQueryPage(Model model, Authentication authentication, ApplicationContext context, UserRepository userRepository, UserService service){
         BaseAccount account = GetPageHelper.getAccountAndSetEmployee(model, authentication, context, userRepository);
 

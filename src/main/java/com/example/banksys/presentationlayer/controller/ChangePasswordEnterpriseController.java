@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.example.banksys.presentationlayer.controller.ChangePasswordController.ACCOUNT_ATTRIBUTE;
 
-@Slf4j
 @Controller
 @SessionAttributes({"changePasswordForm", ACCOUNT_ATTRIBUTE})
 @RequestMapping("/users/enterprise/change_password/")

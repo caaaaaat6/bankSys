@@ -11,6 +11,15 @@ import org.springframework.ui.Model;
 
 public class GetWithdrawPageHelper {
 
+    /**
+     *  GetMapping帮助方法，得到取款的页面，并设置表单post url
+     * @param model
+     * @param authentication
+     * @param userRepository
+     * @param context
+     * @param ACCOUNT_ATTRIBUTE
+     * @return 名称为”withdraw“的template
+     */
     public static String getWithdrawPage(Model model, Authentication authentication, UserRepository userRepository, ApplicationContext context,final String ACCOUNT_ATTRIBUTE) {
         Long userId = Long.parseLong(authentication.getName());
         User user = userRepository.findById(userId).get();

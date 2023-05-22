@@ -9,6 +9,14 @@ import org.springframework.ui.Model;
 
 @Slf4j
 public class RedirectDepositHelper {
+
+    /**
+     * 存款时的重定向帮助方法
+     * @param model
+     * @param userId
+     * @param userAccount
+     * @return 错误返回“errors”，若是活期账户，重定向至current，否则重定向至fixed
+     */
     public static String getRedirectString(Model model, Long userId, BaseAccount userAccount) {
         BaseCurrentAccountRight currentAccount;
         BaseFixedAccountRight fixedAccount;

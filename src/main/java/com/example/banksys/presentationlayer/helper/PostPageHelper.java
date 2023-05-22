@@ -10,6 +10,15 @@ import org.springframework.validation.Errors;
 
 public class PostPageHelper {
 
+    /**
+     * 转账post帮助方法，如果有错误就展示错误，否则转向成功页面
+     * @param model
+     * @param errors
+     * @param ACCOUNT_ATTRIBUTE
+     * @param service
+     * @param transferForm
+     * @return 名称为"success"的template页面
+     */
     public static String transferPost(Model model, Errors errors, final String ACCOUNT_ATTRIBUTE, UserService service, TransferForm transferForm) {
         ToFrontendHelper.addPostUrl(model, "");
         if (errors.hasErrors()) {

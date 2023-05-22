@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-// TODO
-//  1.待完成@Table等注释
+/**
+ * 日志记录模型
+ */
 @Entity
 @Table(name = "AccountLog")
 @Data
@@ -29,6 +30,9 @@ public class AccountLog {
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
 
+    /**
+     * @see OperationType
+     */
     @Column(length = 64, nullable = false)
     private String operationType;
 
@@ -62,6 +66,9 @@ public class AccountLog {
         this.date = new Date();
     }
 
+    /**
+     * 操作类型：开户、活期存款、定期存款、取款、查询、转账、改密码、销户
+     */
     public static class OperationType {
         public static final String OPEN = "开户";
         public static final String CURRENT_DEPOSIT = "活期存款";

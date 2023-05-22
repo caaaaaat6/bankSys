@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 用户模型
+ */
 @Data
 @NoArgsConstructor(force = true)
 @Entity

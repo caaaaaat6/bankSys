@@ -7,6 +7,9 @@ import lombok.ToString;
 
 import java.util.List;
 
+/**
+ * 企业模型
+ */
 @Entity
 @Table(name = "Enterprise")
 @Data

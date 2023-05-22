@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 企业用户模型
+ */
 @Data
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("EnterpriseUser")
 public class EnterpriseUser extends User {
-
-//    private Long enterpriseId;
 
     @Column(length = 32)
     private String rightType;

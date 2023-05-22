@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * 交易明细
+ */
 @Entity
 @Table(name = "Trade")
 @Data

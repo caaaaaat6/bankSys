@@ -7,6 +7,9 @@ import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 企业银行卡模型
+ */
 @Data
 @NoArgsConstructor
 @Entity

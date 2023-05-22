@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * 部门模型
+ */
 @Entity
 @Table(name = "Department")
 @Data

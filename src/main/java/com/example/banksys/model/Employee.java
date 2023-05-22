@@ -18,16 +18,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 雇员模型
+ */
 @Entity
-//@Table(name = "Employee")
-//@DiscriminatorColumn(name = "employeeType", discriminatorType = DiscriminatorType.STRING, length = 30)
-//@DiscriminatorValue(Employee.EmployeeType.FRONT_DESK)
 @DiscriminatorValue("Employee")
 @Data
 @NoArgsConstructor(force = true)
 public class Employee extends User implements EmployeeRight, UserDetails {
 
-//    @Column(columnDefinition = "bigint UNIQUE key auto_increment")
     private Long employeeId;
 
     @Column(length = 16)

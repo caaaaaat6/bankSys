@@ -43,7 +43,10 @@ public class User implements UserDetails {
     @Column
     private String password;
 
+    // 一对一映射，一个User对应一个Card，反过来一样
+    //fetch = FetchType.EAGER: 定义加载策略，EAGER 表示立即加载
     @OneToOne(targetEntity = Card.class, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "card_id"): 定义关联的外键列。在数据库中，将会有一列叫做 card_id 的列，它将用于关联 User 和 Card
     @JoinColumn(name = "card_id")
     protected Card card;
 
@@ -60,9 +63,9 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) // 只读事务
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() { // 获取权限， 得到Role
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         switch (getUserType()) {
             case Card.UserType.ORDINARY:

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import java.util.*;
 
 @SpringBootTest
 class FrontDeskEmployeeAccountTest {
@@ -31,6 +31,9 @@ class FrontDeskEmployeeAccountTest {
         Employee employee = employeeRepository.findById(2L).get();
         frontDeskEmployeeAccount.setEmployee(employee);
         List<AccountLog> report = frontDeskEmployeeAccount.findReport();
+
+        Deque<Integer> que = new LinkedList<>();
+        Map<Integer, Integer> map = new HashMap<>();
         assert report.size() == 1;
     }
 }

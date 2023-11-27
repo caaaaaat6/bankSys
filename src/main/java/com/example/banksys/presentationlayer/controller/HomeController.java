@@ -23,10 +23,10 @@ import java.util.List;
 
 import static com.example.banksys.presentationlayer.controller.HomeController.ACCOUNT_ATTRIBUTE;
 
-@Slf4j
-@Controller
-@RequestMapping("/")
-@SessionAttributes({ACCOUNT_ATTRIBUTE})
+@Slf4j // 日志注解
+@Controller // @Controller 实际是一个@Component
+@RequestMapping("/") // 将请求是"/"的全部映射到这里
+@SessionAttributes({ACCOUNT_ATTRIBUTE})  // 会话属性
 public class HomeController {
     public static final String ACCOUNT_ATTRIBUTE = "account";
     private EmployeeService employeeService;
@@ -34,6 +34,8 @@ public class HomeController {
     private ApplicationContext context;
     private UserRepository userRepository;
 
+    // 在 Spring 中，如果一个类只有一个构造函数，并且该构造函数的所有参数都是 Spring 管理的 bean，
+    // Spring 将会尝试自动将这些 bean 注入到相应的构造函数参数中。
     public HomeController(EmployeeService employeeService, EmployeeRepository employeeRepository, ApplicationContext context, UserRepository userRepository) {
         this.employeeService = employeeService;
         this.employeeRepository = employeeRepository;

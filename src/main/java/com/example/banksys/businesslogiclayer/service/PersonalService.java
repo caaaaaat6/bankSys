@@ -61,8 +61,10 @@ public class PersonalService extends BaseUserService implements UserService {
         }
         Employee employee = personalUserAccount.getEmployee();
         String encoded = passwordEncoder.encode(openForm.getPassword());
+        // 保存user
         User user = userRepository.save(new User(openForm.getUserPid(), openForm.getUserName(), openForm.getUserType(),encoded));
         personalUserAccount.setUser(user);
+        // 开户
         Long cardId = personalUserAccount.openAccount(
                 user.getUserId(),
                 openForm.getUserPid(),

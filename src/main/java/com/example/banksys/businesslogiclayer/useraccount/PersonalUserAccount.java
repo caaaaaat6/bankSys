@@ -36,7 +36,7 @@ public abstract class PersonalUserAccount extends BaseAccount {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} 个人账户开户，需要保存card，而card和user是一对一映射，需要将user也设置card
      */
     @Override
     public long openAccount(long userId, String userPid, String userName, String userType, String password, Long enterpriseId, String cardType, double openMoney, Employee employee) {

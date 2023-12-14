@@ -37,22 +37,27 @@ public class PresentationLayerConfig {
      */
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository, EmployeeRepository employeeRepository) {
+        // 返回一个接口的实现
         return userId -> {
             Long id = Long.parseLong(userId);
             Optional<Employee> employee = employeeRepository.findById(id);
+            // 给一个ID，如果雇员表存在这个ID，那么返回雇员
             if (employee.isPresent()) {
                 return employee.get();
             }
+            // 否则雇员表不存在这个ID，那检查客户表
             Optional<User> byId = userRepository.findById(id);
+            // 客户表不存在，抛错
             if (byId.isEmpty()) {
                 throw new UsernameNotFoundException("Account '" + userId + "' not found");
             }
+            // 否则返回客户
             return byId.get();
         };
     }
 
     /**
-     * 配置SwitchUserFilter
+     * 配置SwitchUserFilter，用来雇员切换为客户账户，为客户操作账户
      * @param userRepository
      * @return 自定义的SwitchUserFilter
      */
@@ -81,6 +86,9 @@ public class PresentationLayerConfig {
      * @return
      * @throws Exception
      */
+    /*
+    * SecurityFilterChain这个Bean用来过滤权限
+    * */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -106,17 +114,17 @@ public class PresentationLayerConfig {
                         .requestMatchers("/employee/impersonate").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
                         .requestMatchers("/employee/**").hasAnyRole(Role.FRONT_DESK_EMPLOYEE, Role.MANAGER_EMPLOYEE, Role.CURRENT_HEAD_EMPLOYEE, Role.FIXED_HEAD_EMPLOYEE)
                         .anyRequest().permitAll())
-                .formLogin()
+                .formLogin() // 自动生成登录表单
                 .and()
-                .logout()
-                .logoutSuccessHandler(new MyLogoutSuccessHandler())
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
+                .logout() // 进行退出配置
+                    .logoutSuccessHandler(new MyLogoutSuccessHandler())
+                    .logoutUrl("/logout") // 退出endpoints
+                    .invalidateHttpSession(true) // 使会话无效
+                    .deleteCookies("JSESSIONID") // 当调用 deleteCookies("JSESSIONID") 时，通常是在清除用户的会话信息，使其注销或退出登录。这样，浏览器中存储的 JSESSIONID Cookie 将被删除
+                    .permitAll() // 退出网页是所有用户都允许访问的
                 .and()
                 .csrf()
-                .disable()
+                    .disable()
                 .build();
     }
 }

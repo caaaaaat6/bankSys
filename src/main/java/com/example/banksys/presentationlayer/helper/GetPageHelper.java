@@ -55,7 +55,7 @@ public class GetPageHelper {
     }
 
     /**
-     * 得到用户账户，并给用户账户设置雇员
+     * 从authentication得到用户账户，并给用户账户设置雇员
      * @param model
      * @param authentication
      * @param context
@@ -68,6 +68,7 @@ public class GetPageHelper {
         BaseAccount account = (BaseAccount) context.getBean(BeanNameUtil.getBeanName(user.getUserType(), user.getCard().getCardType()));
         account.setUser(user);
 
+        // 从model里获取操作客户账户的雇员，如果雇员不存在（为null）就设置为null，否则就是雇员
         Employee employee = (Employee) model.getAttribute("employee");
         account.setEmployee(employee);
         return account;

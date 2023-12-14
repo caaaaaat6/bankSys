@@ -70,11 +70,14 @@ public class OpenPersonalController {
 
         Long cardId;
         try {
+            // 开户
             cardId = personalService.openAccount(personalUserAccount, passwordEncoder, userRepository, form);
         } catch (VipOpenMoneyNotEnoughException e) {
+            // 出错则添加错误信息返回错误
             model.addAttribute("errorMessage", e.getMessage());
             return "errors";
         }
+        // 删除开户表单会话信息
         clearOpenForm(session);
         model.addAttribute("cardId", cardId);
         return "open_success";

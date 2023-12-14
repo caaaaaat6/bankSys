@@ -61,7 +61,9 @@ public class HomeController {
     @GetMapping("/users/enterprise/")
     public String enterpriseUser(Model model,Authentication authentication) {
         EnterpriseUserAccount account = (EnterpriseUserAccount) model.getAttribute(ACCOUNT_ATTRIBUTE);
+        // 验证通过，检查账户是否为null，为null则从authentication处获取客户user
         if (account == null) {
+            // 得到客户账户（并且在这个助手中还设置了操作客户的雇员）
             GetPageHelper.addAccount(model,authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
         }
         return "enterprise_user";
@@ -74,14 +76,19 @@ public class HomeController {
 
     @GetMapping("/admin/")
     public String admin(Model model) {
+        // 管理员页面，展示待审核的名单
         List<Employee> employeeNotEnabled = employeeService.findEmployeeNotEnabled(employeeRepository);
+        // 加入展示列表，并在model上设置属性employees，方便前端展示
         model.addAttribute("employees", employeeNotEnabled);
         return "admin";
     }
 
+    // 管理员提交审核结果
     @PostMapping("/admin/")
     public String adminPost(Model model, ReviewForm form) {
+        // business logic layer中的雇员service对提交来的表单设置enable属性
         employeeService.reviewEmployee(employeeRepository, form);
+        // 设置成功消息，给success.xml页面展示
         ToFrontendHelper.addSuccessMessage(model, "审核操作成功！");
         return "success";
     }
@@ -90,13 +97,17 @@ public class HomeController {
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
+            // 进行退出工作
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+        // 重定向至登录页面
         return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
 
     @GetMapping("/info")
+    // authentication自动装配
     public String getInfo(Model model, Authentication authentication) {
+        // 给model添加account属性，以供在info.html页面展示
         GetPageHelper.addAccount(model, authentication, userRepository, context, ACCOUNT_ATTRIBUTE);
         return "info";
     }

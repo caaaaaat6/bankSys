@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @PasswordMatches
 @Slf4j
 @Data
-@NoArgsConstructor(force = true)
+@NoArgsConstructor(force = true) // 如果有其他有参构造方法而没有无参构造，则强迫生成无参构造方法。“强迫”在是否有其他有参构造方法
 public class OpenForm implements ConfirmPasswordForm {
 
     @NotBlank(message = "不能为空")

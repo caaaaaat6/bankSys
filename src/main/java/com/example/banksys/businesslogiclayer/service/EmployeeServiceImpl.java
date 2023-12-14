@@ -54,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAllByEnabled(false);
     }
 
+    // 已勾选审核雇员表单中的所有雇员的enable都设置为true，即已审核通过
     @Override
     public void reviewEmployee(EmployeeRepository employeeRepository, ReviewForm form) {
         Iterable<Employee> allById = employeeRepository.findAllById(form.getSelectedEmployeesId());
